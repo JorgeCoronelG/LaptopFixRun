@@ -1,3 +1,15 @@
 <resources>
+
     <string name="app_name">LaptopFixRun</string>
+    <string name="txtLaptopFix">Laptop Fix</string>
+    <string name="txtRun">RUN</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="access">Ingresar</string>
+    <string name="register">Registrarse</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="name">Nombre completo</string>
+    <string name="number">Número telefónico</string>
+    <string name="createAccount">Crear cuenta</string>
+
 </resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="txtSplashActivity">48sp</dimen>
+    <dimen name="marginSplashActivity">20dp</dimen>
+    <dimen name="marginSideSplashActivity">50dp</dimen>
+    <dimen name="marginTopIconLaptopFix">120dp</dimen>
+    <dimen name="marginTopForm">70dp</dimen>
+    <dimen name="marginTopBtns">30dp</dimen>
+    <dimen name="marginForms">15dp</dimen>
+    <dimen name="marginSideBtn">30dp</dimen>
+    <dimen name="radiusBtn">70px</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="marginTopFormRegister">50dp</dimen>
+    <dimen name="marginTopBtnRegister">40dp</dimen>
+
+</resources>

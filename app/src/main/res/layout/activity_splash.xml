@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashActivity"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/txtLaptopFix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txtLaptopFix"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/txtSplashActivity"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/marginSplashActivity"
+            android:id="@+id/txtRun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txtRun"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/txtSplashActivity"/>
+
+        <View
+            android:layout_marginTop="@dimen/marginSplashActivity"
+            android:layout_marginRight="@dimen/marginSideSplashActivity"
+            android:layout_marginLeft="@dimen/marginSideSplashActivity"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+
+    </LinearLayout>
+
+</RelativeLayout>
