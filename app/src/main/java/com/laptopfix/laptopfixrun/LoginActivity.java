@@ -10,16 +10,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Controller.UserController;
+import com.laptopfix.laptopfixrun.Model.User;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     //widgets
     private EditText etEmail, etPassword;
     private Button btnAccess, btnRegister;
+    private UserController userController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        userController = new UserController(this);
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -35,7 +42,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.btnAccess:
                 if(!checkFields()){
-                    //Código a programar
+                    if(userController.login(getUser())){
+                        Toast.makeText(this, "Exitoso", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case R.id.btnRegister:
@@ -44,6 +53,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 finish();
                 break;
         }
+    }
+
+    public User getUser(){
+        User user = new User();
+        user.setEmail(etEmail.getText().toString());
+        user.setPassword(etPassword.getText().toString());
+        return user;
     }
 
     private boolean checkFields() {

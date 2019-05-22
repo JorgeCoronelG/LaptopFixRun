@@ -11,5 +11,6 @@
     <string name="name">Nombre completo</string>
     <string name="number">Número telefónico</string>
     <string name="createAccount">Crear cuenta</string>
+    <string name="waitAMoment">Espere un momento...</string>
 
 </resources>

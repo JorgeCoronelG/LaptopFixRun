@@ -11,16 +11,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Model.User;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etName, etNumber, etEmail, etPassword;
     private Button btnCreateAccount;
+    private CustomerController customerController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         showToolbar("Crear cuenta", true);
+
+        customerController = new CustomerController(this);
 
         etName = findViewById(R.id.etName);
         etNumber = findViewById(R.id.etNumber);
@@ -57,11 +64,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnCreateAccount:
-                if(checkFields()){
-
+                if(!checkFields()){
+                    if(customerController.insert(getCustomer())){
+                        Toast.makeText(this, "Exitoso", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }
+    }
+
+    private Customer getCustomer() {
+        Customer customer = new Customer();
+        customer.setName(etName.getText().toString());
+        customer.setNumber(etNumber.getText().toString());
+
+        User user = new User();
+        user.setEmail(etEmail.getText().toString());
+        user.setPassword(etPassword.getText().toString());
+
+        customer.setUser(user);
+
+        return customer;
     }
 
     private boolean checkFields() {
