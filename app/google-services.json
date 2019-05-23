@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "689726158339",
+    "firebase_url": "https://laptopfixrun.firebaseio.com",
+    "project_id": "laptopfixrun",
+    "storage_bucket": "laptopfixrun.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689726158339:android:1915f3c2e8433498",
+        "android_client_info": {
+          "package_name": "com.laptopfix.laptopfixrun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689726158339-0b7gjsj1uu0ecptdqmmgn9a9ppkdve3o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.laptopfix.laptopfixrun",
+            "certificate_hash": "f5b8beff239f4939f98a14ac1f1d5113220cb450"
+          }
+        },
+        {
+          "client_id": "689726158339-u5mf4r1ltip306dhj8b44b3a5gqo0b51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu5Tow6NqDwxlSf7CiKiamcXqhdL-q2zg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689726158339-u5mf4r1ltip306dhj8b44b3a5gqo0b51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
