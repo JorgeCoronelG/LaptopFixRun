@@ -12,4 +12,7 @@
     <string name="number">Número telefónico</string>
     <string name="createAccount">Crear cuenta</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

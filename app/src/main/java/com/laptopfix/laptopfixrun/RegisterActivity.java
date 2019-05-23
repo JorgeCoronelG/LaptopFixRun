@@ -2,8 +2,6 @@ package com.laptopfix.laptopfixrun;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,10 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText etName, etNumber, etEmail, etPassword;
-    private Button btnCreateAccount;
+    private Button btnCreateAccount, btnRegisterComplete;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
+        btnRegisterComplete = findViewById(R.id.btnRegisterComplete);
+
 
         btnCreateAccount.setOnClickListener(this);
+
     }
 
     private void showToolbar(String title, boolean upButton) {
@@ -53,14 +56,53 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         finish();
     }
 
+
     @Override
     public void onClick(View v) {
+       
         switch (v.getId()){
             case R.id.btnCreateAccount:
-                if(checkFields()){
 
-                }
+
+
+                /*RComplete mFragment = new RComplete();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.contenerdorFrame, mFragment).commit();*/
+
+               // FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
+                //fragmentTransaction.commit();
+
+                    Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                   /* FragmentManager fm = getSupportFragmentManager();
+                    RComplete register = new RComplete();
+                    fm.beginTransaction().replace(R.id.complete, register, null).commit();*/
+
+                   /*RComplete rComplete = new RComplete();
+                   getSupportFragmentManager().beginTransaction().add(R.id.frag, rComplete, null).commit();*/
+
+              /*  //Paso 1: Obtener la instancia del administrador de fragmentos
+                FragmentManager fragmentManager = getFragmentManager();
+
+                //Paso 2: Crear una nueva transacción
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                //Paso 3: Crear un nuevo fragmento y añadirlo
+                RComplete fragment = new RComplete();
+                transaction.add(R.id.complete, fragment);
+
+                //Paso 4: Confirmar el cambio
+                transaction.commit();*/
+                    //getSupportFragmentManager().beginTransaction().add(R.id.frag, register).commit();
+
+
+
+
+
                 break;
+
         }
     }
 
@@ -86,4 +128,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         return false;
     }
+
+
 }
