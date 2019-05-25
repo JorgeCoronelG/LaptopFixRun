@@ -14,10 +14,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Communication.Communication;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -30,16 +32,15 @@ public class CustomerController {
     private StringRequest request;
     private Context context;
     private AlertDialog dialog;
-    //Para verificar si los métodos son exitosos
-    private boolean result;
 
     public CustomerController(Context context) {
         this.context = context;
     }
 
-    public boolean insert(final Customer customer){
+    public void insert(final Customer customer){
         createDialog(String.valueOf(R.string.waitAMoment));
-        result = false;
+
+        final VolleyListener volleyListener = (VolleyListener)context;
 
         String url = Common.URL + CommunicationPath.CUSTOMER_INSERT;
 
@@ -54,7 +55,8 @@ public class CustomerController {
                         Common.currentCustomer = customer;
 
                         dialog.dismiss();
-                        result = false;
+
+                        volleyListener.requestFinished(String.valueOf(R.string.insertCustomer), true);
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();
                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -83,15 +85,13 @@ public class CustomerController {
         };
 
         Communication.getmInstance(context).addToRequestQueue(request);
-        return result;
     }
 
-    public void createDialog(String meesage){
+    public void createDialog(String message){
         dialog = new SpotsDialog.Builder()
                 .setContext(context)
-                .setMessage(meesage)
+                .setMessage(message)
                 .build();
         dialog.show();
     }
-
 }

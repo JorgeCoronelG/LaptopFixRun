@@ -15,24 +15,18 @@ public class CompleteActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete);
 
-
-
         btnRegisterComplete = findViewById(R.id.btnRegisterComplete);
-
         btnRegisterComplete.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
             case R.id.btnRegisterComplete:
                 Intent intent = new Intent(CompleteActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
-
                 break;
-
         }
     }
 }

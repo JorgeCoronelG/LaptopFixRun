@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Communication.Communication;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.User;
 import com.laptopfix.laptopfixrun.R;
@@ -28,16 +29,15 @@ public class UserController {
     private StringRequest request;
     private Context context;
     private AlertDialog dialog;
-    //Para verificar si los métodos son exitosos
-    private boolean result;
 
     public UserController(Context context) {
         this.context = context;
     }
 
-    public boolean login(final User user){
+    public void login(final User user){
         createDialog(String.valueOf(R.string.waitAMoment));
-        result = false;
+
+        final VolleyListener volleyListener = (VolleyListener)context;
 
         String url = Common.URL + CommunicationPath.LOGIN;
 
@@ -59,7 +59,8 @@ public class UserController {
                         Common.currentCustomer = customer;
 
                         dialog.dismiss();
-                        result = false;
+
+                        volleyListener.requestFinished(String.valueOf(R.string.login), true);
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();
                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -86,13 +87,12 @@ public class UserController {
         };
 
         Communication.getmInstance(context).addToRequestQueue(request);
-        return result;
     }
 
-    public void createDialog(String meesage){
+    public void createDialog(String message){
         dialog = new SpotsDialog.Builder()
                 .setContext(context)
-                .setMessage(meesage)
+                .setMessage(message)
                 .build();
         dialog.show();
     }

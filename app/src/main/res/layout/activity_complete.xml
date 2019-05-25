@@ -12,43 +12,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_like"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="@dimen/marginTopForm"
         android:layout_centerHorizontal="true"
         />
 
-
-
     <TextView
+        android:id="@+id/txtRegisterComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="¡Registro completado!"
+        android:text="@string/registerComplete"
         android:textStyle="bold"
         android:layout_below="@id/imgLike"
         android:textAlignment="center"
-        android:layout_marginTop="50dp"
-        android:textSize="29sp"
+        android:layout_marginTop="@dimen/marginTopFormRegister"
+        android:textSize="@dimen/txtTitleRegisterComplete"
         />
 
     <TextView
+        android:id="@+id/txtMessageRegisterComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Se ha enviado un link de verificación a tu
-            correo electrónico para activar tu cuenta"
-        android:layout_below="@id/imgLike"
+        android:text="@string/txtRegisterComplete"
+        android:layout_below="@id/txtRegisterComplete"
         android:textAlignment="center"
-        android:layout_marginTop="170dp"
-        android:textSize="17sp"
+        android:layout_marginTop="@dimen/marginTopTxtRegisterComplete"
+        android:textSize="@dimen/txtMessageRegisterComplete"
         />
 
     <Button
         android:id="@+id/btnRegisterComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imgLike"
-        android:text="Aceptar"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="310dp"
+        android:layout_below="@id/txtMessageRegisterComplete"
+        android:text="@string/accept"
+        android:layout_marginRight="@dimen/marginSideBtn"
+        android:layout_marginLeft="@dimen/marginSideBtn"
+        android:layout_marginTop="@dimen/marginTopBtnRegisterComplete"
         android:background="@drawable/rounded_button_blue"
         android:textColor="@android:color/white"/>
 
