@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.laptopfix.laptopfixrun.Util.Common;
+
 public class SplashActivity extends Activity {
 
     private static final int DURATION_SPLASH = 2000; //2 seg
@@ -21,9 +23,15 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                if(Common.currentCustomer != null){
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, DURATION_SPLASH);
     }

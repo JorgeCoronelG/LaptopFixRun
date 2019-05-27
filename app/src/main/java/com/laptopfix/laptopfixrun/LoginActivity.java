@@ -12,9 +12,10 @@ import android.widget.Toast;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.User;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, VolleyListener {
 
     //widgets
     private EditText etEmail, etPassword;
@@ -42,9 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.btnAccess:
                 if(!checkFields()){
-                    if(userController.login(getUser())){
-                        Toast.makeText(this, "Exitoso", Toast.LENGTH_SHORT).show();
-                    }
+                    userController.login(getUser());
                 }
                 break;
             case R.id.btnRegister:
@@ -74,5 +73,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void requestFinished(String title, boolean check) {
+        if(check){
+            if(title.equals(String.valueOf(R.string.login))){
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 }

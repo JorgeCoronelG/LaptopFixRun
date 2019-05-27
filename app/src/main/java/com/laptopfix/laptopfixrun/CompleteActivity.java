@@ -23,7 +23,7 @@ public class CompleteActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnRegisterComplete:
-                Intent intent = new Intent(CompleteActivity.this, LoginActivity.class);
+                Intent intent = new Intent(CompleteActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
                 break;

@@ -30,5 +30,10 @@
     <string name="menu_iEstablecimiento">Ir a establecimiento</string>
     <string name="menu_comentario">Comentarios</string>
     <string name="menu_session">Cerrar sessión</string>
+    <string name="login">login</string>
+    <string name="insertCustomer">insert_customer</string>
+    <string name="registerComplete">¡Registro completado!</string>
+    <string name="txtRegisterComplete">Su cuenta ha sido creada de manera exitosa</string>
+    <string name="accept">Aceptar</string>
 
 </resources>
