@@ -11,16 +11,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
+import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Model.User;
+
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, VolleyListener {
 
     private EditText etName, etNumber, etEmail, etPassword;
     private Button btnCreateAccount;
+    private CustomerController customerController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         showToolbar("Crear cuenta", true);
+
+        customerController = new CustomerController(this);
 
         etName = findViewById(R.id.etName);
         etNumber = findViewById(R.id.etNumber);
@@ -57,11 +65,36 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnCreateAccount:
-                if(checkFields()){
-
+                if(!checkFields()){
+                    customerController.insert(getCustomer());
                 }
                 break;
         }
+    }
+
+    @Override
+    public void requestFinished(String title, boolean check) {
+        if(check){
+            if(title.equals(String.valueOf(R.string.insertCustomer))){
+                Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+    }
+
+    private Customer getCustomer(){
+        Customer customer = new Customer();
+        customer.setName(etName.getText().toString());
+        customer.setNumber(etNumber.getText().toString());
+
+        User user = new User();
+        user.setEmail(etEmail.getText().toString());
+        user.setPassword(etPassword.getText().toString());
+
+        customer.setUser(user);
+
+        return customer;
     }
 
     private boolean checkFields() {
