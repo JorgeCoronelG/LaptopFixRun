@@ -41,10 +41,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAccess:
-                if(!checkFields()){
-                    if(userController.login(getUser())){
-                        Toast.makeText(this, "Exitoso", Toast.LENGTH_SHORT).show();
-                    }
+                if(checkFields()){
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    /*if(userController.login(getUser())){
+                        //Toast.makeText(this, "Exitoso", Toast.LENGTH_SHORT).show();
+
+                    }*/
                 }
                 break;
             case R.id.btnRegister:

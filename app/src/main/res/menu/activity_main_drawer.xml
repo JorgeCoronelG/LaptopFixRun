@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_establecimiento"
+            android:icon="@drawable/ic_place"
+            android:title="@string/menu_establecimiento" />
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/ic_user"
+            android:title= "@string/menu_perfil" />
+        <item
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_chat"
+            android:title="@string/menu_chat" />
+
+    </group>
+
+
+    <item android:title="Revisar mi equipo">
+        <menu>
+
+            <item
+                android:id="@+id/nav_rEquipo"
+                android:icon="@drawable/ic_delivery"
+                android:title="@string/menu_rEquipo" />
+
+            <item
+                android:id="@+id/nav_iEstablecimiento"
+                android:icon="@drawable/ic_walking"
+                android:title= "@string/menu_iEstablecimiento" />
+
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_comentario"
+            android:icon="@drawable/ic_list"
+            android:title="@string/menu_comentario" />
+        <item
+            android:id="@+id/nav_session"
+            android:icon="@drawable/ic_logout"
+            android:title= "@string/menu_session" />
+
+
+    </group>
+
+</menu>
