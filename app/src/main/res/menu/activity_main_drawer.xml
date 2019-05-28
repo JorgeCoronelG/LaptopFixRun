@@ -42,7 +42,7 @@
             android:icon="@drawable/ic_list"
             android:title="@string/menu_comentario" />
         <item
-            android:id="@+id/nav_session"
+            android:id="@+id/nav_closeSession"
             android:icon="@drawable/ic_logout"
             android:title= "@string/menu_session" />
 

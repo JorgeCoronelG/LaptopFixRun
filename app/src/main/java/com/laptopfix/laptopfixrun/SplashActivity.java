@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Util.Common;
 
 public class SplashActivity extends Activity {
@@ -23,7 +24,8 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(Common.currentCustomer != null){
+                CustomerController customerController = new CustomerController(SplashActivity.this);
+                if(customerController.checkCustomer()){
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();

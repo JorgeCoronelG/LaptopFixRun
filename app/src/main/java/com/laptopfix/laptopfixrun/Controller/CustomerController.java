@@ -1,8 +1,8 @@
 package com.laptopfix.laptopfixrun.Controller;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,16 +10,15 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Communication.Communication;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Model.User;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class CustomerController {
     }
 
     public void insert(final Customer customer){
-        createDialog(String.valueOf(R.string.waitAMoment));
+        createDialog(context.getString(R.string.waitAMoment));
 
         final VolleyListener volleyListener = (VolleyListener)context;
 
@@ -52,11 +51,12 @@ public class CustomerController {
                     if(jsonObject.getInt("code") == 200){
                         JSONObject dataCustomer = jsonObject.getJSONObject("customer");
                         customer.setIdCus(dataCustomer.getInt("id"));
-                        Common.currentCustomer = customer;
+
+                        setCustomer(customer);
 
                         dialog.dismiss();
 
-                        volleyListener.requestFinished(String.valueOf(R.string.insertCustomer), true);
+                        volleyListener.requestFinished(context.getString(R.string.insertCustomer), true);
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();
                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -85,6 +85,43 @@ public class CustomerController {
         };
 
         Communication.getmInstance(context).addToRequestQueue(request);
+    }
+
+    public void setCustomer(Customer customer) {
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putInt("id", customer.getIdCus());
+        editor.putString("name", customer.getName());
+        editor.putString("number", customer.getNumber());
+        editor.putString("email", customer.getUser().getEmail());
+
+        editor.commit();
+    }
+
+    public Customer getCustomer(){
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        Customer customer = new Customer();
+        customer.setIdCus(preferences.getInt("id", 0));
+        customer.setName(preferences.getString("name", null));
+        customer.setNumber(preferences.getString("number", null));
+
+        User user = new User();
+        user.setEmail(preferences.getString("email", null));
+
+        customer.setUser(user);
+
+        return customer;
+    }
+
+    public boolean checkCustomer(){
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        String name = preferences.getString("name",null);
+        if(name == null){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     public void createDialog(String message){

@@ -26,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        showToolbar("Crear cuenta", true);
+        showToolbar(getString(R.string.createAccount), true);
 
         customerController = new CustomerController(this);
 
@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void requestFinished(String title, boolean check) {
         if(check){
-            if(title.equals(String.valueOf(R.string.insertCustomer))){
+            if(title.equals(getString(R.string.insertCustomer))){
                 Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
                 startActivity(intent);
                 finish();

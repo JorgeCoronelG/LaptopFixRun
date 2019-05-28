@@ -2,6 +2,7 @@ package com.laptopfix.laptopfixrun.Controller;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     public void login(final User user){
-        createDialog(String.valueOf(R.string.waitAMoment));
+        createDialog(context.getString(R.string.waitAMoment));
 
         final VolleyListener volleyListener = (VolleyListener)context;
 
@@ -49,18 +50,22 @@ public class UserController {
                     if(jsonObject.getInt("code") == 200){
                         JSONObject dataCustomer = jsonObject.getJSONObject("customer");
 
-                        User user = new User();
-                        user.setEmail(dataCustomer.getString("email"));
-
                         Customer customer = new Customer();
                         customer.setIdCus(dataCustomer.getInt("id"));
                         customer.setName(dataCustomer.getString("name"));
                         customer.setNumber(dataCustomer.getString("number"));
-                        Common.currentCustomer = customer;
+
+                        User userC = new User();
+                        userC.setEmail(dataCustomer.getString("email"));
+
+                        customer.setUser(userC);
+
+                        CustomerController customerController = new CustomerController(context);
+                        customerController.setCustomer(customer);
 
                         dialog.dismiss();
 
-                        volleyListener.requestFinished(String.valueOf(R.string.login), true);
+                        volleyListener.requestFinished(context.getString(R.string.login), true);
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();
                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

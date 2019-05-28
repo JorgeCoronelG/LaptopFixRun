@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void requestFinished(String title, boolean check) {
         if(check){
-            if(title.equals(String.valueOf(R.string.login))){
+            if(title.equals(getString(R.string.login))){
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
