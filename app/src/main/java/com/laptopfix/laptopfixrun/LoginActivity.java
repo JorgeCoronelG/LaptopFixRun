@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAccess:
+
                 if(!checkFields()){
                     userController.login(getUser());
                 }

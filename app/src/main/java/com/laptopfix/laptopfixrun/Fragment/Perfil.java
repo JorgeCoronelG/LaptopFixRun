@@ -1,13 +1,17 @@
 package com.laptopfix.laptopfixrun.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.laptopfix.laptopfixrun.EditProfileActivity;
 import com.laptopfix.laptopfixrun.R;
 
 /**
@@ -18,11 +22,14 @@ import com.laptopfix.laptopfixrun.R;
  * Use the {@link Perfil#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Perfil extends Fragment {
+public class Perfil extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    View vista;
+    Button btnEditar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,7 +72,11 @@ public class Perfil extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+        vista =  inflater.inflate(R.layout.fragment_perfil, container, false);
+        btnEditar = vista.findViewById(R.id.btnEdit);
+        btnEditar.setOnClickListener(this);
+
+        return  vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +101,17 @@ public class Perfil extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnEdit:
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                break;
+        }
     }
 
     /**
