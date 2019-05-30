@@ -95,12 +95,16 @@ public class CustomerController {
         editor.putString("name", customer.getName());
         editor.putString("number", customer.getNumber());
         editor.putString("email", customer.getUser().getEmail());
+        editor.putString("password", customer.getUser().getPassword());
+        editor.putInt("status", customer.getUser().getStatus());
+        editor.putInt("typeUser", customer.getUser().getIdTypeUser());
 
         editor.commit();
     }
 
     public Customer getCustomer(){
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+
         Customer customer = new Customer();
         customer.setIdCus(preferences.getInt("id", 0));
         customer.setName(preferences.getString("name", null));
@@ -108,20 +112,13 @@ public class CustomerController {
 
         User user = new User();
         user.setEmail(preferences.getString("email", null));
+        user.setPassword(preferences.getString("password", null));
+        user.setStatus(preferences.getInt("status", 0));
+        user.setIdTypeUser(preferences.getInt("typeUser", 0));
 
         customer.setUser(user);
 
         return customer;
-    }
-
-    public boolean checkCustomer(){
-        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
-        String name = preferences.getString("name",null);
-        if(name == null){
-            return false;
-        }else{
-            return true;
-        }
     }
 
     public void createDialog(String message){

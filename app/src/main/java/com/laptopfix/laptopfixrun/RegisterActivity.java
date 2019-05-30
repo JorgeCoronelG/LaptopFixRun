@@ -91,6 +91,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         User user = new User();
         user.setEmail(etEmail.getText().toString());
         user.setPassword(etPassword.getText().toString());
+        user.setStatus(1);
+        user.setIdTypeUser(2);//2 es el cliente
 
         customer.setUser(user);
 

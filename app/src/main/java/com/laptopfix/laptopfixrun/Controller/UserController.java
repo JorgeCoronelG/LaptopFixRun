@@ -2,6 +2,7 @@ package com.laptopfix.laptopfixrun.Controller;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -48,24 +49,40 @@ public class UserController {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
-                        JSONObject dataCustomer = jsonObject.getJSONObject("customer");
+                        JSONObject dataUser = jsonObject.getJSONObject("user");
 
-                        Customer customer = new Customer();
-                        customer.setIdCus(dataCustomer.getInt("id"));
-                        customer.setName(dataCustomer.getString("name"));
-                        customer.setNumber(dataCustomer.getString("number"));
+                        if(dataUser.getInt("typeUser") == Common.TYPE_USER_LAPTOP_FIX){
 
-                        User userC = new User();
-                        userC.setEmail(dataCustomer.getString("email"));
+                            user.setEmail(dataUser.getString("email"));
+                            user.setPassword(dataUser.getString("password"));
+                            user.setIdTypeUser(dataUser.getInt("typeUser"));
+                            user.setStatus(dataUser.getInt("status"));
 
-                        customer.setUser(userC);
+                            setUser(user);
 
-                        CustomerController customerController = new CustomerController(context);
-                        customerController.setCustomer(customer);
+                            dialog.dismiss();
 
-                        dialog.dismiss();
+                            volleyListener.requestFinished(context.getString(R.string.login_laptopfix), true);
+                        }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_CUSTOMER){
+                            Customer customer = new Customer();
+                            customer.setIdCus(dataUser.getInt("id"));
+                            customer.setName(dataUser.getString("name"));
+                            customer.setNumber(dataUser.getString("number"));
 
-                        volleyListener.requestFinished(context.getString(R.string.login), true);
+                            user.setEmail(dataUser.getString("email"));
+                            user.setPassword(dataUser.getString("password"));
+                            user.setIdTypeUser(dataUser.getInt("typeUser"));
+                            user.setStatus(dataUser.getInt("status"));
+
+                            customer.setUser(user);
+
+                            CustomerController customerController = new CustomerController(context);
+                            customerController.setCustomer(customer);
+
+                            dialog.dismiss();
+
+                            volleyListener.requestFinished(context.getString(R.string.login_customer), true);
+                        }
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();
                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -92,6 +109,36 @@ public class UserController {
         };
 
         Communication.getmInstance(context).addToRequestQueue(request);
+    }
+
+    public void setUser(User user){
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putString("email", user.getEmail());
+        editor.putString("password", user.getPassword());
+        editor.putInt("status", user.getStatus());
+        editor.putInt("typeUser", user.getIdTypeUser());
+
+        editor.commit();
+    }
+
+    public User getUser(){
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        User user = new User();
+        user.setEmail(preferences.getString("email", null));
+        user.setPassword(preferences.getString("password", null));
+        user.setStatus(preferences.getInt("status", 0));
+        user.setIdTypeUser(preferences.getInt("typeUser", 0));
+
+        return user;
+    }
+
+    public int checkUser(){
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        int typeUser = preferences.getInt("typeUser",0);
+        return typeUser;
     }
 
     public void createDialog(String message){
