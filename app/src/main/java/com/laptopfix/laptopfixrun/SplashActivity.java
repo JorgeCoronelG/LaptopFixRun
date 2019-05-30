@@ -6,8 +6,10 @@ import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Util.Common;
 
 public class SplashActivity extends Activity {
@@ -24,13 +26,15 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                CustomerController customerController = new CustomerController(SplashActivity.this);
-                if(customerController.checkCustomer()){
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                UserController userController = new UserController(SplashActivity.this);
+                if(userController.checkUser() == 0){
+                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
-                }else{
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                }else if(userController.checkUser() == Common.TYPE_USER_LAPTOP_FIX){
+                    //Por programar
+                }else if(userController.checkUser() == Common.TYPE_USER_CUSTOMER){
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
