@@ -24,33 +24,34 @@
 
     <item android:title="Revisar mi equipo">
         <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_rEquipo"
+                    android:icon="@drawable/ic_delivery"
+                    android:title="@string/menu_rEquipo" />
 
-            <item
-                android:id="@+id/nav_rEquipo"
-                android:icon="@drawable/ic_delivery"
-                android:title="@string/menu_rEquipo" />
-
-            <item
-                android:id="@+id/nav_iEstablecimiento"
-                android:icon="@drawable/ic_walking"
-                android:title= "@string/menu_iEstablecimiento" />
-
+                <item
+                    android:id="@+id/nav_iEstablecimiento"
+                    android:icon="@drawable/ic_walking"
+                    android:title="@string/menu_iEstablecimiento" />
+            </group>
         </menu>
     </item>
 
     <item android:title="Mi perfil">
         <menu>
-            <item
-                android:id="@+id/nav_perfil"
-                android:icon="@drawable/ic_user"
-                android:title= "@string/menu_perfil" />
-            <item
-                android:id="@+id/nav_closeSession"
-                android:icon="@drawable/ic_logout"
-                android:title= "@string/menu_session" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_perfil"
+                    android:icon="@drawable/ic_user"
+                    android:title="@string/menu_perfil" />
+                <item
+                    android:id="@+id/nav_closeSession"
+                    android:icon="@drawable/ic_logout"
+                    android:title="@string/menu_session" />
+            </group>
         </menu>
     </item>
-
 
 
 </menu>
