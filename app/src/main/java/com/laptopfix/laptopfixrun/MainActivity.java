@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Fragment.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Perfil;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.User;
@@ -37,7 +38,7 @@ import com.laptopfix.laptopfixrun.Util.Common;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,Perfil.OnFragmentInteractionListener, OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, View.OnClickListener, GoPlaceFragment.OnFragmentInteractionListener {
 
     private Toolbar toolbar;
     private TextView txtName, txtPhone;
@@ -117,6 +118,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_rEquipo) {
 
         } else if (id == R.id.nav_iEstablecimiento) {
+            miFragment = new GoPlaceFragment();
+            fragmentSeleccionado = true;
 
         } else if (id == R.id.nav_comentario) {
 
