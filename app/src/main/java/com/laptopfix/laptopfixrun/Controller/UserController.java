@@ -62,7 +62,7 @@ public class UserController {
 
                             dialog.dismiss();
 
-                            volleyListener.requestFinished(context.getString(R.string.login_laptopfix), true);
+                            volleyListener.requestFinished(context.getString(R.string.login_laptopfix));
                         }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_CUSTOMER){
                             Customer customer = new Customer();
                             customer.setIdCus(dataUser.getInt("id"));
@@ -81,7 +81,7 @@ public class UserController {
 
                             dialog.dismiss();
 
-                            volleyListener.requestFinished(context.getString(R.string.login_customer), true);
+                            volleyListener.requestFinished(context.getString(R.string.login_customer));
                         }
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();

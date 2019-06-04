@@ -4,99 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfileActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    tools:context=".EditProfileActivity"
+    android:orientation="vertical">
 
-        <include layout="@layout/actionbar_toolbar"/>
+    <include layout="@layout/actionbar_toolbar"/>
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center">
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_gravity="center"
-            >
-            <ImageView
-                android:id="@+id/imgUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_user1"
+            android:src="@drawable/ic_user"/>
+    </RelativeLayout>
 
-                />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/marginTopEditProfile">
 
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/form"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/marginTopForm"
-            android:layout_below="@id/imgLaptopFix">
+            android:layout_margin="@dimen/marginForms">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilName"
+            <EditText
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/marginForms">
+                android:hint="@string/name"
+                android:inputType="text"
+                android:singleLine="true"/>
 
-                <EditText
-                    android:id="@+id/etName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:inputType="text"
-                    android:singleLine="true"/>
+        </android.support.design.widget.TextInputLayout>
 
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/marginForms">
-
-                <EditText
-                    android:id="@+id/etNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/number"
-                    android:inputType="text"
-                    android:singleLine="true"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/marginForms">
-
-                <EditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/email"
-                    android:inputType="text"
-                    android:singleLine="true"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnCreateAccount"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTopFormRegister"
-            android:layout_marginRight="@dimen/marginSideBtn"
-            android:layout_marginLeft="@dimen/marginSideBtn"
-            android:text="@string/save"
-            android:textColor="@android:color/white"
-            android:background="@drawable/rounded_button_blue"/>
+            android:layout_margin="@dimen/marginForms">
+
+            <EditText
+                android:id="@+id/etNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/number"
+                android:inputType="text"
+                android:singleLine="true"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginForms">
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:enabled="false"/>
+
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTopEditProfile"
+        android:layout_marginRight="@dimen/marginSideBtn"
+        android:layout_marginLeft="@dimen/marginSideBtn"
+        android:text="@string/save"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_button_blue"/>
 
 </LinearLayout>

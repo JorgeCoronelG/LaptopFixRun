@@ -56,7 +56,7 @@ public class CustomerController {
 
                         dialog.dismiss();
 
-                        volleyListener.requestFinished(context.getString(R.string.insertCustomer), true);
+                        volleyListener.requestFinished(context.getString(R.string.insertCustomer));
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();
                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -78,6 +78,54 @@ public class CustomerController {
                 Map map = new HashMap();
                 map.put("email", customer.getUser().getEmail());
                 map.put("password", customer.getUser().getPassword());
+                map.put("name", customer.getName());
+                map.put("number", customer.getNumber());
+                return map;
+            }
+        };
+
+        Communication.getmInstance(context).addToRequestQueue(request);
+    }
+
+    public void update(final Customer customer){
+        createDialog(context.getString(R.string.waitAMoment));
+
+        final VolleyListener volleyListener = (VolleyListener)context;
+
+        String url = Common.URL + CommunicationPath.CUSTOMER_UPDATE;
+
+        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getInt("code") == 200){
+                        JSONObject dataCustomer = jsonObject.getJSONObject("customer");
+                        customer.setName(dataCustomer.getString("name"));
+                        customer.setNumber(dataCustomer.getString("number"));
+
+                        setCustomer(customer);
+
+                        dialog.dismiss();
+
+                        volleyListener.requestFinished(context.getString(R.string.updateCustomer));
+                    }
+                }catch (Exception e){
+                    dialog.dismiss();
+                    Toast.makeText(context, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                Toast.makeText(context, "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("id", String.valueOf(customer.getIdCus()));
                 map.put("name", customer.getName());
                 map.put("number", customer.getNumber());
                 return map;

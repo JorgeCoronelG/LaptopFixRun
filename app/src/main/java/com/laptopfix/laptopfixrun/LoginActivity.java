@@ -84,16 +84,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void requestFinished(String title, boolean check) {
-        if(check){
-            if(title.equals(getString(R.string.login_customer))){
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }else if(title.equals(getString(R.string.login_laptopfix))){
-                //Por programar
-                Toast.makeText(this, "Bienvenido Laptop Fix", Toast.LENGTH_SHORT).show();
-            }
+    public void requestFinished(String title) {
+        if(title.equals(getString(R.string.login_customer))){
+            Intent intent = new Intent(LoginActivity.this, HomeCustomer.class);
+            intent.putExtra("section", R.id.nav_establecimiento);
+            startActivity(intent);
+            finish();
+        }else if(title.equals(getString(R.string.login_laptopfix))){
+            //Por programar
+            Toast.makeText(this, "Bienvenido Laptop Fix", Toast.LENGTH_SHORT).show();
         }
     }
 }

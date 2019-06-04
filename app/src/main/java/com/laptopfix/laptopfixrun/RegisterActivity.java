@@ -73,13 +73,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void requestFinished(String title, boolean check) {
-        if(check){
-            if(title.equals(getString(R.string.insertCustomer))){
-                Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
-                startActivity(intent);
-                finish();
-            }
+    public void requestFinished(String title) {
+        if(title.equals(getString(R.string.insertCustomer))){
+            Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 

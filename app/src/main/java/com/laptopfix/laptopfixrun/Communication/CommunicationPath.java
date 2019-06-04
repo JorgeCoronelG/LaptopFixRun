@@ -4,5 +4,6 @@ public class CommunicationPath {
 
     public static final String CUSTOMER_INSERT = "Customer/insert.php";
     public static final String LOGIN = "User/login.php";
+    public static final String CUSTOMER_UPDATE = "Customer/update.php";
 
 }

@@ -8,6 +8,7 @@
     <string name="access">Ingresar</string>
     <string name="register">Registrarse</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_edit_profile">EditProfileActivity</string>
     <string name="name">Nombre completo</string>
     <string name="number">Número telefónico</string>
     <string name="createAccount">Crear cuenta</string>
@@ -31,7 +32,7 @@
     <string name="menu_rEquipo">Recoger mi equipo</string>
     <string name="menu_iEstablecimiento">Ir a establecimiento</string>
     <string name="menu_comentario">Comentarios</string>
-    <string name="menu_session">Cerrar sessión</string>
+    <string name="menu_session">Cerrar sesión</string>
     <string name="login_customer">login_customer</string>
     <string name="login_laptopfix">login_laptopfix</string>
     <string name="insertCustomer">insert_customer</string>
@@ -39,5 +40,11 @@
     <string name="txtRegisterComplete">Su cuenta ha sido creada de manera exitosa</string>
     <string name="accept">Aceptar</string>
     <string name="title_activity_maps">Map</string>
+    <string name="save">Guardar</string>
+    <string name="editProfile">Editar perfil</string>
+    <string name="myProfile">Mi perfil</string>
+    <string name="updateCustomer">update_customer</string>
+    <string name="txtSave">¡Datos guardados correctamente!</string>
+    <string name="ok">OK</string>
 
 </resources>
