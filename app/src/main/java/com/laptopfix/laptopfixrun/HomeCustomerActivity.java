@@ -15,12 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Fragment.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.PlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.ProfileFragment;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.User;
 
-public class HomeCustomer extends AppCompatActivity
+public class HomeCustomerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
@@ -97,13 +98,14 @@ public class HomeCustomer extends AppCompatActivity
             case R.id.nav_chat:
                 break;
             case R.id.nav_iEstablecimiento:
+                fragment = new GoPlaceFragment();
                 break;
             case R.id.nav_comentario:
                 break;
             case R.id.nav_closeSession:
                 customerController.setCustomer(new Customer(0, null, null, new User()));
 
-                Intent intent = new Intent(HomeCustomer.this, LoginActivity.class);
+                Intent intent = new Intent(HomeCustomerActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 break;

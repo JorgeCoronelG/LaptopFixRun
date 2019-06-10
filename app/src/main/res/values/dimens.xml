@@ -22,7 +22,7 @@
     <dimen name="marginTopMyProfileDataToLL">30dp</dimen>
     <dimen name="marginTopMyProfileButton">50dp</dimen>
     <dimen name="txtMyProfileData">18sp</dimen>
-    <dimen name="marginTopEditProfile">30dp</dimen>
+    <dimen name="marginTopEditProfile">24dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

@@ -2,19 +2,29 @@ package com.laptopfix.laptopfixrun;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.User;
+import com.laptopfix.laptopfixrun.Util.Common;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, VolleyListener {
 
@@ -22,11 +32,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button btnCreateAccount;
     private CustomerController customerController;
 
+    //Firebase
+    private FirebaseAuth auth;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         showToolbar(getString(R.string.createAccount), true);
+
+        //Init Firebase
+        FirebaseApp.initializeApp(this);
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference(Common.CUSTOMER_TABLE);
 
         customerController = new CustomerController(this);
 
@@ -48,9 +69,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        onBackPressed();
         return true;
     }
 
@@ -75,10 +94,44 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void requestFinished(String title) {
         if(title.equals(getString(R.string.insertCustomer))){
-            Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
-            startActivity(intent);
-            finish();
+            registerCustomer();
         }
+    }
+
+    private void registerCustomer() {
+        final Customer customer = customerController.getCustomer();
+        auth.createUserWithEmailAndPassword(customer.getUser().getEmail(), customer.getUser().getPassword())
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        //Save customer to db
+                        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(customer)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        customerController.getDialog().dismiss();
+
+                                        Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        customerController.getDialog().dismiss();
+                                        Toast.makeText(RegisterActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        customerController.getDialog().dismiss();
+                        Toast.makeText(RegisterActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private Customer getCustomer(){

@@ -32,7 +32,7 @@ public class SplashActivity extends Activity {
                 }else if(userController.checkUser() == Common.TYPE_USER_LAPTOP_FIX){
                     //Por programar
                 }else if(userController.checkUser() == Common.TYPE_USER_CUSTOMER){
-                    Intent intent = new Intent(SplashActivity.this, HomeCustomer.class);
+                    Intent intent = new Intent(SplashActivity.this, HomeCustomerActivity.class);
                     intent.putExtra("section", R.id.nav_establecimiento);
                     startActivity(intent);
                     finish();

@@ -1,6 +1,5 @@
 package com.laptopfix.laptopfixrun;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,7 @@ import com.laptopfix.laptopfixrun.Fragment.AppointmentFragment;
 import com.laptopfix.laptopfixrun.Fragment.ChatFragment;
 import com.laptopfix.laptopfixrun.Fragment.ComentFragment;
 
-public class MainTechnicalActivity extends AppCompatActivity{
+public class HomeLFActivity extends AppCompatActivity{
 
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
@@ -27,7 +26,7 @@ public class MainTechnicalActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_technical);
+        setContentView(R.layout.activity_home_lf);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);

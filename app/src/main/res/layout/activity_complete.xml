@@ -36,6 +36,8 @@
         android:layout_below="@id/txtRegisterComplete"
         android:textAlignment="center"
         android:layout_marginTop="@dimen/marginTopTxtRegisterComplete"
+        android:layout_marginLeft="@dimen/marginForms"
+        android:layout_marginRight="@dimen/marginForms"
         android:textSize="@dimen/txtMessageRegisterComplete"
         />
 

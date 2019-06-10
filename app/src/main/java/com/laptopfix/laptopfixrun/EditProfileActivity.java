@@ -2,6 +2,7 @@ package com.laptopfix.laptopfixrun;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,9 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Util.Common;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener, VolleyListener {
 
@@ -22,6 +30,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private Button btnSave;
     private CustomerController customerController;
 
+    //Firebase
+    private FirebaseAuth auth;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,20 +42,25 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         showToolbar(getString(R.string.editProfile), true);
 
+        //Init Firebase
+        FirebaseApp.initializeApp(this);
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference(Common.CUSTOMER_TABLE);
+
         etName = findViewById(R.id.etName);
         etNumber = findViewById(R.id.etNumber);
         etEmail = findViewById(R.id.etEmail);
         btnSave = findViewById(R.id.btnSave);
 
+        customerController = new CustomerController(this);
+
         btnSave.setOnClickListener(this);
 
         Intent intent = getIntent();
-
         if(intent != null){
             setDataCustomer(intent);
         }
-
-        customerController = new CustomerController(this);
     }
 
     private void setDataCustomer(Intent intent){
@@ -93,17 +111,37 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void requestFinished(String title) {
         if(title.equals(getString(R.string.updateCustomer))){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getString(R.string.txtSave));
-            builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    onBackPressed();
-                }
-            });
-            builder.setCancelable(false);
-            builder.show();
+            updateCustomer();
         }
+    }
+
+    private void updateCustomer(){
+        Customer customer = customerController.getCustomer();
+        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(customer)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        customerController.getDialog().dismiss();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfileActivity.this);
+                        builder.setMessage(getString(R.string.txtSave));
+                        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onBackPressed();
+                            }
+                        });
+                        builder.setCancelable(false);
+                        builder.show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        customerController.getDialog().dismiss();
+                        Toast.makeText(EditProfileActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
@@ -114,7 +152,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(EditProfileActivity.this, HomeCustomer.class);
+        Intent intent = new Intent(EditProfileActivity.this, HomeCustomerActivity.class);
         intent.putExtra("section", R.id.nav_perfil);
         startActivity(intent);
         finish();

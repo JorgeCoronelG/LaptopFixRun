@@ -34,6 +34,9 @@ public class CustomerController {
 
     public CustomerController(Context context) {
         this.context = context;
+        dialog = new SpotsDialog.Builder()
+                .setContext(context)
+                .build();
     }
 
     public void insert(final Customer customer){
@@ -51,10 +54,11 @@ public class CustomerController {
                     if(jsonObject.getInt("code") == 200){
                         JSONObject dataCustomer = jsonObject.getJSONObject("customer");
                         customer.setIdCus(dataCustomer.getInt("id"));
+                        customer.getUser().setPassword(dataCustomer.getString("password"));
+                        customer.getUser().setIdTypeUser(dataCustomer.getInt("typeUser"));
+                        customer.getUser().setStatus(dataCustomer.getInt("status"));
 
                         setCustomer(customer);
-
-                        dialog.dismiss();
 
                         volleyListener.requestFinished(context.getString(R.string.insertCustomer));
                     }else if(jsonObject.getInt("code") == 404){
@@ -105,8 +109,6 @@ public class CustomerController {
                         customer.setNumber(dataCustomer.getString("number"));
 
                         setCustomer(customer);
-
-                        dialog.dismiss();
 
                         volleyListener.requestFinished(context.getString(R.string.updateCustomer));
                     }
@@ -170,10 +172,11 @@ public class CustomerController {
     }
 
     public void createDialog(String message){
-        dialog = new SpotsDialog.Builder()
-                .setContext(context)
-                .setMessage(message)
-                .build();
+        dialog.setMessage(message);
         dialog.show();
+    }
+
+    public AlertDialog getDialog() {
+        return dialog;
     }
 }

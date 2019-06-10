@@ -34,6 +34,9 @@ public class UserController {
 
     public UserController(Context context) {
         this.context = context;
+        dialog = new SpotsDialog.Builder()
+                .setContext(context)
+                .build();
     }
 
     public void login(final User user){
@@ -60,26 +63,20 @@ public class UserController {
 
                             setUser(user);
 
-                            dialog.dismiss();
-
                             volleyListener.requestFinished(context.getString(R.string.login_laptopfix));
                         }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_CUSTOMER){
                             Customer customer = new Customer();
                             customer.setIdCus(dataUser.getInt("id"));
                             customer.setName(dataUser.getString("name"));
                             customer.setNumber(dataUser.getString("number"));
-
-                            user.setEmail(dataUser.getString("email"));
-                            user.setPassword(dataUser.getString("password"));
-                            user.setIdTypeUser(dataUser.getInt("typeUser"));
-                            user.setStatus(dataUser.getInt("status"));
-
-                            customer.setUser(user);
+                            customer.setUser(new User());
+                            customer.getUser().setEmail(dataUser.getString("email"));
+                            customer.getUser().setPassword(dataUser.getString("password"));
+                            customer.getUser().setIdTypeUser(dataUser.getInt("typeUser"));
+                            customer.getUser().setStatus(dataUser.getInt("status"));
 
                             CustomerController customerController = new CustomerController(context);
                             customerController.setCustomer(customer);
-
-                            dialog.dismiss();
 
                             volleyListener.requestFinished(context.getString(R.string.login_customer));
                         }
@@ -142,10 +139,11 @@ public class UserController {
     }
 
     public void createDialog(String message){
-        dialog = new SpotsDialog.Builder()
-                .setContext(context)
-                .setMessage(message)
-                .build();
+        dialog.setMessage(message);
         dialog.show();
+    }
+
+    public AlertDialog getDialog() {
+        return dialog;
     }
 }

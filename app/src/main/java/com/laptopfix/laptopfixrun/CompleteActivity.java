@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
+
 public class CompleteActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnRegisterComplete;
+    private CustomerController customerController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,7 @@ public class CompleteActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnRegisterComplete:
-                Intent intent = new Intent(CompleteActivity.this, HomeCustomer.class);
+                Intent intent = new Intent(CompleteActivity.this, HomeCustomerActivity.class);
                 intent.putExtra("section", R.id.nav_establecimiento);
                 startActivity(intent);
                 finish();
