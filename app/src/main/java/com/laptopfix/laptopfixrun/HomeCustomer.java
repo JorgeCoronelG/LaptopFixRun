@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Fragment.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.PlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.ProfileFragment;
 import com.laptopfix.laptopfixrun.Model.Customer;
@@ -97,6 +98,7 @@ public class HomeCustomer extends AppCompatActivity
             case R.id.nav_chat:
                 break;
             case R.id.nav_iEstablecimiento:
+                fragment = new GoPlaceFragment();
                 break;
             case R.id.nav_comentario:
                 break;

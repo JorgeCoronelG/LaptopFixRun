@@ -3,55 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.GoPlaceFragment">
+    tools:context=".Fragment.GoPlaceFragment"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <include layout="@layout/actionbar_toolbar"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:text="@string/schedule_c"
+            android:textSize="30dp"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            />
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:id="@+id/form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/marginTopForm"
+        android:layout_marginTop="50dp"
         >
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
-
-            <EditText
-                android:id="@+id/etDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/date"
-                android:inputType="text"
-                android:singleLine="true"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilHour"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
-
-            <EditText
-                android:id="@+id/etHour"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hours"
-                android:inputType="text"
-                android:singleLine="true"/>
-
-        </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tilProblem"
             android:layout_width="match_parent"
@@ -67,6 +41,38 @@
                 android:singleLine="true"/>
 
         </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginForms">
+
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/date"
+                android:singleLine="true"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginForms">
+
+            <EditText
+                android:id="@+id/etHour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hours"
+
+                android:singleLine="true"/>
+
+        </android.support.design.widget.TextInputLayout>
+
 
 
     </LinearLayout>
@@ -84,4 +90,3 @@
 
     </LinearLayout>
 
-</LinearLayout>

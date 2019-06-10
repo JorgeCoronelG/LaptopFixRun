@@ -72,7 +72,7 @@ public class Perfil extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista =  inflater.inflate(R.layout.fragment_perfil, container, false);
+        vista =  inflater.inflate(R.layout.fragment_profile, container, false);
         btnEditar = vista.findViewById(R.id.btnEdit);
         btnEditar.setOnClickListener(this);
 
