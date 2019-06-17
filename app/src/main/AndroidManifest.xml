@@ -26,6 +26,10 @@
         <activity android:name=".HomeLFActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".HomeLFActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait" />
