@@ -20,8 +20,6 @@ import android.widget.TimePicker;
 
 import com.laptopfix.laptopfixrun.R;
 
-import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
-
 import java.util.Calendar;
 
 import okhttp3.internal.Util;

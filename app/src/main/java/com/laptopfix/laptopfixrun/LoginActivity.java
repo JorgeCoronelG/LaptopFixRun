@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(title.equals(getString(R.string.login_customer))){
             checkCustomer();
         }else if(title.equals(getString(R.string.login_laptopfix))){
-            Toast.makeText(this, "Bienvenido Laptop Fix", Toast.LENGTH_SHORT).show();
+            checkUser();
         }
     }
 
@@ -126,6 +126,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         customerController.getDialog().dismiss();
+                        Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void checkUser(){
+        User user = userController.getUser();
+        reference = database.getReference(Common.LAPTOP_FIX_TABLE);
+        auth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        userController.getDialog().dismiss();
+
+                        Intent intent = new Intent(LoginActivity.this, HomeLFActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        userController.getDialog().dismiss();
                         Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
