@@ -214,7 +214,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
             Log.d("JCG", "TASK IS SUCCEFULL");
             mLastLocation = task.getResult();
             if (mLastLocation != null) {
-                Log.d("JCG", "LOCATION FIND NULL");
+                Log.d("JCG", "LOCATION FIND");
                 final double latitude = mLastLocation.getLatitude();
                 final double longitude = mLastLocation.getLongitude();
 
@@ -267,8 +267,8 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                                 LatLngBounds bounds = builder.build();
 
                                 polylineOptions = new PolylineOptions();
-                                polylineOptions.color(Color.GRAY);
-                                polylineOptions.width(5);
+                                polylineOptions.color(Color.WHITE);
+                                polylineOptions.width(Common.WIDTH_ROUTE);
                                 polylineOptions.startCap(new SquareCap());
                                 polylineOptions.endCap(new SquareCap());
                                 polylineOptions.jointType(JointType.ROUND);
@@ -276,8 +276,8 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                                 greyPolyline = mMap.addPolyline(polylineOptions);
 
                                 blackPolylineOptions = new PolylineOptions();
-                                blackPolylineOptions.color(Color.BLACK);
-                                blackPolylineOptions.width(5);
+                                blackPolylineOptions.color(getResources().getColor(R.color.colorRoute));
+                                blackPolylineOptions.width(Common.WIDTH_ROUTE);
                                 blackPolylineOptions.startCap(new SquareCap());
                                 blackPolylineOptions.endCap(new SquareCap());
                                 blackPolylineOptions.jointType(JointType.ROUND);
