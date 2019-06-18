@@ -10,9 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.laptopfix.laptopfixrun.Fragment.AppointmentFragment;
-import com.laptopfix.laptopfixrun.Fragment.ChatFragment;
-import com.laptopfix.laptopfixrun.Fragment.ComentFragment;
+import com.laptopfix.laptopfixrun.Fragment.LaptopFix.AppointmentFragment;
+import com.laptopfix.laptopfixrun.Fragment.LaptopFix.ChatFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.ComentFragment;
 
 public class HomeLFActivity extends AppCompatActivity{
 

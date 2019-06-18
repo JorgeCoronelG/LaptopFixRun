@@ -16,11 +16,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
-import com.laptopfix.laptopfixrun.Fragment.ComentFragment;
-import com.laptopfix.laptopfixrun.Fragment.GoPlaceFragment;
-import com.laptopfix.laptopfixrun.Fragment.HomeServiceFragment;
-import com.laptopfix.laptopfixrun.Fragment.PlaceFragment;
-import com.laptopfix.laptopfixrun.Fragment.ProfileFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.ComentFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.PlaceFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.ProfileFragment;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.User;
 

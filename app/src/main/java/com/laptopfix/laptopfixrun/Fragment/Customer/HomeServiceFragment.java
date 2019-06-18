@@ -1,7 +1,6 @@
-package com.laptopfix.laptopfixrun.Fragment;
+package com.laptopfix.laptopfixrun.Fragment.Customer;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
@@ -11,22 +10,15 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.laptopfix.laptopfixrun.R;
 
 import java.util.Calendar;
 
-import okhttp3.internal.Util;
-
-
-public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener {
-
+public class HomeServiceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener {
 
     View view;
     EditText date;
@@ -47,22 +39,11 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);
 
-
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_go_place, container, false);
-
-
+        view =  inflater.inflate(R.layout.fragment_home, container, false);
         date = (EditText) view.findViewById(R.id.etDate);
         hour = (EditText) view.findViewById(R.id.etHour);
         date.setOnFocusChangeListener(this);
@@ -74,12 +55,41 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
         date.setOnClickListener(this);
         hour.setOnClickListener(this);
 
-
-        return  view;
+        return view;
     }
 
 
-   private void obtenerFecha(){
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.etDate:
+                obtenerFecha();
+                break;
+
+            case R.id.etHour:
+                obtenerHora();
+                break;
+        }
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+
+        if(hasFocus){
+            switch (v.getId()){
+                case R.id.etDate:
+                    obtenerFecha();
+                    break;
+
+                case R.id.etHour:
+                    obtenerHora();
+                    break;
+            }
+        }
+
+    }
+
+    private void obtenerFecha(){
         DatePickerDialog recogerFecha = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -125,38 +135,4 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
 
         recogerHora.show();
     }
-
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if(hasFocus){
-            switch (v.getId()){
-                case R.id.etDate:
-                    obtenerFecha();
-                    break;
-
-                case R.id.etHour:
-                    obtenerHora();
-                    break;
-            }
-        }
-
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-
-        switch (v.getId()){
-            case R.id.etDate:
-                obtenerFecha();
-                break;
-
-            case R.id.etHour:
-                obtenerHora();
-                break;
-        }
-    }
-
 }

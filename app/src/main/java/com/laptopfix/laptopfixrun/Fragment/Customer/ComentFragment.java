@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun.Fragment;
+package com.laptopfix.laptopfixrun.Fragment.Customer;
 
 import android.app.AlertDialog;
 import android.content.Context;

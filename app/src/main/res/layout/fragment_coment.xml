@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.ComentFragment"
+    tools:context=".Fragment.Customer.ComentFragment"
     android:orientation="vertical">
 
    <RelativeLayout
