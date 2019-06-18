@@ -43,6 +43,12 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     final int dia = c.get(Calendar.DAY_OF_MONTH);
     final int anio = c.get(Calendar.YEAR);
 
+    //Variable para obtener el dia de la semana
+    /*Se obtiene a partir de Domingo y los conviente en int
+     * Domingo = 1
+      * Lunes = 2 y así sucesivamente */
+    final int diaSemana = c.get(Calendar.DAY_OF_WEEK);
+
     //Variables para obtener la hora hora
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);
@@ -89,8 +95,11 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
                 String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
                 //Formateo el mes obtenido: antepone el 0 si son menores de 10
                 String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+
+
+
                 //Muestro la fecha con el formato deseado
-                date.setText(year + BARRA + mesFormateado + BARRA + diaFormateado);
+                date.setText(year + BARRA + mesFormateado + BARRA +  diaFormateado);
 
             }
 
