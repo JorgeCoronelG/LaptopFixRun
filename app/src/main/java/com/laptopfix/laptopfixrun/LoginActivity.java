@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAccess:
-                /*Intent intent1 = new Intent(LoginActivity.this, HomeCustomerActivity.class);
+                /*Intent intent1 = new Intent(LoginActivity.this, HomeLFActivity.class);
                 startActivity(intent1);
                 finish();*/
                 if(!checkFields()){
