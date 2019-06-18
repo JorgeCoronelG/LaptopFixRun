@@ -67,6 +67,7 @@
                 android:id="@+id/etHour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="time"
                 android:hint="@string/hours"
 
                 android:singleLine="true"/>

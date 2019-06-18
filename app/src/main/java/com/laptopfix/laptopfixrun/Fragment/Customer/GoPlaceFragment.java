@@ -43,6 +43,12 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     final int dia = c.get(Calendar.DAY_OF_MONTH);
     final int anio = c.get(Calendar.YEAR);
 
+    //Variable para obtener el dia de la semana
+    /*Se obtiene a partir de Domingo y los conviente en int
+     * Domingo = 1
+      * Lunes = 2 y así sucesivamente */
+    final int diaSemana = c.get(Calendar.DAY_OF_WEEK);
+
     //Variables para obtener la hora hora
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);
@@ -89,8 +95,11 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
                 String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
                 //Formateo el mes obtenido: antepone el 0 si son menores de 10
                 String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+
+
+
                 //Muestro la fecha con el formato deseado
-                date.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
+                date.setText(year + BARRA + mesFormateado + BARRA +  diaFormateado);
 
             }
 
@@ -101,27 +110,23 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     }
 
     private void obtenerHora(){
-        TimePickerDialog recogerHora = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+        final TimePickerDialog recogerHora = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
                 //Formateo el hora obtenido: antepone el 0 si son menores de 10
                 String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
                 String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
-                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
-                String AM_PM;
-                if(hourOfDay < 12) {
-                    AM_PM = "a.m.";
-                } else {
-                    AM_PM = "p.m.";
-                }
+
                 //Muestro la hora con el formato deseado
-                hour.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                hour.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " hrs." );
             }
             //Estos valores deben ir en ese orden
             //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
             //Pero el sistema devuelve la hora en formato 24 horas
-        }, hora, minuto, false);
+        }, hora, minuto,false);
 
         recogerHora.show();
     }
