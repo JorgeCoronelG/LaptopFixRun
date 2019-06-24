@@ -64,7 +64,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlaceFragment extends Fragment implements OnMapReadyCallback, LocationListener, View.OnClickListener,
-        OnCompleteListener<Location>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        OnCompleteListener<Location> {
 
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
@@ -75,7 +75,6 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     private Marker mCurrent;
     private Button btnHowArrived;
     private LocationCallback mLocationCallback;
-    private GoogleApiClient mGoogleApiClient;
     private boolean isClicked;
 
     private List<LatLng> polyLineList;
@@ -110,7 +109,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
             alertNoGps();
         }
 
-        /*mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         createLocationRequest();
         mLocationCallback = new LocationCallback(){
             @Override
@@ -122,12 +121,12 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                     if (location != null) {
                         mLastLocation = location;
                         if (mFusedLocationClient != null) {
-                            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+                            //mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                         }
                     }
                 }
             }
-        };*/
+        };
 
         polyLineList = new ArrayList<>();
         mService = Common.getGoogleAPI();
@@ -179,7 +178,6 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
             }, MY_PERMISSION_REQUEST_CODE);
         } else {
             if (checkPlayServices()) {
-                buildGoogleApiClient();
                 createLocationRequest();
                 if(isClicked){
                     displayLocation();
@@ -215,21 +213,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                 ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        //mFusedLocationClient.getLastLocation().addOnCompleteListener(this);
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            final double latitude = mLastLocation.getLatitude();
-            final double longitude = mLastLocation.getLongitude();
-
-            if (mCurrent != null) {
-                mCurrent.remove();
-            }
-            mCurrent = mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
-                    .position(new LatLng(latitude, longitude))
-                    .title(getString(R.string.you)));
-            getDirection();
-        }
+        mFusedLocationClient.getLastLocation().addOnCompleteListener(this);
     }
 
     @Override
@@ -237,6 +221,8 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         if (task.isSuccessful()) {
             mLastLocation = task.getResult();
             if (mLastLocation != null) {
+                mMap.clear();
+                addMarkerLF();
                 final double latitude = mLastLocation.getLatitude();
                 final double longitude = mLastLocation.getLongitude();
 
@@ -304,7 +290,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
 
                                 //Animation
                                 ValueAnimator polyLineAnimator = ValueAnimator.ofInt(0, 100);
-                                polyLineAnimator.setDuration(2000);
+                                polyLineAnimator.setDuration(1500);
                                 polyLineAnimator.setInterpolator(new LinearInterpolator());
                                 polyLineAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                                     @Override
@@ -340,8 +326,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                 ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        //mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
 
     @Override
@@ -356,13 +341,17 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        addMarkerLF();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Common.LATITUDE_LAPTOP_FIX, Common.LONGITUDE_LAPTOP_FIX), 15.0f));
+    }
+
+    private void addMarkerLF(){
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(Common.LATITUDE_LAPTOP_FIX, Common.LONGITUDE_LAPTOP_FIX))
                 .flat(true)
                 .title(getString(R.string.txtLaptopFix))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Common.LATITUDE_LAPTOP_FIX, Common.LONGITUDE_LAPTOP_FIX), 15.0f));
     }
 
     @Override
@@ -372,7 +361,6 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                 if(grantResults.length > 0 &&  grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     if(checkPlayServices()){
                         createLocationRequest();
-                        buildGoogleApiClient();
                         if(isClicked){
                             displayLocation();
                         }
@@ -380,15 +368,6 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                 }
                 break;
         }
-    }
-
-    private void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
     }
 
     public void zoomRoute(List<LatLng> lstLatLngRoute) {
@@ -399,7 +378,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         for (LatLng latLngPoint : lstLatLngRoute)
             boundsBuilder.include(latLngPoint);
 
-        int routePadding = 120;
+        int routePadding = 100;
         LatLngBounds latLngBounds = boundsBuilder.build();
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, routePadding));
@@ -439,21 +418,4 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         return poly;
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        if(isClicked){
-            displayLocation();
-        }
-        startLocationUpdates();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }

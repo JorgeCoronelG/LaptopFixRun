@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
@@ -99,10 +100,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void requestFinished(String title) {
-        if(title.equals(getString(R.string.login_customer))){
+    public void requestFinished(int code) {
+        if(code == CommunicationCode.CODE_LOGIN_CUSTOMER){
             checkCustomer();
-        }else if(title.equals(getString(R.string.login_laptopfix))){
+        }else if(code == CommunicationCode.CODE_LOGIN_LAPTOP_FIX){
             checkUser();
         }
     }
