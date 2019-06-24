@@ -20,7 +20,10 @@ import android.widget.TimePicker;
 
 import com.laptopfix.laptopfixrun.R;
 
+import java.time.DayOfWeek;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import okhttp3.internal.Util;
 
@@ -47,7 +50,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     /*Se obtiene a partir de Domingo y los conviente en int
      * Domingo = 1
       * Lunes = 2 y así sucesivamente */
-    final int diaSemana = c.get(Calendar.DAY_OF_WEEK);
+    //final int diaSemana = c.get(Calendar.DAY_OF_WEEK);
 
     //Variables para obtener la hora hora
     final int hora = c.get(Calendar.HOUR_OF_DAY);
@@ -89,25 +92,27 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
         DatePickerDialog recogerFecha = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
-                final int mesActual = month + 1;
-                //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
-                //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+
+                c.set(Calendar.YEAR, year);
+                c.set(Calendar.MONTH, month);
+                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+               int  day = c.get(Calendar.DAY_OF_WEEK);
 
 
 
-                //Muestro la fecha con el formato deseado
-                date.setText(year + BARRA + mesFormateado + BARRA +  diaFormateado);
+
+                //Muestro la fecha con el formato deseado*/
+                date.setText(year + BARRA + (month+1) + BARRA +  dayOfMonth + BARRA + day);
 
             }
 
-        },anio, mes, dia);
+        },anio, mes, dia );
         //Muestro el widget
         recogerFecha.show();
 
     }
+
 
     private void obtenerHora(){
         final TimePickerDialog recogerHora = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {

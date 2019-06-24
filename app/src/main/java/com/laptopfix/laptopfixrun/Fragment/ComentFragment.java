@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.laptopfix.laptopfixrun.Adapter.AdapterComments;
+import com.laptopfix.laptopfixrun.Model.Comment;
 import com.laptopfix.laptopfixrun.R;
 
+import java.util.ArrayList;
 
 
 public class ComentFragment extends Fragment implements View.OnClickListener {
+
+    ArrayList<Comment> listComments;
+    RecyclerView recyclerView;
 
     View view;
     Button btnComentario;
@@ -33,8 +41,26 @@ public class ComentFragment extends Fragment implements View.OnClickListener {
         view =  inflater.inflate(R.layout.fragment_coment, container, false);
         btnComentario = view.findViewById(R.id.btnAddComment);
 
+        listComments = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.RecycleId);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         btnComentario.setOnClickListener(this);
+
+        obtenerCommentario();
+
+        AdapterComments adapterComments = new AdapterComments(listComments);
+        recyclerView.setAdapter(adapterComments);
+
         return view;
+    }
+
+    private void obtenerCommentario() {
+
+
+        listComments.add(new Comment("Osvaldo Escamilla","Excelente servicio","21/06/19",R.drawable.ic_star));
+        listComments.add(new Comment("Jorge Coronel","Excelente servicio","21/06/19",R.drawable.ic_star));
+        listComments.add(new Comment("Osvaldo Escamilla","Excelente servicio","21/06/19",R.drawable.ic_star));
     }
 
     @Override
