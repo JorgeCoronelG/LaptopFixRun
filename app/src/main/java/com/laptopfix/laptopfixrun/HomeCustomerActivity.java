@@ -3,7 +3,6 @@ package com.laptopfix.laptopfixrun;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Menu;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,11 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
-import com.laptopfix.laptopfixrun.Fragment.ComentFragment;
-import com.laptopfix.laptopfixrun.Fragment.GoPlaceFragment;
-import com.laptopfix.laptopfixrun.Fragment.HomeServiceFragment;
-import com.laptopfix.laptopfixrun.Fragment.PlaceFragment;
-import com.laptopfix.laptopfixrun.Fragment.ProfileFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.ComentFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.PlaceFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.ProfileFragment;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.User;
 
@@ -80,33 +79,10 @@ public class HomeCustomerActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.logout) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         displaySelectedScreen(item.getItemId());
-
         return true;
     }
 

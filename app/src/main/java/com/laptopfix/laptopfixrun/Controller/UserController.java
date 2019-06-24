@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Communication.Communication;
+import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
@@ -63,7 +64,7 @@ public class UserController {
 
                             setUser(user);
 
-                            volleyListener.requestFinished(context.getString(R.string.login_laptopfix));
+                            volleyListener.requestFinished(CommunicationCode.CODE_LOGIN_LAPTOP_FIX);
                         }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_CUSTOMER){
                             Customer customer = new Customer();
                             customer.setIdCus(dataUser.getInt("id"));
@@ -78,7 +79,7 @@ public class UserController {
                             CustomerController customerController = new CustomerController(context);
                             customerController.setCustomer(customer);
 
-                            volleyListener.requestFinished(context.getString(R.string.login_customer));
+                            volleyListener.requestFinished(CommunicationCode.CODE_LOGIN_CUSTOMER);
                         }
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();

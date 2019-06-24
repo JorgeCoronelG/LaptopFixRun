@@ -3,20 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.GoPlaceFragment"
+    tools:context=".Fragment.Customer.GoPlaceFragment"
     android:orientation="vertical">
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="@string/schedule_c"
-            android:textSize="30dp"
-            android:textColor="@android:color/black"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="@string/schedule_c"
+        android:textSize="30dp"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        />
 
     <LinearLayout
         android:id="@+id/form"
@@ -79,16 +78,16 @@
 
     </LinearLayout>
 
-        <Button
-            android:id="@+id/btnSchedule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTopFormRegister"
-            android:layout_marginRight="@dimen/marginSideBtn"
-            android:layout_marginLeft="@dimen/marginSideBtn"
-            android:text="@string/schedule"
-            android:textColor="@android:color/white"
-            android:background="@drawable/rounded_button_blue"/>
+    <Button
+        android:id="@+id/btnSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTopFormRegister"
+        android:layout_marginRight="@dimen/marginSideBtn"
+        android:layout_marginLeft="@dimen/marginSideBtn"
+        android:text="@string/schedule"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_button_blue"/>
 
     </LinearLayout>
 

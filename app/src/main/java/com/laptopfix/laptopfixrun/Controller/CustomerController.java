@@ -3,7 +3,6 @@ package com.laptopfix.laptopfixrun.Controller;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -12,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Communication.Communication;
+import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
@@ -60,7 +60,7 @@ public class CustomerController {
 
                         setCustomer(customer);
 
-                        volleyListener.requestFinished(context.getString(R.string.insertCustomer));
+                        volleyListener.requestFinished(CommunicationCode.CODE_CUSTOMER_INSERT);
                     }else if(jsonObject.getInt("code") == 404){
                         dialog.dismiss();
                         Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -110,7 +110,7 @@ public class CustomerController {
 
                         setCustomer(customer);
 
-                        volleyListener.requestFinished(context.getString(R.string.updateCustomer));
+                        volleyListener.requestFinished(CommunicationCode.CODE_CUSTOMER_UPDATE);
                     }
                 }catch (Exception e){
                     dialog.dismiss();

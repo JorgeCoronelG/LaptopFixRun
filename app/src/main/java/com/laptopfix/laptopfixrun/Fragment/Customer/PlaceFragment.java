@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun.Fragment;
+package com.laptopfix.laptopfixrun.Fragment.Customer;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
@@ -74,15 +75,16 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     private Marker mCurrent;
     private Button btnHowArrived;
     private LocationCallback mLocationCallback;
+    private boolean isClicked;
 
     private List<LatLng> polyLineList;
     private LatLng currentPosition;
-    private PolylineOptions polylineOptions, blackPolylineOptions;
-    private Polyline blackPolyline, greyPolyline;
+    private PolylineOptions polylineOptions, bluePolylineOptions;
+    private Polyline bluePolyline, whitePolyline;
     private IGoogleAPI mService;
 
-    private static final int UPDATE_INTERVAL = 10000;
-    private static final int FASTEST_INTERVAL = 5000;
+    private static final int UPDATE_INTERVAL = 5000;
+    private static final int FASTEST_INTERVAL = 3000;
     private static final int DISPLACEMENT = 10;
 
     //Play Services
@@ -119,7 +121,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                     if (location != null) {
                         mLastLocation = location;
                         if (mFusedLocationClient != null) {
-                            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+                            //mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                         }
                     }
                 }
@@ -128,6 +130,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
 
         polyLineList = new ArrayList<>();
         mService = Common.getGoogleAPI();
+        isClicked = false;
 
         return view;
     }
@@ -157,7 +160,9 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnHowArrived:
-                startLocationUpdates();               displayLocation();
+                isClicked = true;
+                startLocationUpdates();
+                displayLocation();
                 btnHowArrived.setEnabled(false);
                 break;
         }
@@ -174,6 +179,9 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         } else {
             if (checkPlayServices()) {
                 createLocationRequest();
+                if(isClicked){
+                    displayLocation();
+                }
             }
         }
     }
@@ -211,10 +219,10 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     @Override
     public void onComplete(@NonNull Task<Location> task) {
         if (task.isSuccessful()) {
-            Log.d("JCG", "TASK IS SUCCEFULL");
             mLastLocation = task.getResult();
             if (mLastLocation != null) {
-                Log.d("JCG", "LOCATION FIND NULL");
+                mMap.clear();
+                addMarkerLF();
                 final double latitude = mLastLocation.getLatitude();
                 final double longitude = mLastLocation.getLongitude();
 
@@ -227,11 +235,8 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                         .title(getString(R.string.you)));
                 getDirection();
             } else {
-                Log.d("JCG", "LOCATION IS NULL");
                 startLocationUpdates();
             }
-        }else{
-            Log.d("JCG", "DON'T FIND LOCATION");
         }
     }
 
@@ -267,35 +272,35 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                                 LatLngBounds bounds = builder.build();
 
                                 polylineOptions = new PolylineOptions();
-                                polylineOptions.color(Color.GRAY);
-                                polylineOptions.width(5);
+                                polylineOptions.color(Color.WHITE);
+                                polylineOptions.width(Common.WIDTH_ROUTE);
                                 polylineOptions.startCap(new SquareCap());
                                 polylineOptions.endCap(new SquareCap());
                                 polylineOptions.jointType(JointType.ROUND);
                                 polylineOptions.addAll(polyLineList);
-                                greyPolyline = mMap.addPolyline(polylineOptions);
+                                whitePolyline = mMap.addPolyline(polylineOptions);
 
-                                blackPolylineOptions = new PolylineOptions();
-                                blackPolylineOptions.color(Color.BLACK);
-                                blackPolylineOptions.width(5);
-                                blackPolylineOptions.startCap(new SquareCap());
-                                blackPolylineOptions.endCap(new SquareCap());
-                                blackPolylineOptions.jointType(JointType.ROUND);
-                                blackPolyline = mMap.addPolyline(blackPolylineOptions);
+                                bluePolylineOptions = new PolylineOptions();
+                                bluePolylineOptions.color(getResources().getColor(R.color.colorRoute));
+                                bluePolylineOptions.width(Common.WIDTH_ROUTE);
+                                bluePolylineOptions.startCap(new SquareCap());
+                                bluePolylineOptions.endCap(new SquareCap());
+                                bluePolylineOptions.jointType(JointType.ROUND);
+                                bluePolyline = mMap.addPolyline(bluePolylineOptions);
 
                                 //Animation
                                 ValueAnimator polyLineAnimator = ValueAnimator.ofInt(0, 100);
-                                polyLineAnimator.setDuration(2000);
+                                polyLineAnimator.setDuration(1500);
                                 polyLineAnimator.setInterpolator(new LinearInterpolator());
                                 polyLineAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                                     @Override
                                     public void onAnimationUpdate(ValueAnimator animation) {
-                                        List<LatLng> points = greyPolyline.getPoints();
+                                        List<LatLng> points = whitePolyline.getPoints();
                                         int percentValue = (int) animation.getAnimatedValue();
                                         int size = points.size();
                                         int newPoints = (int) (size * (percentValue / 100.0f));
                                         List<LatLng> p = points.subList(0, newPoints);
-                                        blackPolyline.setPoints(p);
+                                        bluePolyline.setPoints(p);
                                     }
                                 });
                                 polyLineAnimator.start();
@@ -327,19 +332,26 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
-        displayLocation();
+        Toast.makeText(getContext(), "Cambió tu locación", Toast.LENGTH_SHORT).show();
+        if(isClicked){
+            displayLocation();
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        addMarkerLF();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Common.LATITUDE_LAPTOP_FIX, Common.LONGITUDE_LAPTOP_FIX), 15.0f));
+    }
+
+    private void addMarkerLF(){
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(Common.LATITUDE_LAPTOP_FIX, Common.LONGITUDE_LAPTOP_FIX))
                 .flat(true)
                 .title(getString(R.string.txtLaptopFix))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Common.LATITUDE_LAPTOP_FIX, Common.LONGITUDE_LAPTOP_FIX), 15.0f));
     }
 
     @Override
@@ -349,6 +361,9 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                 if(grantResults.length > 0 &&  grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     if(checkPlayServices()){
                         createLocationRequest();
+                        if(isClicked){
+                            displayLocation();
+                        }
                     }
                 }
                 break;
@@ -363,10 +378,11 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         for (LatLng latLngPoint : lstLatLngRoute)
             boundsBuilder.include(latLngPoint);
 
-        int routePadding = 120;
+        int routePadding = 100;
         LatLngBounds latLngBounds = boundsBuilder.build();
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, routePadding));
+        mMap.setPadding(10,10,100,200);
     }
 
     private List<LatLng> decodePoly(String encoded) {
@@ -401,4 +417,5 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
 
         return poly;
     }
+
 }

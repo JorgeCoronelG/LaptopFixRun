@@ -6,5 +6,6 @@
     <color name="colorButtonBlue">#3A78A1</color>
     <color name="colorButtonGray">#D8DDE0</color>
     <color name="colorTextHint">#848484</color>
+    <color name="colorRoute">#5FBFFF</color>
 
 </resources>

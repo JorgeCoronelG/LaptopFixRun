@@ -18,6 +18,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
@@ -109,8 +110,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void requestFinished(String title) {
-        if(title.equals(getString(R.string.updateCustomer))){
+    public void requestFinished(int code) {
+        if(code == CommunicationCode.CODE_CUSTOMER_UPDATE){
             updateCustomer();
         }
     }
