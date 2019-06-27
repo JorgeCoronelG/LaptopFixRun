@@ -42,7 +42,7 @@ public class ComentFragment extends Fragment implements View.OnClickListener {
         btnComentario = view.findViewById(R.id.btnAddComment);
 
         listComments = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.RecycleId);
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         btnComentario.setOnClickListener(this);
