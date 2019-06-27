@@ -1,82 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    android:id="@+id/cardview_comment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorPrimary"
-        android:layout_marginTop="10dp"
-
-        >
-<LinearLayout
-    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-
-            <TextView
-                android:id="@+id/txtNameC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/name"
-                android:layout_weight="5"
-                />
-
-            <TextView
-                android:id="@+id/txtDateC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dat"
-                android:layout_weight="5"
-                />
-
-
-
-        </LinearLayout>
+    app:cardCornerRadius="@dimen/radiusItemComment"
+    app:cardBackgroundColor="@color/colorPrimary"
+    android:layout_margin="@dimen/marginItemComment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-         <ImageView
-             android:id="@+id/imgCa"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_star"
-            android:layout_weight="5"/>
+            android:layout_marginLeft="@dimen/marginTxtItemComment"
+            android:layout_marginTop="@dimen/marginTxtItemComment"
+            android:layout_marginRight="@dimen/marginTxtItemComment">
+            <TextView
+                android:id="@+id/txtNameCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jorge Andrés Morales Cedeño"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/txtItemComment"/>
+            <TextView
+                android:id="@+id/txtDateComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="01/05/2019"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/txtItemComment"/>
+        </RelativeLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layoutStars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="@dimen/marginTxtItemComment"
+            android:layout_marginLeft="@dimen/marginTxtItemComment"
+            android:layout_marginTop="@dimen/marginTxtItemComment">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star"/>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
-
-        <TextView
-            android:id="@+id/txtCommentC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/comments"
-            android:layout_weight="5"
-            />
-
-
-
+            android:layout_margin="@dimen/marginTxtItemComment">
+            <TextView
+                android:id="@+id/txtComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="¡Excelente servicio! La atención es muy buena por parte del técnico"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/txtItemComment"/>
         </LinearLayout>
-</LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

@@ -160,11 +160,15 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnHowArrived:
-                isClicked = true;
-                startLocationUpdates();
-                displayLocation();
-                btnHowArrived.setEnabled(false);
-                break;
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    alertNoGps();
+                }else{
+                    isClicked = true;
+                    startLocationUpdates();
+                    displayLocation();
+                    btnHowArrived.setEnabled(false);
+                    break;
+                }
         }
     }
 

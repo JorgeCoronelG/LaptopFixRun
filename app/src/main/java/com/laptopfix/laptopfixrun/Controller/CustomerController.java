@@ -53,7 +53,7 @@ public class CustomerController {
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
                         JSONObject dataCustomer = jsonObject.getJSONObject("customer");
-                        customer.setIdCus(dataCustomer.getInt("id"));
+                        customer.setIdCus(dataCustomer.getString("id"));
                         customer.getUser().setPassword(dataCustomer.getString("password"));
                         customer.getUser().setIdTypeUser(dataCustomer.getInt("typeUser"));
                         customer.getUser().setStatus(dataCustomer.getInt("status"));
@@ -141,7 +141,7 @@ public class CustomerController {
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putInt("id", customer.getIdCus());
+        editor.putString("id", customer.getIdCus());
         editor.putString("name", customer.getName());
         editor.putString("number", customer.getNumber());
         editor.putString("email", customer.getUser().getEmail());
@@ -156,7 +156,7 @@ public class CustomerController {
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
 
         Customer customer = new Customer();
-        customer.setIdCus(preferences.getInt("id", 0));
+        customer.setIdCus(preferences.getString("id", null));
         customer.setName(preferences.getString("name", null));
         customer.setNumber(preferences.getString("number", null));
 

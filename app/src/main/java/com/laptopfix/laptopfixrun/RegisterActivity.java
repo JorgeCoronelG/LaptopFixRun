@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
@@ -106,6 +107,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         //Save customer to db
+                        FirebaseUser firebaseUser = auth.getCurrentUser();
+                        customer.setIdCus(firebaseUser.getUid());
                         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(customer)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

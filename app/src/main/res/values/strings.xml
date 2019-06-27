@@ -74,5 +74,7 @@
     <string name="problem_is_empty">Debes redactar el problema de tu equipo</string>
     <string name="date_is_empty">Debes seleccionar una fecha para la cita</string>
     <string name="hour_is_empty">Debes seleccionar una hora para la cita</string>
+    <string name="cancel">Cancelar</string>
+    <string name="loading_comments">Cargando comentarios</string>
 
 </resources>

@@ -1,12 +1,11 @@
 package com.laptopfix.laptopfixrun.Fragment.Customer;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,71 +13,64 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.laptopfix.laptopfixrun.Adapter.AdapterComments;
+import com.laptopfix.laptopfixrun.Adapter.AdapterComment;
+import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
+import com.laptopfix.laptopfixrun.Controller.CommentController;
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Model.Comment;
 import com.laptopfix.laptopfixrun.R;
 
 import java.util.ArrayList;
 
 
-public class ComentFragment extends Fragment implements View.OnClickListener {
+public class ComentFragment extends Fragment implements View.OnClickListener, CommentController.VolleyListener {
 
-    ArrayList<Comment> listComments;
-    RecyclerView recyclerView;
+    private View view;
+    private Button btnComentario;
+    private EditText etWrite;
+    private RadioButton op1,op2,op3,op4,op5;
+    private CommentController commentController;
+    private RecyclerView commentRecycler;
+    private AdapterComment adapterComment;
 
-    View view;
-    Button btnComentario;
-    EditText txtWrite;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_coment, container, false);
+
+        commentController = new CommentController(getContext());
+        commentController.setVolleyListener(this);
+
+        commentRecycler = view.findViewById(R.id.recyclerComment);
         btnComentario = view.findViewById(R.id.btnAddComment);
 
-        listComments = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.RecycleId);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         btnComentario.setOnClickListener(this);
 
-        obtenerCommentario();
-
-        AdapterComments adapterComments = new AdapterComments(listComments);
-        recyclerView.setAdapter(adapterComments);
+        commentController.getComments(CommunicationCode.CODE_GET_COMMENTS);
 
         return view;
-    }
-
-    private void obtenerCommentario() {
-
-
-        listComments.add(new Comment("Osvaldo Escamilla","Excelente servicio","21/06/19",R.drawable.ic_star));
-        listComments.add(new Comment("Jorge Coronel","Excelente servicio","21/06/19",R.drawable.ic_star));
-        listComments.add(new Comment("Osvaldo Escamilla","Excelente servicio","21/06/19",R.drawable.ic_star));
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         getActivity().setTitle(getString(R.string.comments));
     }
-
-    RadioButton op1,op2,op3,op4,op5;
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
             case R.id.btnAddComment:
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 View view = getLayoutInflater().inflate(R.layout.add_comment,null);
-                txtWrite = view.findViewById(R.id.etWriteComment);
+
+                etWrite = view.findViewById(R.id.etWriteComment);
                 op1 = view.findViewById(R.id.r1);
                 op2 = view.findViewById(R.id.r2);
                 op3 = view.findViewById(R.id.r3);
@@ -86,22 +78,46 @@ public class ComentFragment extends Fragment implements View.OnClickListener {
                 op5 = view.findViewById(R.id.r5);
 
                 alert.setView(view).
-                setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), "Comentario enviado", Toast.LENGTH_SHORT).show();
+                        if(etWrite.getText().toString().isEmpty()){
+                            Toast.makeText(getContext(), "Debes agregar un comentario", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Comment comment = new Comment();
+                            comment.setComment(etWrite.getText().toString());
+                            if(op1.isChecked()){
+                                comment.setScore(1);
+                            }else if(op2.isChecked()){
+                                comment.setScore(2);
+                            }else if(op3.isChecked()){
+                                comment.setScore(3);
+                            }else if(op4.isChecked()){
+                                comment.setScore(4);
+                            }else if(op5.isChecked()){
+                                comment.setScore(5);
+                            }
+                            comment.setCustomer(new CustomerController(getContext()).getCustomer());
+                            commentController.insert(comment);
+                        }
                     }
                 }).
-                setNegativeButton("CANCELAR",null);
-
+                setNegativeButton(getString(R.string.cancel),null);
                 alert.show();
 
                 break;
         }
     }
 
-
-
-
-
+    @Override
+    public void requestGetComments(ArrayList<Comment> comments, int code) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        commentRecycler.setLayoutManager(linearLayoutManager);
+        adapterComment = new AdapterComment(comments, R.layout.item_comment, getActivity());
+        commentRecycler.setAdapter(adapterComment);
+        if(code == CommunicationCode.CODE_COMMENT_INSERT){
+            Snackbar.make(view, "Tu comentario ha sido agregado", Snackbar.LENGTH_SHORT).show();
+        }
+    }
 }

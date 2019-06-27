@@ -67,7 +67,7 @@ public class UserController {
                             volleyListener.requestFinished(CommunicationCode.CODE_LOGIN_LAPTOP_FIX);
                         }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_CUSTOMER){
                             Customer customer = new Customer();
-                            customer.setIdCus(dataUser.getInt("id"));
+                            customer.setIdCus(dataUser.getString("id"));
                             customer.setName(dataUser.getString("name"));
                             customer.setNumber(dataUser.getString("number"));
                             customer.setUser(new User());

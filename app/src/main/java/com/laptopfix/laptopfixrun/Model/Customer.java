@@ -2,7 +2,7 @@ package com.laptopfix.laptopfixrun.Model;
 
 public class Customer {
 
-    private int idCus;
+    private String idCus;
     private String name;
     private String number;
     private User user;
@@ -10,18 +10,18 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int idCus, String name, String number, User user) {
+    public Customer(String idCus, String name, String number, User user) {
         this.idCus = idCus;
         this.name = name;
         this.number = number;
         this.user = user;
     }
 
-    public int getIdCus() {
+    public String getIdCus() {
         return idCus;
     }
 
-    public void setIdCus(int idCus) {
+    public void setIdCus(String idCus) {
         this.idCus = idCus;
     }
 

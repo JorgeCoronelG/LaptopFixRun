@@ -108,7 +108,7 @@ public class HomeCustomerActivity extends AppCompatActivity
                 fragment = new ComentFragment();
                 break;
             case R.id.nav_closeSession:
-                customerController.setCustomer(new Customer(0, null, null, new User()));
+                customerController.setCustomer(new Customer("", null, null, new User()));
 
                 Intent intent = new Intent(HomeCustomerActivity.this, LoginActivity.class);
                 startActivity(intent);
