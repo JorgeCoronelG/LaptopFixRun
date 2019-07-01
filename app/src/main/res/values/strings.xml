@@ -49,6 +49,7 @@
     <string name="menu_chat">Chat Soporte</string>
     <string name="menu_rEquipo">Servicio a domicilio</string>
     <string name="menu_iEstablecimiento">Ir a establecimiento</string>
+    <string name="menu_cPendientes">Citas pendientes</string>
     <string name="menu_comentario">Comentarios</string>
     <string name="menu_session">Cerrar sesión</string>
     <string name="registerComplete">¡Registro completado!</string>

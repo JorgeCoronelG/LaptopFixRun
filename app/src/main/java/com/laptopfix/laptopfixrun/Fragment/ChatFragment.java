@@ -1,5 +1,6 @@
 package com.laptopfix.laptopfixrun.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,19 +21,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.laptopfix.laptopfixrun.Adapter.CustomerAdapter;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.User;
 import com.laptopfix.laptopfixrun.R;
+import com.laptopfix.laptopfixrun.Util.Common;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import dmax.dialog.SpotsDialog;
 
 
 public class ChatFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    //private CustomerAdapter customerAdapter;
+    private CustomerAdapter customerAdapter;
     private List<Customer> mCustomer;
+    private AlertDialog dialog;
 
 
 
@@ -43,7 +49,7 @@ public class ChatFragment extends Fragment {
         //View view = inflater.inflate(R.layout.fragment_chat, container, false);
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
-        //recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mCustomer = new ArrayList<>();
@@ -53,9 +59,16 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle(getString(R.string.chat));
+    }
+
     private void readCustomer() {
+        createDialog("Cargando chats");
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Customers");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Common.CUSTOMER_TABLE);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -63,18 +76,36 @@ public class ChatFragment extends Fragment {
                 mCustomer.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Customer customer = snapshot.getValue(Customer.class);
+
+                    assert customer != null;
+                    assert firebaseUser != null;
                     mCustomer.add(customer);
+                    /*if (!customer.getIdCus().equals(firebaseUser.getUid())){
+                        mCustomer.add(customer);
+                    }*/
+
+
+
                 }
 
-               /* customerAdapter = new CustomerAdapter(getContext(), mCustomer);
-                recyclerView.setAdapter(customerAdapter);*/
+                customerAdapter = new CustomerAdapter(getContext(), mCustomer);
+                recyclerView.setAdapter(customerAdapter);
+                dialog.dismiss();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                dialog.dismiss();
             }
         });
+    }
+
+    private void createDialog(String message){
+        dialog = new SpotsDialog.Builder()
+                .setContext(getContext())
+                .setMessage(message)
+                .build();
+        dialog.show();
     }
 
 
