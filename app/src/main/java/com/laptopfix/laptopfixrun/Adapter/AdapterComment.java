@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Model.Comment;
@@ -37,7 +38,19 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.CommentV
         holder.txtNameCustomer.setText(comment.getCustomer().getName());
         holder.txtDateComment.setText(comment.getDateComment());
         holder.txtComment.setText(comment.getComment());
-        //Dejamos la estrella sin programar
+
+        holder.layoutStars.removeAllViews();
+        for(int i = 0; i < comment.getScore(); i++){
+            ImageView imgStar = new ImageView(activity);
+            imgStar.setImageResource(R.drawable.ic_star);
+            LinearLayout.LayoutParams paramsStar = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            paramsStar.setMargins(0,0,0,0);
+            imgStar.setLayoutParams(paramsStar);
+            if(holder.layoutStars != null){
+                holder.layoutStars.addView(imgStar);
+            }
+        }
     }
 
     @Override
@@ -49,7 +62,7 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.CommentV
 
         private TextView txtNameCustomer;
         private TextView txtDateComment;
-        //private ImageView imgStar;
+        private LinearLayout layoutStars;
         private TextView txtComment;
 
         public CommentViewHolder(View itemView) {
@@ -57,7 +70,7 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.CommentV
 
             txtNameCustomer = itemView.findViewById(R.id.txtNameCustomer);
             txtDateComment = itemView.findViewById(R.id.txtDateComment);
-            //imgStar = itemView.findViewById(R.id.imgStar);
+            layoutStars = itemView.findViewById(R.id.layoutStars);
             txtComment = itemView.findViewById(R.id.txtComment);
         }
     }

@@ -2,6 +2,7 @@ package com.laptopfix.laptopfixrun;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -63,9 +64,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAccess:
-                /*Intent intent1 = new Intent(LoginActivity.this, HomeCustomerActivity.class);
-                startActivity(intent1);
-                finish();*/
                 if(!checkFields()){
                     userController.login(getUser());
                 }
@@ -87,13 +85,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private boolean checkFields() {
         if(etEmail.getText().toString().isEmpty()){
-            Toast.makeText(this, "Correo electrónico obligatorio", Toast.LENGTH_SHORT).show();
+            etEmail.setError(getString(R.string.required_email));
             return true;
         }else if(etPassword.getText().toString().isEmpty()){
-            Toast.makeText(this, "Contraseña obligatoria", Toast.LENGTH_SHORT).show();
+            etPassword.setError(getString(R.string.required_password));
             return true;
         }else if(etPassword.length() < 6){
-            Toast.makeText(this, "Contraseña debe tener 6 dígitos o más", Toast.LENGTH_SHORT).show();
+            etPassword.setError(getString(R.string.required_password_size));
             return true;
         }
         return false;

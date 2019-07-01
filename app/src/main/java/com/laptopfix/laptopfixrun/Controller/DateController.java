@@ -83,6 +83,27 @@ public class DateController {
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
+    public void getDatesLaptopFix(){
+        createDialog(context.getString(R.string.waitAMoment));
+
+        String url = Common.URL + CommunicationPath.GET_DATES_LAPTOP_FIX;
+
+        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Por programar
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                Toast.makeText(context, "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Communication.getmInstance(context).addToRequestQueue(request);
+    }
+
     public void createDialog(String message){
         dialog = new SpotsDialog.Builder()
                 .setContext(context)

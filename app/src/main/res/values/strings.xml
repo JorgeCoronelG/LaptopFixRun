@@ -71,10 +71,19 @@
     <string name="hour_is_selected_before_date">Debes elegir primero una fecha para la cita</string>
     <string name="schedule_appointment">Cita agendada</string>
     <string name="contact_with_technical_support">Mantente en contacto con soporte para aclaraciones o dudas</string>
-    <string name="problem_is_empty">Debes redactar el problema de tu equipo</string>
+    <string name="problem_is_empty">Debes escribir el problema de tu equipo</string>
     <string name="date_is_empty">Debes seleccionar una fecha para la cita</string>
     <string name="hour_is_empty">Debes seleccionar una hora para la cita</string>
     <string name="cancel">Cancelar</string>
     <string name="loading_comments">Cargando comentarios</string>
+    <string name="required_email">Correo electrónico obligatorio</string>
+    <string name="required_password">Contraseña obligatoria</string>
+    <string name="required_password_size">Contraseña debe tener 6 dígitos o más</string>
+    <string name="required_name">Nombre completo obligatorio</string>
+    <string name="required_number">Número telefónico obligatorio</string>
+    <string name="required_number_size">Número telefónico incorrecto</string>
+    <string name="na">NA</string>
+    <string name="revision_laptop_fix">Revisión: En Laptop Fix</string>
+    <string name="revision_home_service">Revisión: A domicilio</string>
 
 </resources>
