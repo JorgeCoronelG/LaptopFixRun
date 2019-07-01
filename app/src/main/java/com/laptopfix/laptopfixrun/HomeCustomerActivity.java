@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Fragment.Customer.AppointmentPFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.ComentFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
@@ -103,6 +104,9 @@ public class HomeCustomerActivity extends AppCompatActivity
                 break;
             case R.id.nav_rEquipo:
                 fragment = new HomeServiceFragment();
+                break;
+            case R.id.nav_cPendiente:
+                fragment = new AppointmentPFragment();
                 break;
             case R.id.nav_comentario:
                 fragment = new ComentFragment();

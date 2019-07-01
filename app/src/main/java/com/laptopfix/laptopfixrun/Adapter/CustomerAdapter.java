@@ -14,7 +14,7 @@ import com.laptopfix.laptopfixrun.R;
 
 import java.util.List;
 
-/*public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
+public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Customer> mCusto;
@@ -31,23 +31,33 @@ import java.util.List;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        final Customer user = mCusto.get(position);
-        holder.username.setText(user.getName());
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final Customer customer = mCusto.get(position);
+        holder.username.setText(customer.getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MessageActivity.class);
-                intent.putExtra("userid", user.getIdCus());
+                intent.putExtra("userid", customer.getIdCus());
                 mContext.startActivity(intent);
+            }
+        });
+    }
 
+    @Override
+    public int getItemCount() {
+        return mCusto.size();
+    }
 
-        public ViewHolder(View itemView){
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        public TextView username;
+
+        public ViewHolder(View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
         }
     }
-}*/
+}

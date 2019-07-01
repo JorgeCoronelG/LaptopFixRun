@@ -34,6 +34,11 @@
                     android:id="@+id/nav_iEstablecimiento"
                     android:icon="@drawable/ic_walking"
                     android:title="@string/menu_iEstablecimiento" />
+
+                <item
+                    android:id="@+id/nav_cPendiente"
+                    android:icon="@drawable/ic_cpendientes"
+                    android:title="@string/menu_cPendientes" />
             </group>
         </menu>
     </item>
