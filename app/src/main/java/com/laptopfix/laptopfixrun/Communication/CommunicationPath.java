@@ -9,6 +9,7 @@ public class CommunicationPath {
 
     public static final String DATE_INSERT = "Date/insert.php";
     public static final String GET_DATES_LAPTOP_FIX = "Date/getDatesLaptopFix.php";
+    public static final String GET_DATES_CUSTOMER = "Date/getDatesCustomer.php";
 
     public static final String COMMENT_INSERT = "Comment/insert.php";
     public static final String GET_COMMENTS = "Comment/getComments.php";

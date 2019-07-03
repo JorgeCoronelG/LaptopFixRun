@@ -240,7 +240,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(getActivity(), HomeCustomerActivity.class);
-                    intent.putExtra("section", R.id.nav_establecimiento);
+                    intent.putExtra("section", R.id.nav_cPendiente);
                     startActivity(intent);
                     getActivity().finish();
                 }

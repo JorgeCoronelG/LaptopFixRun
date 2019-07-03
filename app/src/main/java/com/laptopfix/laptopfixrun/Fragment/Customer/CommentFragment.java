@@ -27,7 +27,7 @@ import com.laptopfix.laptopfixrun.R;
 import java.util.ArrayList;
 
 
-public class ComentFragment extends Fragment implements View.OnClickListener, CommentController.VolleyListener {
+public class CommentFragment extends Fragment implements View.OnClickListener, CommentController.VolleyListener {
 
     private View view;
     private Button btnComentario;

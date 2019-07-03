@@ -15,8 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
-import com.laptopfix.laptopfixrun.Fragment.Customer.AppointmentPFragment;
-import com.laptopfix.laptopfixrun.Fragment.Customer.ComentFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.AppointmentFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.CommentFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.PlaceFragment;
@@ -106,10 +106,10 @@ public class HomeCustomerActivity extends AppCompatActivity
                 fragment = new HomeServiceFragment();
                 break;
             case R.id.nav_cPendiente:
-                fragment = new AppointmentPFragment();
+                fragment = new AppointmentFragment();
                 break;
             case R.id.nav_comentario:
-                fragment = new ComentFragment();
+                fragment = new CommentFragment();
                 break;
             case R.id.nav_closeSession:
                 customerController.setCustomer(new Customer("", null, null, new User()));

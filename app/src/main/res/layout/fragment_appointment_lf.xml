@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Customer.CommentFragment"
+    tools:context=".Fragment.LaptopFix.AppointmentFragment"
     android:layout_marginTop="50dp">
 
     <LinearLayout
@@ -14,22 +13,10 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerComment"
+            android:id="@+id/recyclerDates"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnAddComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/marginSideBtn"
-        android:layout_marginRight="@dimen/marginSideBtn"
-        android:layout_marginBottom="20dp"
-        android:text="@string/AddComment"
-        android:textColor="@android:color/black"
-        android:background="@drawable/rounded_button_gray"
-        android:layout_gravity="bottom"/>
 
 </android.support.design.widget.CoordinatorLayout>
