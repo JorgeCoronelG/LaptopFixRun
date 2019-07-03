@@ -90,9 +90,8 @@ public class CommentController {
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                JSONObject jsonObject = null;
                 try {
-                    jsonObject = new JSONObject(response);
+                    JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
                         ArrayList<Comment> comments = new ArrayList<>();
                         JSONArray array = jsonObject.getJSONArray("comments");

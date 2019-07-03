@@ -32,7 +32,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private CustomerController customerController;
 
     //Firebase
-    private FirebaseAuth auth;
     private FirebaseDatabase database;
     private DatabaseReference reference;
 
@@ -45,7 +44,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         //Init Firebase
         FirebaseApp.initializeApp(this);
-        auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference(Common.CUSTOMER_TABLE);
 
@@ -90,13 +88,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     private boolean checkFields() {
         if(etName.getText().toString().isEmpty()){
-            Toast.makeText(this, "Nombre completo obligatorio", Toast.LENGTH_SHORT).show();
+            etName.setError(getString(R.string.required_name));
             return true;
         }else if(etNumber.getText().toString().isEmpty()){
-            Toast.makeText(this, "Número telefónico obligatorio", Toast.LENGTH_SHORT).show();
+            etNumber.setError(getString(R.string.required_number));
             return true;
         }else if(etNumber.length() != 10){
-            Toast.makeText(this, "Número telefónico incorrecto", Toast.LENGTH_SHORT).show();
+            etNumber.setError(getString(R.string.required_number_size));
             return true;
         }
         return false;

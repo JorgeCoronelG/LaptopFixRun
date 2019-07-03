@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.WindowManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Util.Common;
 
@@ -24,21 +27,9 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                UserController userController = new UserController(SplashActivity.this);
-                if(userController.checkUser() == 0){
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else if(userController.checkUser() == Common.TYPE_USER_LAPTOP_FIX){
-                    Intent intent = new Intent(SplashActivity.this, HomeLFActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else if(userController.checkUser() == Common.TYPE_USER_CUSTOMER){
-                    Intent intent = new Intent(SplashActivity.this, HomeCustomerActivity.class);
-                    intent.putExtra("section", R.id.nav_establecimiento);
-                    startActivity(intent);
-                    finish();
-                }
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         }, DURATION_SPLASH);
     }

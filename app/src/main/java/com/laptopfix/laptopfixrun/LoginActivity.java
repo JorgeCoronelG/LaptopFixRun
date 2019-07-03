@@ -2,8 +2,10 @@ package com.laptopfix.laptopfixrun;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
@@ -36,11 +39,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private DatabaseReference reference;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                Log.d("UID", user.getUid());
+                if(user != null){
+                    UserController userController = new UserController(LoginActivity.this);
+                    if(userController.checkUser() == Common.TYPE_USER_LAPTOP_FIX){
+                        Intent intent = new Intent(LoginActivity.this, HomeLFActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else if(userController.checkUser() == Common.TYPE_USER_CUSTOMER){
+                        Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
+                        intent.putExtra("section", R.id.nav_establecimiento);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }
+        };
 
         //Init Firebase
         FirebaseApp.initializeApp(this);
@@ -63,9 +88,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAccess:
-                /*Intent intent1 = new Intent(LoginActivity.this, HomeCustomerActivity.class);
-                startActivity(intent1);
-                finish();*/
                 if(!checkFields()){
                     userController.login(getUser());
                 }
@@ -87,13 +109,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private boolean checkFields() {
         if(etEmail.getText().toString().isEmpty()){
-            Toast.makeText(this, "Correo electrónico obligatorio", Toast.LENGTH_SHORT).show();
+            etEmail.setError(getString(R.string.required_email));
             return true;
         }else if(etPassword.getText().toString().isEmpty()){
-            Toast.makeText(this, "Contraseña obligatoria", Toast.LENGTH_SHORT).show();
+            etPassword.setError(getString(R.string.required_password));
             return true;
         }else if(etPassword.length() < 6){
-            Toast.makeText(this, "Contraseña debe tener 6 dígitos o más", Toast.LENGTH_SHORT).show();
+            etPassword.setError(getString(R.string.required_password_size));
             return true;
         }
         return false;
@@ -153,5 +175,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mAuthListener != null){
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
+        }
     }
 }

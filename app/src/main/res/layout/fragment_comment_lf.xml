@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Customer.ComentFragment"
+    tools:context=".Fragment.LaptopFix.CommentFragment"
     android:layout_marginTop="50dp">
 
     <LinearLayout
@@ -19,17 +19,5 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnAddComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/marginSideBtn"
-        android:layout_marginRight="@dimen/marginSideBtn"
-        android:layout_marginBottom="20dp"
-        android:text="@string/AddComment"
-        android:textColor="@android:color/black"
-        android:background="@drawable/rounded_button_gray"
-        android:layout_gravity="bottom"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -28,7 +27,7 @@ import com.laptopfix.laptopfixrun.R;
 import java.util.ArrayList;
 
 
-public class ComentFragment extends Fragment implements View.OnClickListener, CommentController.VolleyListener {
+public class CommentFragment extends Fragment implements View.OnClickListener, CommentController.VolleyListener {
 
     private View view;
     private Button btnComentario;
@@ -41,7 +40,7 @@ public class ComentFragment extends Fragment implements View.OnClickListener, Co
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_coment, container, false);
+        view =  inflater.inflate(R.layout.fragment_comment, container, false);
 
         commentController = new CommentController(getContext());
         commentController.setVolleyListener(this);
@@ -117,7 +116,7 @@ public class ComentFragment extends Fragment implements View.OnClickListener, Co
         adapterComment = new AdapterComment(comments, R.layout.item_comment, getActivity());
         commentRecycler.setAdapter(adapterComment);
         if(code == CommunicationCode.CODE_COMMENT_INSERT){
-            Snackbar.make(view, "Tu comentario ha sido agregado", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, "Tu comentario ha sido agregado", Snackbar.LENGTH_LONG).show();
         }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
-    android:id="@+id/cardview_comment"
+    android:id="@+id/cardview_datesLf"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -14,60 +14,71 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
             android:layout_marginLeft="@dimen/marginTxtItemComment"
             android:layout_marginTop="@dimen/marginTxtItemComment"
             android:layout_marginRight="@dimen/marginTxtItemComment">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="12">
-                <TextView
-                    android:id="@+id/txtNameCustomer"
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="8"
-                    android:text="Jorge Andrés Morales Cedeño"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/txtItemComment"/>
-                <TextView
-                    android:id="@+id/txtDateComment"
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:layout_alignParentRight="true"
-                    android:text="01/05/2019"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/txtItemComment"/>
-            </LinearLayout>
-        </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/layoutStars"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="@dimen/marginTxtItemComment"
-            android:layout_marginLeft="@dimen/marginTxtItemComment"
-            android:layout_marginTop="@dimen/marginTxtItemComment">
+            <TextView
+                android:id="@+id/txtNameCustomer"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jorge Andrés Morales Cedeño"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/txtItemComment"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="12"
             android:orientation="horizontal"
-            android:layout_margin="@dimen/marginTxtItemComment">
+            android:layout_marginLeft="@dimen/marginTxtItemComment"
+            android:layout_marginTop="@dimen/marginTxtItemComment"
+            android:layout_marginRight="@dimen/marginTxtItemComment">
+
             <TextView
-                android:id="@+id/txtComment"
-                android:layout_width="match_parent"
+                android:id="@+id/txtDate"
+                android:layout_width="1dp"
                 android:layout_height="wrap_content"
-                android:text="¡Excelente servicio! La atención es muy buena por parte del técnico"
+                android:layout_weight="7"
+                android:text="Fecha: 01/05/2019"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/txtItemComment"/>
+
+            <TextView
+                android:id="@+id/txtHour"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Hora 12:00 pm"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/txtItemComment"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/marginTxtItemComment">
+
+            <TextView
+                android:id="@+id/txtRevision"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Revisión: En LaptopFix"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/txtItemComment"/>
+
         </LinearLayout>
 
     </LinearLayout>

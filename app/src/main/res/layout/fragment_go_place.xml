@@ -1,93 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Customer.GoPlaceFragment"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="@string/schedule_c"
-        android:textSize="30dp"
-        android:textColor="@android:color/black"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        />
+    tools:context=".Fragment.Customer.GoPlaceFragment">
 
     <LinearLayout
-        android:id="@+id/form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilProblem"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
+            android:layout_marginTop="80dp"
+            android:text="@string/schedule_c"
+            android:textSize="30dp"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            />
 
-            <EditText
-                android:id="@+id/etProblem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/problem"
-                android:inputType="text"
-                android:singleLine="true"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilDate"
+        <LinearLayout
+            android:id="@+id/form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"
+            >
 
-            <EditText
-                android:id="@+id/etDate"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilProblem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                android:hint="@string/date"
-                android:singleLine="true"/>
+                android:layout_margin="@dimen/marginForms">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/etProblem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/describe_problem"
+                    android:inputType="text|textMultiLine"
+                    android:singleLine="true"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilHour"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/marginForms">
+
+                <EditText
+                    android:id="@+id/etDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:hint="@string/date"
+                    android:singleLine="true"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilHour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/marginForms">
+
+                <EditText
+                    android:id="@+id/etHour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:hint="@string/hours"
+
+                    android:singleLine="true"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSchedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
-
-            <EditText
-                android:id="@+id/etHour"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:hint="@string/hours"
-
-                android:singleLine="true"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-
+            android:layout_marginTop="@dimen/marginTopFormRegister"
+            android:layout_marginRight="@dimen/marginSideBtn"
+            android:layout_marginLeft="@dimen/marginSideBtn"
+            android:text="@string/schedule"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_button_blue"/>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnSchedule"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginTopFormRegister"
-        android:layout_marginRight="@dimen/marginSideBtn"
-        android:layout_marginLeft="@dimen/marginSideBtn"
-        android:text="@string/schedule"
-        android:textColor="@android:color/white"
-        android:background="@drawable/rounded_button_blue"/>
-
-    </LinearLayout>
-
+</android.support.v4.widget.NestedScrollView>

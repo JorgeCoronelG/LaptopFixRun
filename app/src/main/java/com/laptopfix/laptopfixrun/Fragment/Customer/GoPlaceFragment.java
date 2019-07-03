@@ -184,13 +184,13 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
 
     private boolean checkFields(){
         if(etProblem.getText().toString().isEmpty()){
-            Toast.makeText(getContext(), getString(R.string.problem_is_empty), Toast.LENGTH_SHORT).show();
+            etProblem.setError(getString(R.string.problem_is_empty));
             return false;
         }else if(etDate.getText().toString().isEmpty()){
-            Toast.makeText(getContext(), getString(R.string.date_is_empty), Toast.LENGTH_SHORT).show();
+            etDate.setError(getString(R.string.date_is_empty));
             return false;
         }else if(etHour.getText().toString().isEmpty()){
-            Toast.makeText(getContext(), getString(R.string.hour_is_empty), Toast.LENGTH_SHORT).show();
+            etHour.setError(getString(R.string.hour_is_empty));
             return false;
         }
         return true;
@@ -240,7 +240,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(getActivity(), HomeCustomerActivity.class);
-                    intent.putExtra("section", R.id.nav_establecimiento);
+                    intent.putExtra("section", R.id.nav_cPendiente);
                     startActivity(intent);
                     getActivity().finish();
                 }

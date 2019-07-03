@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -156,22 +157,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private boolean checkFields() {
         if(etName.getText().toString().isEmpty()){
-            Toast.makeText(this, "Nombre completo obligatorio", Toast.LENGTH_SHORT).show();
+            etName.setError(getString(R.string.required_name));
             return true;
         }else if(etNumber.getText().toString().isEmpty()){
-            Toast.makeText(this, "Número telefónico obligatorio", Toast.LENGTH_SHORT).show();
+            etNumber.setError(getString(R.string.required_number));
             return true;
         }else if(etNumber.length() != 10){
-            Toast.makeText(this, "Número telefónico incorrecto", Toast.LENGTH_SHORT).show();
+            etNumber.setError(getString(R.string.required_number_size));
             return true;
         }else if(etEmail.getText().toString().isEmpty()){
-            Toast.makeText(this, "Correo electrónico obligatorio", Toast.LENGTH_SHORT).show();
+            etEmail.setError(getString(R.string.required_email));
             return true;
         }else if(etPassword.getText().toString().isEmpty()){
-            Toast.makeText(this, "Contraseña obligatoria", Toast.LENGTH_SHORT).show();
+            etPassword.setError(getString(R.string.required_password));
             return true;
         }else if(etPassword.length() < 6){
-            Toast.makeText(this, "Contraseña debe tener 6 dígitos o más", Toast.LENGTH_SHORT).show();
+            etPassword.setError(getString(R.string.required_password_size));
             return true;
         }
         return false;

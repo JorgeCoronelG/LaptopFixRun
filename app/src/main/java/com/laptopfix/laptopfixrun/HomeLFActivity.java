@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.AppointmentFragment;
 import com.laptopfix.laptopfixrun.Fragment.ChatFragment;
+import com.laptopfix.laptopfixrun.Fragment.LaptopFix.CommentFragment;
 import com.laptopfix.laptopfixrun.Model.User;
 
 public class HomeLFActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -73,16 +74,13 @@ public class HomeLFActivity extends AppCompatActivity implements BottomNavigatio
         Fragment fragment = null;
         switch (itemId){
             case R.id.nav_cita:
-                //mMainNav.setItemBackgroundResource(R.color.colorPrimary);
                 fragment = new AppointmentFragment();
                 break;
             case R.id.nav_chat:
-                //mMainNav.setItemBackgroundResource(R.color.colorPrimary);
                 fragment = new ChatFragment();
                 break;
             case R.id.nav_comentario:
-                //mMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
-                //Por programar
+                fragment = new CommentFragment();
                 break;
         }
         if(fragment != null){
