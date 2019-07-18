@@ -76,9 +76,7 @@ public class HomeLFActivity extends AppCompatActivity implements BottomNavigatio
             case R.id.nav_cita:
                 fragment = new AppointmentFragment();
                 break;
-            case R.id.nav_chat:
-                fragment = new ChatFragment();
-                break;
+
             case R.id.nav_comentario:
                 fragment = new CommentFragment();
                 break;

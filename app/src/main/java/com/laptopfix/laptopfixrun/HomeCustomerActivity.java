@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Fragment.Customer.AppointmentFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.ChatCusFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.CommentFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
@@ -97,8 +98,7 @@ public class HomeCustomerActivity extends AppCompatActivity
             case R.id.nav_perfil:
                 fragment = new ProfileFragment();
                 break;
-            case R.id.nav_chat:
-                break;
+
             case R.id.nav_iEstablecimiento:
                 fragment = new GoPlaceFragment();
                 break;

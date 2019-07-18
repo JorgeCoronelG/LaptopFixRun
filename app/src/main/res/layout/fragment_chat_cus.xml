@@ -1,16 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.Customer.ChatCusFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/Cprofile_image"
+                android:src="@drawable/ic_user"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Cusername"
+                android:text="LaptoFix"
+                android:layout_marginStart="25dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="90dp"
-        android:id="@+id/lrecycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:id="@+id/Crecycler_view"
+        android:layout_below="@+id/bar_layout"
+        android:layout_above="@+id/Cbottom"/>
 
-</FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/Cbottom"
+        android:background="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="15dp"
+            android:weightSum="12">
+
+            <EditText
+                android:layout_width="1dp"
+                android:layout_weight="11"
+                android:layout_height="wrap_content"
+                android:id="@+id/Ctext_send"
+                android:background="@android:color/transparent"
+                android:hint="Escribe un mensaje..."
+                android:layout_centerVertical="true"
+                android:inputType="text|textMultiLine"/>
+
+            <ImageButton
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ic_send_button"
+                android:id="@+id/Cbtn_send"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

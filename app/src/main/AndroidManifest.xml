@@ -13,7 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".CurrentServiceTechActivity"></activity>
+        <activity android:name=".ServiceRepairStaTechActivity" />
+        <activity android:name=".ServiceRepairTechActivity" />
+        <activity android:name=".ServiceNowStatusTechActivity" />
+        <activity android:name=".AppointmentDetailActivity" />
+        <activity android:name=".HomeTechnicalActivity" />
+        <activity android:name=".MessageActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -6,10 +6,7 @@
         android:id="@+id/nav_cita"
         android:icon="@drawable/ic_calendar"
         android:title="@string/nav_cita" />
-    <item
-        android:id="@+id/nav_chat"
-        android:icon="@drawable/ic_chat1"
-        android:title="@string/nav_chat" />
+
     <item
         android:id="@+id/nav_comentario"
         android:icon="@drawable/ic_list1"

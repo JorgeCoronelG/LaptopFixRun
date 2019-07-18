@@ -26,17 +26,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true">
 
-            <TextView
-                android:layout_marginBottom="20dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/txtCost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cost"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:textSize="17sp"
-                android:background="@android:color/white" />
+
 
         </RelativeLayout>
 
