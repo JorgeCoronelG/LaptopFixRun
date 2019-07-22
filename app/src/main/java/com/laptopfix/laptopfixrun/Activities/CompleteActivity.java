@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun;
+package com.laptopfix.laptopfixrun.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.R;
 
 public class CompleteActivity extends AppCompatActivity implements View.OnClickListener {
 

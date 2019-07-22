@@ -1,7 +1,9 @@
-package com.laptopfix.laptopfixrun;
+package com.laptopfix.laptopfixrun.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.laptopfix.laptopfixrun.R;
 
 public class DatailDateActivity extends AppCompatActivity {
 

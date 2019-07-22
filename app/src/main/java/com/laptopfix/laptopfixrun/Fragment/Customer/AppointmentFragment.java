@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.laptopfix.laptopfixrun.Adapter.AdapterDatesCustomer;
+import com.laptopfix.laptopfixrun.Adapter.DatesCustomerAdapter;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
 import com.laptopfix.laptopfixrun.Model.Date;
@@ -23,7 +23,7 @@ public class AppointmentFragment extends Fragment implements DateController.Voll
     private View view;
     private DateController dateController;
     private RecyclerView dateRecycler;
-    private AdapterDatesCustomer adapterDatesCustomer;
+    private DatesCustomerAdapter datesCustomerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +51,7 @@ public class AppointmentFragment extends Fragment implements DateController.Voll
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         dateRecycler.setLayoutManager(linearLayoutManager);
-        adapterDatesCustomer = new AdapterDatesCustomer(dates, R.layout.item_dates_customer, getActivity());
-        dateRecycler.setAdapter(adapterDatesCustomer);
+        datesCustomerAdapter = new DatesCustomerAdapter(dates, R.layout.item_dates_customer, getActivity());
+        dateRecycler.setAdapter(datesCustomerAdapter);
     }
 }

@@ -14,13 +14,13 @@ import com.laptopfix.laptopfixrun.R;
 
 import java.util.ArrayList;
 
-public class AdapterComment extends RecyclerView.Adapter<AdapterComment.CommentViewHolder>{
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder>{
 
     private ArrayList<Comment> comments;
     private int resource;
     private Activity activity;
 
-    public AdapterComment(ArrayList<Comment> comments, int resource, Activity activity) {
+    public CommentAdapter(ArrayList<Comment> comments, int resource, Activity activity) {
         this.comments = comments;
         this.resource = resource;
         this.activity = activity;

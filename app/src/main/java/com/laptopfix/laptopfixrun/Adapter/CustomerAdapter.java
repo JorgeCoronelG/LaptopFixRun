@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.laptopfix.laptopfixrun.MessageActivity;
+import com.laptopfix.laptopfixrun.Activities.MessageActivity;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
 

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.LaptopFix.AppointmentFragment"
-    android:layout_marginTop="50dp">
+    android:layout_marginTop="50dp"
+    android:layout_marginBottom="70dp">
 
     <LinearLayout
         android:layout_width="match_parent"

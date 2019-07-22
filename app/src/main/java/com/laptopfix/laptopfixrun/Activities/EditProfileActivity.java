@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun;
+package com.laptopfix.laptopfixrun.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener, VolleyListener {

@@ -13,31 +13,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".Activities.MessageActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".HomeCustomerActivity"
+            android:name=".Activities.HomeCustomerActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CompleteActivity"
+            android:name=".Activities.CompleteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".HomeLFActivity"
+            android:name=".Activities.HomeLFActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".HomeLFActivity"
+            android:name=".Activities.HomeLFActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Activities.RegisterActivity"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".Activities.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
             android:screenOrientation="portrait" />
         <activity
@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun;
+package com.laptopfix.laptopfixrun.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +23,7 @@ import com.laptopfix.laptopfixrun.Fragment.Customer.PlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.ProfileFragment;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.User;
+import com.laptopfix.laptopfixrun.R;
 
 public class HomeCustomerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

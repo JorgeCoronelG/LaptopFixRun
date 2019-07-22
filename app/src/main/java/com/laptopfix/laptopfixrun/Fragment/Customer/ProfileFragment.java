@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
-import com.laptopfix.laptopfixrun.EditProfileActivity;
+import com.laptopfix.laptopfixrun.Activities.EditProfileActivity;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
 

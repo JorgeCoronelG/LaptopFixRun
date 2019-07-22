@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun;
+package com.laptopfix.laptopfixrun.Activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -16,6 +16,7 @@ import com.laptopfix.laptopfixrun.Fragment.LaptopFix.AppointmentFragment;
 import com.laptopfix.laptopfixrun.Fragment.ChatFragment;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.CommentFragment;
 import com.laptopfix.laptopfixrun.Model.User;
+import com.laptopfix.laptopfixrun.R;
 
 public class HomeLFActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 

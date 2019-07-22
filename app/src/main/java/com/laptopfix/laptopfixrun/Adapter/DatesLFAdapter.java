@@ -12,27 +12,30 @@ import com.laptopfix.laptopfixrun.R;
 
 import java.util.ArrayList;
 
-public class AdapterDatesCustomer extends RecyclerView.Adapter<AdapterDatesCustomer.DatesCustomerViewHolder> {
+public class DatesLFAdapter extends RecyclerView.Adapter<DatesLFAdapter.DatesLFViewHolder> {
 
     private ArrayList<Date> dates;
     private int resource;
     private Activity activity;
+    private OnDateListener onDateListener;
 
-    public AdapterDatesCustomer(ArrayList<Date> dates, int resource, Activity activity) {
+    public DatesLFAdapter(ArrayList<Date> dates, int resource, Activity activity, OnDateListener onDateListener) {
         this.dates = dates;
         this.resource = resource;
         this.activity = activity;
+        this.onDateListener = onDateListener;
     }
 
     @Override
-    public DatesCustomerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DatesLFViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
-        return new DatesCustomerViewHolder(view);
+        return new DatesLFViewHolder(view, onDateListener);
     }
 
     @Override
-    public void onBindViewHolder(DatesCustomerViewHolder holder, int position) {
+    public void onBindViewHolder(DatesLFViewHolder holder, int position) {
         Date date = dates.get(position);
+        holder.txtName.setText(date.getCustomer().getName());
         holder.txtDate.setText(date.getDate());
         holder.txtHour.setText(date.getHour());
         if(date.getResidenceCus().equals(activity.getString(R.string.na))){
@@ -40,7 +43,6 @@ public class AdapterDatesCustomer extends RecyclerView.Adapter<AdapterDatesCusto
         }else{
             holder.txtRevision.setText(activity.getString(R.string.revision_home_service));
         }
-        holder.txtProblem.setText(date.getDesProblem());
     }
 
     @Override
@@ -48,21 +50,34 @@ public class AdapterDatesCustomer extends RecyclerView.Adapter<AdapterDatesCusto
         return dates.size();
     }
 
-    public class DatesCustomerViewHolder extends RecyclerView.ViewHolder{
+    public class DatesLFViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+        private TextView txtName;
         private TextView txtDate;
         private TextView txtHour;
         private TextView txtRevision;
-        private TextView txtProblem;
+        private OnDateListener onDateListener;
 
-        public DatesCustomerViewHolder(View itemView) {
+        public DatesLFViewHolder(View itemView, OnDateListener onDateListener) {
             super(itemView);
 
+            txtName = itemView.findViewById(R.id.txtNameCustomer);
             txtDate = itemView.findViewById(R.id.txtDate);
             txtHour = itemView.findViewById(R.id.txtHour);
             txtRevision = itemView.findViewById(R.id.txtRevision);
-            txtProblem = itemView.findViewById(R.id.txtProblem);
+            this.onDateListener = onDateListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onDateListener.onDateClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnDateListener{
+        void onDateClick(int position);
     }
 
 }

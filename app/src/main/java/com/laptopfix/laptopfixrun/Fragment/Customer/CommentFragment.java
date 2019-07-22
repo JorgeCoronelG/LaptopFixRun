@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.laptopfix.laptopfixrun.Adapter.AdapterComment;
+import com.laptopfix.laptopfixrun.Adapter.CommentAdapter;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CommentController;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
@@ -35,7 +35,7 @@ public class CommentFragment extends Fragment implements View.OnClickListener, C
     private RadioButton op1,op2,op3,op4,op5;
     private CommentController commentController;
     private RecyclerView commentRecycler;
-    private AdapterComment adapterComment;
+    private CommentAdapter commentAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,8 +113,8 @@ public class CommentFragment extends Fragment implements View.OnClickListener, C
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentRecycler.setLayoutManager(linearLayoutManager);
-        adapterComment = new AdapterComment(comments, R.layout.item_comment, getActivity());
-        commentRecycler.setAdapter(adapterComment);
+        commentAdapter = new CommentAdapter(comments, R.layout.item_comment, getActivity());
+        commentRecycler.setAdapter(commentAdapter);
         if(code == CommunicationCode.CODE_COMMENT_INSERT){
             Snackbar.make(view, "Tu comentario ha sido agregado", Snackbar.LENGTH_LONG).show();
         }

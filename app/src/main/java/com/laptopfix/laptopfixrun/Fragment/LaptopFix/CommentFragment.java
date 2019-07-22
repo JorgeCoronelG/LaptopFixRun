@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.laptopfix.laptopfixrun.Adapter.AdapterComment;
+import com.laptopfix.laptopfixrun.Adapter.CommentAdapter;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CommentController;
 import com.laptopfix.laptopfixrun.Model.Comment;
@@ -23,7 +23,7 @@ public class CommentFragment extends Fragment implements CommentController.Volle
     private View view;
     private CommentController commentController;
     private RecyclerView commentRecycler;
-    private AdapterComment adapterComment;
+    private CommentAdapter commentAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +52,7 @@ public class CommentFragment extends Fragment implements CommentController.Volle
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentRecycler.setLayoutManager(linearLayoutManager);
-        adapterComment = new AdapterComment(comments, R.layout.item_comment, getActivity());
-        commentRecycler.setAdapter(adapterComment);
+        commentAdapter = new CommentAdapter(comments, R.layout.item_comment, getActivity());
+        commentRecycler.setAdapter(commentAdapter);
     }
 }

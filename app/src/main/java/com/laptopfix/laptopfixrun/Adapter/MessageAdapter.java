@@ -1,7 +1,6 @@
 package com.laptopfix.laptopfixrun.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.laptopfix.laptopfixrun.MessageActivity;
 import com.laptopfix.laptopfixrun.Model.Chat;
 import com.laptopfix.laptopfixrun.R;
 

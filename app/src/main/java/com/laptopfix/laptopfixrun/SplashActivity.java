@@ -5,13 +5,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.WindowManager;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.laptopfix.laptopfixrun.Controller.UserController;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 
 public class SplashActivity extends Activity {
 
