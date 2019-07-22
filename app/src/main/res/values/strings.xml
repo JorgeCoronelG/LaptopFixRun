@@ -20,6 +20,7 @@
     <string name="date">Fecha de revisión</string>
     <string name="hours">Hora aproximada de llegada</string>
     <string name="describe_problem">Descripción del problema</string>
+    <string name="description">Descripción...</string>
     <string name="schedule">Agendar</string>
     <string name="pending_appointment">Citas pendientes</string>
     <string name="chat">Chat</string>
@@ -33,6 +34,12 @@
     <string name="AddComment">Agregar comentario</string>
     <string name="writeComment">Escribe tu comentario</string>
     <string name="rating">Calificación</string>
+    <string name="phone">Teléfono</string>
+    <string name="status">Estatus</string>
+    <string name="cancelS">Cancelar servicio</string>
+    <string name="repair">En reparación</string>
+    <string name="deliver">Entregar equipo</string>
+    <string name="costTe">Costo</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
@@ -56,6 +63,8 @@
     <string name="txtRegisterComplete">Su cuenta ha sido creada de manera exitosa</string>
     <string name="accept">Aceptar</string>
     <string name="title_activity_maps">Map</string>
+    <string name="chatlf">Chat con Laptop Fix</string>
+
 
     <string name="editProfile">Editar perfil</string>
     <string name="myProfile">Mi perfil</string>
@@ -91,5 +100,8 @@
     <string name="revision_home_service">Revisión: A domicilio</string>
     <string name="problem">Problema:</string>
     <string name="appoinment">Citas pendientes</string>
+    <string name="nav_serviciosTec">Servicios</string>
+    <string name="nav_actualTec">Actual(es)</string>
+    <string name="nav_perfilTec">Mi perfil</string>
 
 </resources>
