@@ -386,7 +386,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         LatLngBounds latLngBounds = boundsBuilder.build();
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, routePadding));
-        mMap.setPadding(10,10,100,200);
+        mMap.setPadding(0,0,100,100);
     }
 
     private List<LatLng> decodePoly(String encoded) {

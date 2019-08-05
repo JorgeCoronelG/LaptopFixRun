@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun.Activities;
+package com.laptopfix.laptopfixrun.Activities.LaptopFix;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,11 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.laptopfix.laptopfixrun.Activities.LoginActivity;
+import com.laptopfix.laptopfixrun.Controller.LaptopFixController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.AppointmentFragment;
-import com.laptopfix.laptopfixrun.Fragment.ChatFragment;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.CommentFragment;
-import com.laptopfix.laptopfixrun.Model.User;
+import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.R;
 
 public class HomeLFActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -54,11 +55,11 @@ public class HomeLFActivity extends AppCompatActivity implements BottomNavigatio
         int id = item.getItemId();
 
         if (id == R.id.logout) {
-            userController.setUser(new User());
+            new LaptopFixController(this).setLaptopFix(new LaptopFix());
+            userController.logout();
             Intent intent = new Intent(HomeLFActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-            return true;
         }
 
         return super.onOptionsItemSelected(item);

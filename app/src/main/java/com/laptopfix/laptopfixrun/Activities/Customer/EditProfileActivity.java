@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun.Activities;
+package com.laptopfix.laptopfixrun.Activities.Customer;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,12 +25,15 @@ import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
+import dmax.dialog.SpotsDialog;
+
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener, VolleyListener {
 
     private Toolbar toolbar;
     private EditText etName, etNumber, etEmail;
     private Button btnSave;
     private CustomerController customerController;
+    private android.app.AlertDialog dialog;
 
     //Firebase
     private FirebaseDatabase database;
@@ -81,7 +84,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()){
             case R.id.btnSave:
                 if(!checkFields()){
-                    customerController.update(getCustomer());
+                    createDialog(getString(R.string.waitAMoment));
+                    updateCustomer();
                 }
                 break;
         }
@@ -108,37 +112,18 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         return customer;
     }
 
-    @Override
-    public void requestFinished(int code) {
-        if(code == CommunicationCode.CODE_CUSTOMER_UPDATE){
-            updateCustomer();
-        }
-    }
-
     private void updateCustomer(){
-        Customer customer = customerController.getCustomer();
-        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(customer)
+        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(getCustomer())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        customerController.getDialog().dismiss();
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfileActivity.this);
-                        builder.setMessage(getString(R.string.txtSave));
-                        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                onBackPressed();
-                            }
-                        });
-                        builder.setCancelable(false);
-                        builder.show();
+                        customerController.update(getCustomer());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        customerController.getDialog().dismiss();
+                        dialog.dismiss();
                         Toast.makeText(EditProfileActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -158,4 +143,35 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         finish();
     }
 
+    @Override
+    public void onSuccess(int code) {
+        if(code == CommunicationCode.CODE_CUSTOMER_UPDATE){
+            dialog.dismiss();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(EditProfileActivity.this);
+            builder.setMessage(getString(R.string.txtSave));
+            builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBackPressed();
+                }
+            });
+            builder.setCancelable(false);
+            builder.show();
+        }
+    }
+
+    @Override
+    public void onFailure(String error) {
+        dialog.dismiss();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    public void createDialog(String message){
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage(message)
+                .build();
+        dialog.show();
+    }
 }

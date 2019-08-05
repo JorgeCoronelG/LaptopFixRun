@@ -67,8 +67,11 @@
 
 
     <string name="editProfile">Editar perfil</string>
+    <string name="changePassword">Cambiar contraseña</string>
+    <string name="writePassword">Escribe la nueva contraseña</string>
     <string name="myProfile">Mi perfil</string>
     <string name="txtSave">¡Datos guardados correctamente!</string>
+    <string name="txtPasswordSave">Se ha cambiado tu contraseña</string>
     <string name="ok">OK</string>
     <string name="nav_cita">Citas</string>
     <string name="nav_chat">Chat</string>

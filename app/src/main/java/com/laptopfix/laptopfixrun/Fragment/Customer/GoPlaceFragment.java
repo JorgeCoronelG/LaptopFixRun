@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
-import com.laptopfix.laptopfixrun.Activities.HomeCustomerActivity;
+import com.laptopfix.laptopfixrun.Activities.Customer.HomeCustomerActivity;
 import com.laptopfix.laptopfixrun.Model.Date;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;

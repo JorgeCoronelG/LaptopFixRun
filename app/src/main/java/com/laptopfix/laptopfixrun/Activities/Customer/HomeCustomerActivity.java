@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun.Activities;
+package com.laptopfix.laptopfixrun.Activities.Customer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,16 +14,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Fragment.Customer.AppointmentFragment;
-import com.laptopfix.laptopfixrun.Fragment.Customer.ChatCusFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.CommentFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.PlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.ProfileFragment;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Model.User;
 import com.laptopfix.laptopfixrun.R;
 
 public class HomeCustomerActivity extends AppCompatActivity
@@ -113,7 +113,8 @@ public class HomeCustomerActivity extends AppCompatActivity
                 fragment = new CommentFragment();
                 break;
             case R.id.nav_closeSession:
-                customerController.setCustomer(new Customer("", null, null, new User()));
+                customerController.setCustomer(new Customer());
+                new UserController(this).logout();
 
                 Intent intent = new Intent(HomeCustomerActivity.this, LoginActivity.class);
                 startActivity(intent);

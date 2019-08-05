@@ -76,7 +76,7 @@ public class DateController {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("idCus", String.valueOf(date.getCustomer().getIdCus()));
+                map.put("idCus", String.valueOf(date.getCustomer().getId()));
                 map.put("date", date.getDate());
                 map.put("hour", date.getHour());
                 map.put("residence", date.getResidenceCus());
@@ -190,7 +190,7 @@ public class DateController {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("id", String.valueOf(customer.getIdCus()));
+                map.put("id", String.valueOf(customer.getId()));
                 return map;
             }
         };

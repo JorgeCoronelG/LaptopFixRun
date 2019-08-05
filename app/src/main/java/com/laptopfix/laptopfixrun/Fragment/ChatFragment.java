@@ -1,8 +1,6 @@
 package com.laptopfix.laptopfixrun.Fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import com.laptopfix.laptopfixrun.Adapter.CustomerAdapter;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Model.User;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
@@ -98,7 +95,7 @@ public class ChatFragment extends Fragment {
 
                         assert customer != null;
                         assert fuser != null;
-                        if (!customer.getIdCus().equals(fuser.getUid())) {
+                        if (!customer.getId().equals(fuser.getUid())) {
                             mCustomer.add(customer);
                         }
                     }
@@ -137,7 +134,7 @@ public class ChatFragment extends Fragment {
                         assert customer != null;
                         assert firebaseUser != null;
                         //mCustomer.add(customer);
-                    if (!customer.getIdCus().equals(firebaseUser.getUid())){
+                    if (!customer.getId().equals(firebaseUser.getUid())){
                         mCustomer.add(customer);
                     }
 

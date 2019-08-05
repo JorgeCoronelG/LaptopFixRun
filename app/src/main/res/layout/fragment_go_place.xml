@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Customer.GoPlaceFragment">
+    tools:context=".Fragment.Customer.GoPlaceFragment"
+    android:layout_marginTop="?attr/actionBarSize">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
             android:text="@string/schedule_c"
             android:textSize="30dp"
             android:textColor="@android:color/black"

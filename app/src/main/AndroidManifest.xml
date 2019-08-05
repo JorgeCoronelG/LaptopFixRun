@@ -20,24 +20,24 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activities.HomeCustomerActivity"
+            android:name=".Activities.Customer.HomeCustomerActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.CompleteActivity"
+            android:name=".Activities.Customer.CompleteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.HomeLFActivity"
+            android:name=".Activities.LaptopFix.HomeLFActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.HomeLFActivity"
+            android:name=".Activities.LaptopFix.HomeLFActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.RegisterActivity"
+            android:name=".Activities.Customer.RegisterActivity"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.EditProfileActivity"
+            android:name=".Activities.Customer.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
             android:screenOrientation="portrait" />
         <activity

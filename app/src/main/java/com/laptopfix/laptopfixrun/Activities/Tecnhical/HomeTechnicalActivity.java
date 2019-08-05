@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun;
+package com.laptopfix.laptopfixrun.Activities.Tecnhical;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.laptopfix.laptopfixrun.Fragment.ChatFragment;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.AppointmentFragment;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.CommentFragment;
+import com.laptopfix.laptopfixrun.R;
 
 public class HomeTechnicalActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 

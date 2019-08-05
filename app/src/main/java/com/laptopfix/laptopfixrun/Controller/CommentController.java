@@ -74,7 +74,7 @@ public class CommentController {
                 Map map = new HashMap();
                 map.put("comment", comment.getComment());
                 map.put("score", String.valueOf(comment.getScore()));
-                map.put("idCus", String.valueOf(comment.getCustomer().getIdCus()));
+                map.put("idCus", String.valueOf(comment.getCustomer().getId()));
                 return map;
             }
         };

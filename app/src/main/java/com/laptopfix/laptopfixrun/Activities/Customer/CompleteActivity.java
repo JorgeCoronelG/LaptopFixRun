@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun.Activities;
+package com.laptopfix.laptopfixrun.Activities.Customer;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

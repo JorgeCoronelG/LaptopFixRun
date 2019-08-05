@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.Customer.ProfileFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="?attr/actionBarSize">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginTopMyProfileImg"
         android:layout_gravity="center"
         >
         <ImageView
@@ -147,13 +147,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnEdit"
+        android:id="@+id/btnChangePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginTopMyProfileButton"
         android:layout_marginRight="@dimen/marginSideBtn"
         android:layout_marginLeft="@dimen/marginSideBtn"
-        android:text="@string/editProfile"
+        android:text="@string/changePassword"
         android:textColor="@android:color/white"
         android:background="@drawable/rounded_button_blue"/>
 

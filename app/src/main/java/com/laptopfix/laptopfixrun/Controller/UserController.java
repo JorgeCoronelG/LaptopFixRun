@@ -1,10 +1,7 @@
 package com.laptopfix.laptopfixrun.Controller;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -16,35 +13,28 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Model.User;
-import com.laptopfix.laptopfixrun.R;
+import com.laptopfix.laptopfixrun.Model.LaptopFix;
+import com.laptopfix.laptopfixrun.Model.Technical;
 import com.laptopfix.laptopfixrun.Util.Common;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import dmax.dialog.SpotsDialog;
-
 public class UserController {
 
     private StringRequest request;
     private Context context;
-    private AlertDialog dialog;
+    private VolleyListener volleyListener;
 
     public UserController(Context context) {
         this.context = context;
-        dialog = new SpotsDialog.Builder()
-                .setContext(context)
-                .build();
     }
 
-    public void login(final User user){
-        createDialog(context.getString(R.string.waitAMoment));
-
-        final VolleyListener volleyListener = (VolleyListener)context;
-
+    public void login(final String email, final String password){
+        final com.laptopfix.laptopfixrun.Interface.VolleyListener volleyListener = (com.laptopfix.laptopfixrun.Interface.VolleyListener) context;
         String url = Common.URL + CommunicationPath.LOGIN;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -57,51 +47,47 @@ public class UserController {
 
                         if(dataUser.getInt("typeUser") == Common.TYPE_USER_LAPTOP_FIX){
 
-                            user.setEmail(dataUser.getString("email"));
-                            user.setPassword(dataUser.getString("password"));
-                            user.setIdTypeUser(dataUser.getInt("typeUser"));
-                            user.setStatus(dataUser.getInt("status"));
+                            volleyListener.onSuccess(CommunicationCode.CODE_LOGIN_LAPTOP_FIX);
 
-                            setUser(user);
-
-                            volleyListener.requestFinished(CommunicationCode.CODE_LOGIN_LAPTOP_FIX);
                         }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_CUSTOMER){
+
                             Customer customer = new Customer();
-                            customer.setIdCus(dataUser.getString("id"));
+                            customer.setId(dataUser.getString("id"));
                             customer.setName(dataUser.getString("name"));
                             customer.setNumber(dataUser.getString("number"));
-                            customer.setUser(new User());
-                            customer.getUser().setEmail(dataUser.getString("email"));
-                            customer.getUser().setPassword(dataUser.getString("password"));
-                            customer.getUser().setIdTypeUser(dataUser.getInt("typeUser"));
-                            customer.getUser().setStatus(dataUser.getInt("status"));
+                            customer.setEmail(dataUser.getString("email"));
+                            new CustomerController(context).setCustomer(customer);
+                            volleyListener.onSuccess(CommunicationCode.CODE_LOGIN_CUSTOMER);
 
-                            CustomerController customerController = new CustomerController(context);
-                            customerController.setCustomer(customer);
+                        }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_TECHNICAL){
 
-                            volleyListener.requestFinished(CommunicationCode.CODE_LOGIN_CUSTOMER);
+                            Technical technical = new Technical();
+                            technical.setId(dataUser.getString("id"));
+                            technical.setName(dataUser.getString("name"));
+                            technical.setPhone(dataUser.getString("number"));
+                            technical.setEmail(dataUser.getString("email"));
+                            new TechnicalController(context).setTechnical(technical);
+                            volleyListener.onSuccess(CommunicationCode.CODE_LOGIN_TECHNICAL);
+
                         }
                     }else if(jsonObject.getInt("code") == 404){
-                        dialog.dismiss();
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        volleyListener.onFailure(jsonObject.getString("message"));
                     }
                 }catch (Exception e){
-                    dialog.dismiss();
-                    Toast.makeText(context, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    volleyListener.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                Toast.makeText(context, "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
+                volleyListener.onFailure(error.toString());
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("email", user.getEmail());
-                map.put("password", user.getPassword());
+                map.put("email", email);
+                map.put("password", password);
                 return map;
             }
         };
@@ -109,28 +95,48 @@ public class UserController {
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
-    public void setUser(User user){
-        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+    public void changePassword(final String email, final String password){
+        String url = Common.URL + CommunicationPath.CHANGE_PASSWORD;
 
-        editor.putString("email", user.getEmail());
-        editor.putString("password", user.getPassword());
-        editor.putInt("status", user.getStatus());
-        editor.putInt("typeUser", user.getIdTypeUser());
+        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getInt("code") == 200){
+                        volleyListener.onSuccess(CommunicationCode.CODE_CHANGE_PASSWORD);
+                    }else if(jsonObject.getInt("code") == 404){
+                        volleyListener.onFailure(jsonObject.getString("message"));
+                    }
+                } catch (JSONException e) {
+                    volleyListener.onFailure(e.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                volleyListener.onFailure(error.toString());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("email", email);
+                map.put("password", password);
+                return map;
+            }
+        };
 
-        editor.commit();
+        Communication.getmInstance(context).addToRequestQueue(request);
     }
 
-    public User getUser(){
-        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+    public interface VolleyListener{
+        void onSuccess(int code);
+        void onFailure(String error);
+    }
 
-        User user = new User();
-        user.setEmail(preferences.getString("email", null));
-        user.setPassword(preferences.getString("password", null));
-        user.setStatus(preferences.getInt("status", 0));
-        user.setIdTypeUser(preferences.getInt("typeUser", 0));
-
-        return user;
+    public void setVolleyListener(VolleyListener volleyListener){
+        this.volleyListener = volleyListener;
     }
 
     public int checkUser(){
@@ -139,12 +145,11 @@ public class UserController {
         return typeUser;
     }
 
-    public void createDialog(String message){
-        dialog.setMessage(message);
-        dialog.show();
-    }
+    public void logout(){
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
 
-    public AlertDialog getDialog() {
-        return dialog;
+        editor.putInt("typeUser", 0);
+        editor.commit();
     }
 }

@@ -1,5 +1,6 @@
 package com.laptopfix.laptopfixrun.Activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,22 +10,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.laptopfix.laptopfixrun.Activities.Customer.CompleteActivity;
+import com.laptopfix.laptopfixrun.Activities.Customer.HomeCustomerActivity;
+import com.laptopfix.laptopfixrun.Activities.Customer.RegisterActivity;
+import com.laptopfix.laptopfixrun.Activities.LaptopFix.HomeLFActivity;
+import com.laptopfix.laptopfixrun.Activities.Tecnhical.HomeTechnicalActivity;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
-import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Controller.LaptopFixController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Model.User;
+import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+
+import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, VolleyListener {
 
@@ -32,38 +40,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText etEmail, etPassword;
     private Button btnAccess, btnRegister;
     private UserController userController;
-    private CustomerController customerController;
+    private AlertDialog dialog;
 
     //Firebase
     private FirebaseAuth auth;
     private FirebaseDatabase database;
-    private DatabaseReference reference;
-    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null){
-                    UserController userController = new UserController(LoginActivity.this);
-                    if(userController.checkUser() == Common.TYPE_USER_LAPTOP_FIX){
-                        Intent intent = new Intent(LoginActivity.this, HomeLFActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else if(userController.checkUser() == Common.TYPE_USER_CUSTOMER){
-                        Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
-                        intent.putExtra("section", R.id.nav_establecimiento);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }
-        };
 
         //Init Firebase
         FirebaseApp.initializeApp(this);
@@ -71,7 +57,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         database = FirebaseDatabase.getInstance();
 
         userController = new UserController(this);
-        customerController = new CustomerController(this);
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -87,7 +72,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.btnAccess:
                 if(!checkFields()){
-                    userController.login(getUser());
+                    createDialog(getString(R.string.waitAMoment));
+                    final String email = etEmail.getText().toString();
+                    final String password = etPassword.getText().toString();
+                    loginFirebase(email, password);
                 }
                 break;
             case R.id.btnRegister:
@@ -98,11 +86,59 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public User getUser(){
-        User user = new User();
-        user.setEmail(etEmail.getText().toString());
-        user.setPassword(etPassword.getText().toString());
-        return user;
+    private void loginFirebase(final String email, final String password) {
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        userController.login(email, password);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
+                        Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    public void onSuccess(int code) {
+        dialog.dismiss();
+        if(code == CommunicationCode.CODE_LOGIN_LAPTOP_FIX){
+            LaptopFix laptopFix = new LaptopFix();
+            laptopFix.setId(auth.getUid());
+            laptopFix.setEmail(etEmail.getText().toString());
+            new LaptopFixController(this).setLaptopFix(laptopFix);
+
+            Intent intent = new Intent(LoginActivity.this, HomeLFActivity.class);
+            startActivity(intent);
+            finish();
+        }else if(code == CommunicationCode.CODE_LOGIN_CUSTOMER){
+            Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
+            intent.putExtra("section", R.id.nav_establecimiento);
+            startActivity(intent);
+            finish();
+        }else if(code == CommunicationCode.CODE_LOGIN_TECHNICAL){
+            Intent intent = new Intent(LoginActivity.this, HomeTechnicalActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
+    public void onFailure(String error) {
+        dialog.dismiss();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    public void createDialog(String message){
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage(message)
+                .build();
+        dialog.show();
     }
 
     private boolean checkFields() {
@@ -117,75 +153,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void requestFinished(int code) {
-        if(code == CommunicationCode.CODE_LOGIN_CUSTOMER){
-            checkCustomer();
-        }else if(code == CommunicationCode.CODE_LOGIN_LAPTOP_FIX){
-            checkUser();
-        }
-    }
-
-    private void checkCustomer() {
-        Customer customer = customerController.getCustomer();
-        reference = database.getReference(Common.CUSTOMER_TABLE);
-        auth.signInWithEmailAndPassword(customer.getUser().getEmail(), customer.getUser().getPassword())
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        customerController.getDialog().dismiss();
-
-                        Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
-                        intent.putExtra("section", R.id.nav_establecimiento);
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        customerController.getDialog().dismiss();
-                        Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void checkUser(){
-        User user = userController.getUser();
-        reference = database.getReference(Common.LAPTOP_FIX_TABLE);
-        auth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        userController.getDialog().dismiss();
-
-                        Intent intent = new Intent(LoginActivity.this, HomeLFActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        userController.getDialog().dismiss();
-                        Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(mAuthListener != null){
-            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
-        }
     }
 }

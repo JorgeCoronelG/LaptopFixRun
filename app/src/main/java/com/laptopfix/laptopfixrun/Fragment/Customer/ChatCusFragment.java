@@ -25,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Adapter.MessageAdapter;
-import com.laptopfix.laptopfixrun.MessageActivity;
+import com.laptopfix.laptopfixrun.Activities.MessageActivity;
 import com.laptopfix.laptopfixrun.Model.Chat;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
@@ -45,15 +45,15 @@ public class ChatCusFragment extends Fragment {
     private FirebaseUser fuser;
     private DatabaseReference reference;
 
-    ImageButton btn_send;
-    EditText text_send;
+    private ImageButton btn_send;
+    private EditText text_send;
 
-    MessageAdapter messageAdapter;
-    List<Chat> mChat;
+    private MessageAdapter messageAdapter;
+    private List<Chat> mChat;
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
-    Intent intent;
+    private Intent intent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

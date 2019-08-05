@@ -39,7 +39,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MessageActivity.class);
-                intent.putExtra("userid", customer.getIdCus());
+                intent.putExtra("userid", customer.getId());
                 mContext.startActivity(intent);
             }
         });

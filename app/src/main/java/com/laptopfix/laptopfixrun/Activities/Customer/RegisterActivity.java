@@ -1,5 +1,6 @@
-package com.laptopfix.laptopfixrun.Activities;
+package com.laptopfix.laptopfixrun.Activities.Customer;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,19 +19,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Model.User;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
+
+import dmax.dialog.SpotsDialog;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, VolleyListener {
 
     private EditText etName, etNumber, etEmail, etPassword;
     private Button btnCreateAccount;
     private CustomerController customerController;
+    private AlertDialog dialog;
 
     //Firebase
     private FirebaseAuth auth;
@@ -85,44 +89,37 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.btnCreateAccount:
                 if(!checkFields()){
-                    customerController.insert(getCustomer());
+                    createDialog(getString(R.string.waitAMoment));
+                    registerCustomer();
                 }
                 break;
         }
     }
 
-    @Override
-    public void requestFinished(int code) {
-        if(code == CommunicationCode.CODE_CUSTOMER_INSERT){
-            registerCustomer();
-        }
-    }
-
     private void registerCustomer() {
-        final Customer customer = customerController.getCustomer();
-        auth.createUserWithEmailAndPassword(customer.getUser().getEmail(), customer.getUser().getPassword())
+        final String email = etEmail.getText().toString();
+        final String password = etPassword.getText().toString();
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         //Save customer to db
                         FirebaseUser firebaseUser = auth.getCurrentUser();
-                        customer.setIdCus(firebaseUser.getUid());
+                        final Customer customer = getCustomer();
+                        customer.setId(firebaseUser.getUid());
+
                         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(customer)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        customerController.getDialog().dismiss();
-
-                                        Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
-                                        startActivity(intent);
-                                        finish();
+                                        customerController.insert(customer, password);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        customerController.getDialog().dismiss();
-                                        Toast.makeText(RegisterActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
@@ -130,24 +127,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        customerController.getDialog().dismiss();
-                        Toast.makeText(RegisterActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private Customer getCustomer(){
+    private Customer getCustomer() {
         Customer customer = new Customer();
         customer.setName(etName.getText().toString());
         customer.setNumber(etNumber.getText().toString());
-
-        User user = new User();
-        user.setEmail(etEmail.getText().toString());
-        user.setPassword(etPassword.getText().toString());
-        user.setStatus(1);
-        user.setIdTypeUser(2);//2 es el cliente
-
-        customer.setUser(user);
+        customer.setEmail(etEmail.getText().toString());
 
         return customer;
     }
@@ -173,5 +163,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onSuccess(int code) {
+        if(code == CommunicationCode.CODE_CUSTOMER_INSERT){
+            dialog.dismiss();
+            
+            Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
+    public void onFailure(String error) {
+        dialog.dismiss();
+
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    public void createDialog(String message){
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage(message)
+                .build();
+        dialog.show();
     }
 }

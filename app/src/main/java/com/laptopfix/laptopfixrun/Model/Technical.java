@@ -1,19 +1,19 @@
 package com.laptopfix.laptopfixrun.Model;
 
-public class Customer {
+public class Technical {
 
     private String id;
     private String name;
-    private String number;
+    private String phone;
     private String email;
 
-    public Customer() {
+    public Technical() {
     }
 
-    public Customer(String id, String name, String number, String email) {
+    public Technical(String id, String name, String phone, String email) {
         this.id = id;
         this.name = name;
-        this.number = number;
+        this.phone = phone;
         this.email = email;
     }
 
@@ -33,12 +33,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -48,4 +48,5 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

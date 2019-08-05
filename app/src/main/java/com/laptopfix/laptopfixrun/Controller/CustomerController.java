@@ -1,6 +1,5 @@
 package com.laptopfix.laptopfixrun.Controller;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
@@ -15,8 +14,6 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Model.User;
-import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
 import org.json.JSONObject;
@@ -24,23 +21,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import dmax.dialog.SpotsDialog;
-
 public class CustomerController {
 
     private StringRequest request;
     private Context context;
-    private AlertDialog dialog;
 
     public CustomerController(Context context) {
         this.context = context;
-        dialog = new SpotsDialog.Builder()
-                .setContext(context)
-                .build();
     }
 
-    public void insert(final Customer customer){
-        createDialog(context.getString(R.string.waitAMoment));
+    public void insert(final Customer customer, final String password){
 
         final VolleyListener volleyListener = (VolleyListener)context;
 
@@ -52,36 +42,30 @@ public class CustomerController {
                 try{
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
-                        JSONObject dataCustomer = jsonObject.getJSONObject("customer");
-                        customer.setIdCus(dataCustomer.getString("id"));
-                        customer.getUser().setPassword(dataCustomer.getString("password"));
-                        customer.getUser().setIdTypeUser(dataCustomer.getInt("typeUser"));
-                        customer.getUser().setStatus(dataCustomer.getInt("status"));
 
                         setCustomer(customer);
 
-                        volleyListener.requestFinished(CommunicationCode.CODE_CUSTOMER_INSERT);
+                        volleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_INSERT);
+
                     }else if(jsonObject.getInt("code") == 404){
-                        dialog.dismiss();
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        volleyListener.onFailure(jsonObject.getString("message"));
                     }
                 }catch (Exception e){
-                    dialog.dismiss();
-                    Toast.makeText(context, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    volleyListener.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                Toast.makeText(context, "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
+                volleyListener.onFailure(error.toString());
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("email", customer.getUser().getEmail());
-                map.put("password", customer.getUser().getPassword());
+                map.put("id", customer.getId());
+                map.put("email", customer.getEmail());
+                map.put("password", password);
                 map.put("name", customer.getName());
                 map.put("number", customer.getNumber());
                 return map;
@@ -92,7 +76,6 @@ public class CustomerController {
     }
 
     public void update(final Customer customer){
-        createDialog(context.getString(R.string.waitAMoment));
 
         final VolleyListener volleyListener = (VolleyListener)context;
 
@@ -110,24 +93,24 @@ public class CustomerController {
 
                         setCustomer(customer);
 
-                        volleyListener.requestFinished(CommunicationCode.CODE_CUSTOMER_UPDATE);
+                        volleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_UPDATE);
+                    }else if(jsonObject.getInt("code") == 404){
+                        volleyListener.onFailure(jsonObject.getString("message"));
                     }
                 }catch (Exception e){
-                    dialog.dismiss();
-                    Toast.makeText(context, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    volleyListener.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                Toast.makeText(context, "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
+                volleyListener.onFailure(error.toString());
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("id", String.valueOf(customer.getIdCus()));
+                map.put("id", customer.getId());
                 map.put("name", customer.getName());
                 map.put("number", customer.getNumber());
                 return map;
@@ -141,13 +124,11 @@ public class CustomerController {
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putString("id", customer.getIdCus());
+        editor.putString("id", customer.getId());
         editor.putString("name", customer.getName());
         editor.putString("number", customer.getNumber());
-        editor.putString("email", customer.getUser().getEmail());
-        editor.putString("password", customer.getUser().getPassword());
-        editor.putInt("status", customer.getUser().getStatus());
-        editor.putInt("typeUser", customer.getUser().getIdTypeUser());
+        editor.putString("email", customer.getEmail());
+        editor.putInt("typeUser", Common.TYPE_USER_CUSTOMER);
 
         editor.commit();
     }
@@ -156,27 +137,11 @@ public class CustomerController {
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
 
         Customer customer = new Customer();
-        customer.setIdCus(preferences.getString("id", null));
+        customer.setId(preferences.getString("id", null));
         customer.setName(preferences.getString("name", null));
         customer.setNumber(preferences.getString("number", null));
-
-        User user = new User();
-        user.setEmail(preferences.getString("email", null));
-        user.setPassword(preferences.getString("password", null));
-        user.setStatus(preferences.getInt("status", 0));
-        user.setIdTypeUser(preferences.getInt("typeUser", 0));
-
-        customer.setUser(user);
+        customer.setEmail(preferences.getString("email", null));
 
         return customer;
-    }
-
-    public void createDialog(String message){
-        dialog.setMessage(message);
-        dialog.show();
-    }
-
-    public AlertDialog getDialog() {
-        return dialog;
     }
 }

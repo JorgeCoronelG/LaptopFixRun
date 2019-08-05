@@ -27,6 +27,7 @@
     <dimen name="txtItemComment">16sp</dimen>
     <dimen name="marginItemComment">15dp</dimen>
     <dimen name="marginTxtItemComment">10dp</dimen>
+    <dimen name="txtSizeChangePassword">25sp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
