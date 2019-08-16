@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.MessageActivity"></activity>
+        <activity android:name=".Activities.Customer.MessageSoporteActivity"></activity>
+        <activity android:name=".Activities.MessageActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -25,9 +26,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.Customer.CompleteActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activities.LaptopFix.HomeLFActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.LaptopFix.HomeLFActivity"

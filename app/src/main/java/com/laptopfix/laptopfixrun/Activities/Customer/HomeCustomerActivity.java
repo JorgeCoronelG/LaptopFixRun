@@ -18,6 +18,8 @@ import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Fragment.Customer.AppointmentFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.ChatCusFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.ChatSoporteFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.CommentFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
@@ -109,8 +111,8 @@ public class HomeCustomerActivity extends AppCompatActivity
             case R.id.nav_cPendiente:
                 fragment = new AppointmentFragment();
                 break;
-            case R.id.nav_comentario:
-                fragment = new CommentFragment();
+            case R.id.nav_chat:
+                fragment = new ChatSoporteFragment();
                 break;
             case R.id.nav_closeSession:
                 customerController.setCustomer(new Customer());
