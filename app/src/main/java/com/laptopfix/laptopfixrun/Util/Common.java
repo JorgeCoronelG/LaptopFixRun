@@ -1,12 +1,15 @@
 package com.laptopfix.laptopfixrun.Util;
 
+import android.location.Location;
+
 import com.laptopfix.laptopfixrun.Remote.IGoogleAPI;
 import com.laptopfix.laptopfixrun.Remote.RetrofitClient;
 
 public class Common {
 
-    public static final String URL = "http://192.168.1.67/LaptopFixRun/";
+    public static final String URL = "http://192.168.1.83/LaptopFixRun/";
 
+    public static Location mLastLocation;
     public static final double LATITUDE_LAPTOP_FIX = 20.583994;
     public static final double LONGITUDE_LAPTOP_FIX = -100.395728;
     public static final int WIDTH_ROUTE = 10;

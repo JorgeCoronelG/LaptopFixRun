@@ -81,6 +81,7 @@
     <string name="gps_disable">GPS desactivado</string>
     <string name="active_gps">Es necesario activar el GPS</string>
     <string name="google_direction_api">AIzaSyDAkgi6RLo4sm06Q-70iZvQHAsAj7zqkyE</string>
+    <string name="google_server_key">AIzaSyCkoXyGjbZ2T17Zd9wElrdKYMB8oEjyXa0</string>
     <string name="hour_is_selected_before_date">Debes elegir primero una fecha para la cita</string>
     <string name="schedule_appointment">Cita agendada</string>
     <string name="contact_with_technical_support">Mantente en contacto con soporte para aclaraciones o dudas</string>

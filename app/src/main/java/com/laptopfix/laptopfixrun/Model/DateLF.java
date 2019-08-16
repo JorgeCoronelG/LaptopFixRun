@@ -1,32 +1,30 @@
 package com.laptopfix.laptopfixrun.Model;
 
-public class Date {
+public class DateLF {
 
-    private int idDate;
+    private int id;
     private Customer customer;
     private String date;
     private String hour;
-    private String residenceCus;
     private String desProblem;
 
-    public Date() {
+    public DateLF() {
     }
 
-    public Date(int idDate, Customer customer, String date, String hour, String residenceCus, String desProblem) {
-        this.idDate = idDate;
+    public DateLF(int id, Customer customer, String date, String hour, String desProblem) {
+        this.id = id;
         this.customer = customer;
         this.date = date;
         this.hour = hour;
-        this.residenceCus = residenceCus;
         this.desProblem = desProblem;
     }
 
-    public int getIdDate() {
-        return idDate;
+    public int getId() {
+        return id;
     }
 
-    public void setIdDate(int idDate) {
-        this.idDate = idDate;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Customer getCustomer() {
@@ -51,14 +49,6 @@ public class Date {
 
     public void setHour(String hour) {
         this.hour = hour;
-    }
-
-    public String getResidenceCus() {
-        return residenceCus;
-    }
-
-    public void setResidenceCus(String residenceCus) {
-        this.residenceCus = residenceCus;
     }
 
     public String getDesProblem() {

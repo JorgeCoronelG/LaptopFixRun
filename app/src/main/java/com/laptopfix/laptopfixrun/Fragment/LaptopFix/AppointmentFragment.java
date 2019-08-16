@@ -1,5 +1,6 @@
 package com.laptopfix.laptopfixrun.Fragment.LaptopFix;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,11 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.laptopfix.laptopfixrun.Adapter.DatesLFAdapter;
+import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.DateController;
-import com.laptopfix.laptopfixrun.Model.Date;
+import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
 
 import java.util.ArrayList;
+
+import dmax.dialog.SpotsDialog;
 
 public class AppointmentFragment extends Fragment implements DateController.VolleyListenerGetDates, DatesLFAdapter.OnDateListener {
 
@@ -25,7 +29,8 @@ public class AppointmentFragment extends Fragment implements DateController.Voll
     private DateController dateController;
     private RecyclerView dateRecycler;
     private DatesLFAdapter datesLFAdapter;
-    private ArrayList<Date> dates = new ArrayList<>();
+    private ArrayList<DateLF> dates = new ArrayList<>();
+    private AlertDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +41,8 @@ public class AppointmentFragment extends Fragment implements DateController.Voll
         dateController.setVolleyListenerGetDates(this);
 
         dateRecycler = view.findViewById(R.id.recyclerDates);
+
+        createDialog(getString(R.string.waitAMoment));
 
         dateController.getDatesLaptopFix();
 
@@ -49,18 +56,34 @@ public class AppointmentFragment extends Fragment implements DateController.Voll
     }
 
     @Override
-    public void requestFinished(ArrayList<Date> dates, int code) {
-        this.dates = dates;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        dateRecycler.setLayoutManager(linearLayoutManager);
-        datesLFAdapter = new DatesLFAdapter(this.dates, R.layout.item_dates_lf, getActivity(), this);
-        dateRecycler.setAdapter(datesLFAdapter);
+    public void onDateClick(int position) {
+        DateLF date = dates.get(position);
     }
 
     @Override
-    public void onDateClick(int position) {
-        Date date = dates.get(position);
-        Log.d("JCG", ""+date.getIdDate());
+    public void onSuccess(ArrayList<DateLF> dates, int code) {
+        dialog.dismiss();
+        if(code == CommunicationCode.CODE_GET_DATES_LAPTOP_FIX){
+            this.dates = dates;
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            dateRecycler.setLayoutManager(linearLayoutManager);
+            datesLFAdapter = new DatesLFAdapter(this.dates, R.layout.item_dates_lf, getActivity(), this);
+            dateRecycler.setAdapter(datesLFAdapter);
+        }
+    }
+
+    @Override
+    public void onFailure(String message) {
+        dialog.dismiss();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void createDialog(String message){
+        dialog = new SpotsDialog.Builder()
+                .setContext(getContext())
+                .setMessage(message)
+                .build();
+        dialog.show();
     }
 }
