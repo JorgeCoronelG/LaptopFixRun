@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.LaptopFixController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
+import com.laptopfix.laptopfixrun.Fragment.ChatFragment;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.AppointmentFragment;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.CommentFragment;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
@@ -75,12 +76,12 @@ public class HomeLFActivity extends AppCompatActivity implements BottomNavigatio
     private void displaySelectedScreen(int itemId){
         Fragment fragment = null;
         switch (itemId){
-            case R.id.nav_cita:
+            case R.id.nav_citaL:
                 fragment = new AppointmentFragment();
                 break;
 
-            case R.id.nav_comentario:
-                fragment = new CommentFragment();
+            case R.id.nav_chatL:
+                fragment = new ChatFragment();
                 break;
         }
         if(fragment != null){

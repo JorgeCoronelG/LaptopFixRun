@@ -5,7 +5,7 @@ import com.laptopfix.laptopfixrun.Remote.RetrofitClient;
 
 public class Common {
 
-    public static final String URL = "http://192.168.1.67/LaptopFixRun/";
+    public static final String URL = "http://192.168.1.83/LaptopFixRun/";
 
     public static final double LATITUDE_LAPTOP_FIX = 20.583994;
     public static final double LONGITUDE_LAPTOP_FIX = -100.395728;

@@ -1,17 +1,13 @@
-package com.laptopfix.laptopfixrun.Fragment.Customer;
+package com.laptopfix.laptopfixrun.Activities.Customer;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,8 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.laptopfix.laptopfixrun.Adapter.MessageAdapter;
 import com.laptopfix.laptopfixrun.Activities.MessageActivity;
+import com.laptopfix.laptopfixrun.Adapter.MessageAdapter;
 import com.laptopfix.laptopfixrun.Model.Chat;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
@@ -36,65 +32,78 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-public class ChatCusFragment extends Fragment {
-
+public class MessageSoporteActivity extends AppCompatActivity {
 
     private TextView username;
 
     private FirebaseUser fuser;
     private DatabaseReference reference;
 
-    private ImageButton btn_send;
-    private EditText text_send;
+    ImageButton btn_send;
+    EditText text_send;
 
-    private MessageAdapter messageAdapter;
-    private List<Chat> mChat;
+    MessageAdapter messageAdapter;
+    List<Chat> mChat;
 
+    RecyclerView recyclerView;
 
-    private RecyclerView recyclerView;
-
-    private Intent intent;
+    Intent intent;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_chat_cus, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_message_soporte);
 
-        recyclerView = view.findViewById(R.id.Crecycler_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        btn_send = view.findViewById(R.id.Cbtn_send);
-        text_send = view.findViewById(R.id.Ctext_send);
+        username = findViewById(R.id.username);
+        btn_send = findViewById(R.id.btn_send);
+        text_send = findViewById(R.id.text_send);
 
-        reference = FirebaseDatabase.getInstance().getReference(Common.LAPTOP_FIX_TABLE).child("userid");
+        intent = getIntent();
 
-        intent = getActivity().getIntent();
         final String userid = intent.getStringExtra("userid");
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String msg = text_send.getText().toString();
                 if (!msg.equals("")){
-                    sendMessage(fuser.getUid(), userid ,msg);
+                    sendMessage(fuser.getUid(), userid, msg);
                 } else {
-                    Toast.makeText(getContext(), "No puedes enviar mensajes vacios", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MessageSoporteActivity.this, "No puedes enviar mensajes vacios", Toast.LENGTH_SHORT).show();
                 }
                 text_send.setText("");
             }
         });
 
+
+
+        reference = FirebaseDatabase.getInstance().getReference(Common.LAPTOP_FIX_TABLE).child(userid);
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 LaptopFix laptopFix = dataSnapshot.getValue(LaptopFix.class);
-
+                username.setText("Soporte técnico");
 
                 readMessage(fuser.getUid(), userid);
             }
@@ -105,15 +114,7 @@ public class ChatCusFragment extends Fragment {
             }
         });
 
-        return view;
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(getString(R.string.chatlf));
-    }
-
 
     private void sendMessage(String sender, String receiver, String message){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -140,7 +141,7 @@ public class ChatCusFragment extends Fragment {
                             chat.getReceiver().equals(userid) && chat.getSender().equals(myid)){
                         mChat.add(chat);
                     }
-                    messageAdapter = new MessageAdapter(getContext(), mChat);
+                    messageAdapter = new MessageAdapter(MessageSoporteActivity.this, mChat);
                     recyclerView.setAdapter(messageAdapter);
                 }
             }
