@@ -3,34 +3,51 @@ package com.laptopfix.laptopfixrun.Fragment.Customer;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.laptopfix.laptopfixrun.Activities.Customer.ChangeAddressActivity;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
+import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -42,12 +59,13 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     private EditText etDate;
     private EditText etHour;
     private EditText etProblem;
+    private TextView txtAddress;
+    private TextView txtChangeAddress;
     private static final String CERO = "0";
     private static final String BARRA = "/";
     private static final String DOS_PUNTOS = ":";
     private int dayOfWeek;
     private String hour;
-    private PlacesClient placesClient;
     private Geocoder geocoder;
     private List<Address> addresses;
 
@@ -77,6 +95,10 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         etDate = view.findViewById(R.id.etDate);
         etHour = view.findViewById(R.id.etHour);
         etProblem = view.findViewById(R.id.etProblem);
+        txtAddress = view.findViewById(R.id.txtAddress);
+        txtChangeAddress = view.findViewById(R.id.txtChangeAddress);
+        txtChangeAddress.setText(Html.fromHtml(getResources().getString(R.string.changeAddress)));
+
         etDate.setOnFocusChangeListener(this);
         etHour.setOnFocusChangeListener(this);
         //Lineas para ocultar el teclado al dar click en el edit text
@@ -85,27 +107,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
 
         etDate.setOnClickListener(this);
         etHour.setOnClickListener(this);
-
-        if(!Places.isInitialized()){
-            Places.initialize(getContext(), getString(R.string.google_server_key));
-        }
-
-        placesClient = Places.createClient(getContext());
-
-        final AutocompleteSupportFragment autocompleteSupportFragment =
-                (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.fragmentAutocomplete);
-        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME));
-        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                //por programar
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Log.d("ERROR", status.toString());
-            }
-        });
+        txtChangeAddress.setOnClickListener(this);
 
         return view;
     }
@@ -121,7 +123,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     public void onResume() {
         super.onResume();
 
-        getDirection();
+        getDirection(Common.mLastLocation.getLatitude(), Common.mLastLocation.getLongitude());
     }
 
     @Override
@@ -132,6 +134,10 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
                 break;
             case R.id.etHour:
                 obtenerHora();
+                break;
+            case R.id.txtChangeAddress:
+                Intent intent = new Intent(getActivity(), ChangeAddressActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -219,11 +225,11 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         }
     }
 
-    private void getDirection(){
+    private void getDirection(double latitude, double longitude){
         try {
             geocoder = new Geocoder(getContext(), Locale.getDefault());
-            addresses = geocoder.getFromLocation(Common.mLastLocation.getLatitude(), Common.mLastLocation.getLongitude(), 1);
-            Log.d("DIRECCIÓN", addresses.get(0).getAddressLine(0));
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            txtAddress.setText(addresses.get(0).getAddressLine(0));
         } catch (IOException e) {
             e.printStackTrace();
         }

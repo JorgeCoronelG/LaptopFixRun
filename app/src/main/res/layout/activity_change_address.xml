@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Customer.ChangeAddressActivity"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar_toolbar"/>
+
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/searchBarPlaces"
+        android:layout_marginTop="@dimen/marginForms"
+        style="@style/MaterialSearchBarLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:mt_hint="Buscar..."
+        app:mt_speechMode="false"
+        app:mt_navIconEnabled="false"
+        app:mt_placeholder="Busca tu dirección"
+        android:elevation="5dp"
+        android:outlineProvider="bounds"/>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginTopEditProfile"
+        android:layout_marginRight="@dimen/marginSideBtn"
+        android:layout_marginLeft="@dimen/marginSideBtn"
+        android:text="@string/save"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_button_blue"/>
+
+</LinearLayout>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:text="Servicio urgente"
+                android:text="@string/serviceExpress"
                 android:textSize="16dp"
                 android:textStyle="bold"/>
 
@@ -35,19 +37,35 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginForms">
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="@string/address"
+            android:layout_marginTop="@dimen/marginForms"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"/>
 
-            <fragment
-                android:id="@+id/fragmentAutocomplete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                />
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/marginForms"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"/>
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/txtChangeAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginForms"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textAlignment="center"/>
 
         <TextView
             android:layout_width="match_parent"

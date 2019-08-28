@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.Customer.MessageSoporteActivity"></activity>
+        <activity android:name=".Activities.Customer.ChangeAddressActivity"></activity>
+        <activity android:name=".Activities.Customer.MessageSoporteActivity" />
         <activity android:name=".Activities.MessageActivity" />
 
         <meta-data

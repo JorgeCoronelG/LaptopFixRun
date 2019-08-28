@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Remote.IGoogleAPI;
@@ -101,14 +102,13 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         btnHowArrived.setEnabled(true);
         btnHowArrived.setOnClickListener(this);
 
-        setUpLocation();
-
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             alertNoGps();
         }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
         createLocationRequest();
         mLocationCallback = new LocationCallback(){
             @Override
@@ -122,8 +122,6 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                         if (mFusedLocationClient != null) {
                             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                         }
-                    }else{
-                        Log.d("Location", "is null");
                     }
                 }
             }
@@ -132,6 +130,8 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         polyLineList = new ArrayList<>();
         mService = Common.getGoogleAPI();
         isClicked = false;
+
+        setUpLocation();
 
         return view;
     }
@@ -184,9 +184,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         } else {
             if (checkPlayServices()) {
                 createLocationRequest();
-                if(isClicked){
-                    displayLocation();
-                }
+                displayLocation();
             }
         }
     }
@@ -228,17 +226,19 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
             if (Common.mLastLocation != null) {
                 mMap.clear();
                 addMarkerLF();
-                final double latitude = Common.mLastLocation.getLatitude();
-                final double longitude = Common.mLastLocation.getLongitude();
+                if(isClicked){
+                    final double latitude = Common.mLastLocation.getLatitude();
+                    final double longitude = Common.mLastLocation.getLongitude();
 
-                if (mCurrent != null) {
-                    mCurrent.remove();
+                    if (mCurrent != null) {
+                        mCurrent.remove();
+                    }
+                    mCurrent = mMap.addMarker(new MarkerOptions()
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
+                            .position(new LatLng(latitude, longitude))
+                            .title(getString(R.string.you)));
+                    getDirection();
                 }
-                mCurrent = mMap.addMarker(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
-                        .position(new LatLng(latitude, longitude))
-                        .title(getString(R.string.you)));
-                getDirection();
             } else {
                 startLocationUpdates();
             }
@@ -383,7 +383,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         for (LatLng latLngPoint : lstLatLngRoute)
             boundsBuilder.include(latLngPoint);
 
-        int routePadding = 200;
+        int routePadding = 250;
         LatLngBounds latLngBounds = boundsBuilder.build();
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, routePadding));
