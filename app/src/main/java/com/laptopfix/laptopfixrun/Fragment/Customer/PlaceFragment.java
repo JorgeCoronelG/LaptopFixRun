@@ -71,7 +71,6 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
     private LocationManager locationManager;
-    private Location mLastLocation;
     private Marker mCurrent;
     private Button btnHowArrived;
     private LocationCallback mLocationCallback;
@@ -119,10 +118,12 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
-                        mLastLocation = location;
+                        Common.mLastLocation = location;
                         if (mFusedLocationClient != null) {
-                            //mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+                            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                         }
+                    }else{
+                        Log.d("Location", "is null");
                     }
                 }
             }
@@ -223,12 +224,12 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     @Override
     public void onComplete(@NonNull Task<Location> task) {
         if (task.isSuccessful()) {
-            mLastLocation = task.getResult();
-            if (mLastLocation != null) {
+            Common.mLastLocation = task.getResult();
+            if (Common.mLastLocation != null) {
                 mMap.clear();
                 addMarkerLF();
-                final double latitude = mLastLocation.getLatitude();
-                final double longitude = mLastLocation.getLongitude();
+                final double latitude = Common.mLastLocation.getLatitude();
+                final double longitude = Common.mLastLocation.getLongitude();
 
                 if (mCurrent != null) {
                     mCurrent.remove();
@@ -245,7 +246,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     }
 
     private void getDirection() {
-        currentPosition = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        currentPosition = new LatLng(Common.mLastLocation.getLatitude(), Common.mLastLocation.getLongitude());
 
         String requestApi = null;
         try {
@@ -335,7 +336,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation = location;
+        Common.mLastLocation = location;
         Toast.makeText(getContext(), "Cambió tu locación", Toast.LENGTH_SHORT).show();
         if(isClicked){
             displayLocation();
@@ -382,11 +383,11 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         for (LatLng latLngPoint : lstLatLngRoute)
             boundsBuilder.include(latLngPoint);
 
-        int routePadding = 100;
+        int routePadding = 200;
         LatLngBounds latLngBounds = boundsBuilder.build();
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, routePadding));
-        mMap.setPadding(0,0,100,100);
+        mMap.setPadding(10,100, 10,300);
     }
 
     private List<LatLng> decodePoly(String encoded) {

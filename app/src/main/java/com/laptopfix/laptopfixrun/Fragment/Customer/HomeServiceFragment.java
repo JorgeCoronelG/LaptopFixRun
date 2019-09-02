@@ -3,12 +3,15 @@ package com.laptopfix.laptopfixrun.Fragment.Customer;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +20,21 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class HomeServiceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener {
 
@@ -33,6 +47,9 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     private static final String DOS_PUNTOS = ":";
     private int dayOfWeek;
     private String hour;
+    private PlacesClient placesClient;
+    private Geocoder geocoder;
+    private List<Address> addresses;
 
     //Calendario para obtener fecha & hora
     public final Calendar c = Calendar.getInstance();
@@ -69,6 +86,27 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         etDate.setOnClickListener(this);
         etHour.setOnClickListener(this);
 
+        if(!Places.isInitialized()){
+            Places.initialize(getContext(), getString(R.string.google_server_key));
+        }
+
+        placesClient = Places.createClient(getContext());
+
+        final AutocompleteSupportFragment autocompleteSupportFragment =
+                (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.fragmentAutocomplete);
+        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME));
+        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                //por programar
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.d("ERROR", status.toString());
+            }
+        });
+
         return view;
     }
 
@@ -80,12 +118,18 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        getDirection();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.etDate:
                 obtenerFecha();
                 break;
-
             case R.id.etHour:
                 obtenerHora();
                 break;
@@ -94,19 +138,16 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-
         if(hasFocus){
             switch (v.getId()){
                 case R.id.etDate:
                     obtenerFecha();
                     break;
-
                 case R.id.etHour:
                     obtenerHora();
                     break;
             }
         }
-
     }
 
     private void obtenerFecha(){
@@ -175,6 +216,16 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         }else{
             Toast.makeText(getContext(), "El horario entre semana es de 9 a 19 hrs.", Toast.LENGTH_LONG).show();
             return false;
+        }
+    }
+
+    private void getDirection(){
+        try {
+            geocoder = new Geocoder(getContext(), Locale.getDefault());
+            addresses = geocoder.getFromLocation(Common.mLastLocation.getLatitude(), Common.mLastLocation.getLongitude(), 1);
+            Log.d("DIRECCIÓN", addresses.get(0).getAddressLine(0));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -7,18 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.laptopfix.laptopfixrun.Model.Date;
+import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
 
 import java.util.ArrayList;
 
 public class DatesCustomerAdapter extends RecyclerView.Adapter<DatesCustomerAdapter.DatesCustomerViewHolder> {
 
-    private ArrayList<Date> dates;
+    private ArrayList<DateLF> dates;
     private int resource;
     private Activity activity;
 
-    public DatesCustomerAdapter(ArrayList<Date> dates, int resource, Activity activity) {
+    public DatesCustomerAdapter(ArrayList<DateLF> dates, int resource, Activity activity) {
         this.dates = dates;
         this.resource = resource;
         this.activity = activity;
@@ -32,14 +32,14 @@ public class DatesCustomerAdapter extends RecyclerView.Adapter<DatesCustomerAdap
 
     @Override
     public void onBindViewHolder(DatesCustomerViewHolder holder, int position) {
-        Date date = dates.get(position);
+        DateLF date = dates.get(position);
         holder.txtDate.setText(date.getDate());
         holder.txtHour.setText(date.getHour());
-        if(date.getResidenceCus().equals(activity.getString(R.string.na))){
+        /*if(date.getResidenceCus().equals(activity.getString(R.string.na))){
             holder.txtRevision.setText(activity.getString(R.string.revision_laptop_fix));
         }else{
             holder.txtRevision.setText(activity.getString(R.string.revision_home_service));
-        }
+        }*/
         holder.txtProblem.setText(date.getDesProblem());
     }
 

@@ -23,11 +23,13 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
 import com.laptopfix.laptopfixrun.Activities.Customer.HomeCustomerActivity;
-import com.laptopfix.laptopfixrun.Model.Date;
+import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
 import java.util.Calendar;
+
+import dmax.dialog.SpotsDialog;
 
 
 public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener, DateController.VolleyListener {
@@ -43,6 +45,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     private String hour;
     private DateController dateController;
     private int dayOfWeek;
+    private android.app.AlertDialog dialog;
 
     //Calendario para obtener fecha & hora
     public final Calendar c = Calendar.getInstance();
@@ -172,6 +175,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
                 break;
             case R.id.btnSchedule:
                 if(checkFields()){
+                    createDialog(getString(R.string.waitAMoment));
                     dateController.insert(getDate());
                 }
                 break;
@@ -192,12 +196,11 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
         return true;
     }
 
-    private Date getDate(){
-        Date date = new Date();
+    private DateLF getDate(){
+        DateLF date = new DateLF();
         date.setCustomer(new CustomerController(getContext()).getCustomer());
         date.setDate(etDate.getText().toString());
         date.setHour(hour);
-        date.setResidenceCus("NA");
         date.setDesProblem(etProblem.getText().toString());
         return date;
     }
@@ -227,8 +230,9 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     }
 
     @Override
-    public void requestFinished(int code) {
-        if(code == CommunicationCode.CODE_DATE_INSERT){
+    public void onSuccess(int code) {
+        dialog.dismiss();
+        if(code == CommunicationCode.CODE_DATE_INSERT) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle(getString(R.string.schedule_appointment));
             builder.setMessage(getString(R.string.contact_with_technical_support));
@@ -244,5 +248,19 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
             builder.setCancelable(false);
             builder.show();
         }
+    }
+
+    @Override
+    public void onFailure(String message) {
+        dialog.dismiss();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void createDialog(String message){
+        dialog = new SpotsDialog.Builder()
+                .setContext(getContext())
+                .setMessage(message)
+                .build();
+        dialog.show();
     }
 }

@@ -1,9 +1,6 @@
 package com.laptopfix.laptopfixrun.Controller;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -13,10 +10,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Communication.Communication;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
-import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
-import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Model.Date;
+import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 
@@ -28,13 +23,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import dmax.dialog.SpotsDialog;
-
 public class DateController {
 
     private StringRequest request;
     private Context context;
-    private AlertDialog dialog;
     private VolleyListener mVolleyListener;
     private VolleyListenerGetDates mVolleyListenerGetDates;
 
@@ -42,9 +34,7 @@ public class DateController {
         this.context = context;
     }
 
-    public void insert(final Date date){
-        createDialog(context.getString(R.string.waitAMoment));
-
+    public void insert(final DateLF date){
         String url = Common.URL + CommunicationPath.DATE_INSERT;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -53,24 +43,20 @@ public class DateController {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
-                        dialog.dismiss();
                         if(mVolleyListener != null){
-                            mVolleyListener.requestFinished(CommunicationCode.CODE_DATE_INSERT);
+                            mVolleyListener.onSuccess(CommunicationCode.CODE_DATE_INSERT);
                         }
                     }else{
-                        dialog.dismiss();
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        mVolleyListener.onFailure(jsonObject.getString("message"));
                     }
                 } catch (JSONException e) {
-                    dialog.dismiss();
-                    Toast.makeText(context, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    mVolleyListener.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                Toast.makeText(context, "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
+                mVolleyListener.onFailure(error.toString());
             }
         }){
             @Override
@@ -79,7 +65,6 @@ public class DateController {
                 map.put("idCus", String.valueOf(date.getCustomer().getId()));
                 map.put("date", date.getDate());
                 map.put("hour", date.getHour());
-                map.put("residence", date.getResidenceCus());
                 map.put("problem", date.getDesProblem());
                 return map;
             }
@@ -89,8 +74,6 @@ public class DateController {
     }
 
     public void getDatesLaptopFix(){
-        createDialog(context.getString(R.string.loading_dates));
-
         String url = Common.URL + CommunicationPath.GET_DATES_LAPTOP_FIX;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -99,16 +82,15 @@ public class DateController {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
-                        ArrayList<Date> dates = new ArrayList<>();
+                        ArrayList<DateLF> dates = new ArrayList<>();
                         JSONArray array = jsonObject.getJSONArray("dates");
                         for(int i = 0; i < array.length(); i++){
                             JSONObject data = array.getJSONObject(i);
 
-                            Date date = new Date();
-                            date.setIdDate(data.getInt("id"));
+                            DateLF date = new DateLF();
+                            date.setId(data.getInt("id"));
                             date.setDate(context.getString(R.string.date_appointment) +" "+ data.getString("date"));
                             date.setHour(context.getString(R.string.hour_appointment) +" "+ data.getString("hour"));
-                            date.setResidenceCus(data.getString("residence"));
 
                             Customer customer = new Customer();
                             customer.setName(data.getString("customer"));
@@ -116,25 +98,20 @@ public class DateController {
 
                             dates.add(date);
                         }
-
-                        dialog.dismiss();
                         if(mVolleyListenerGetDates != null){
-                            mVolleyListenerGetDates.requestFinished(dates, CommunicationCode.CODE_GET_DATES_LAPTOP_FIX);
+                            mVolleyListenerGetDates.onSuccess(dates, CommunicationCode.CODE_GET_DATES_LAPTOP_FIX);
                         }
                     }else{
-                        dialog.dismiss();
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        mVolleyListenerGetDates.onFailure(jsonObject.getString("message"));
                     }
                 } catch (JSONException e) {
-                    dialog.dismiss();
-                    Toast.makeText(context, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    mVolleyListenerGetDates.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                Toast.makeText(context, "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
+                mVolleyListenerGetDates.onFailure(error.toString());
             }
         });
 
@@ -142,8 +119,6 @@ public class DateController {
     }
 
     public void getDatesCustomer(final Customer customer){
-        createDialog(context.getString(R.string.loading_dates));
-
         String url = Common.URL + CommunicationPath.GET_DATES_CUSTOMER;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -152,39 +127,33 @@ public class DateController {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
-                        ArrayList<Date> dates = new ArrayList<>();
+                        ArrayList<DateLF> dates = new ArrayList<>();
                         JSONArray array = jsonObject.getJSONArray("dates");
                         for(int i = 0; i < array.length(); i++){
                             JSONObject data = array.getJSONObject(i);
 
-                            Date date = new Date();
+                            DateLF date = new DateLF();
                             date.setDate(context.getString(R.string.date_appointment) +" "+ data.getString("date"));
                             date.setHour(context.getString(R.string.hour_appointment) +" "+ data.getString("hour"));
-                            date.setResidenceCus(data.getString("residence"));
                             date.setDesProblem(context.getString(R.string.problem) +" "+ data.getString("problem"));
 
                             dates.add(date);
                         }
-
-                        dialog.dismiss();
                         if(mVolleyListenerGetDates != null){
-                            mVolleyListenerGetDates.requestFinished(dates, CommunicationCode.CODE_GET_DATES_CUSTOMER);
+                            mVolleyListenerGetDates.onSuccess(dates, CommunicationCode.CODE_GET_DATES_CUSTOMER);
                         }
                     }else{
-                        dialog.dismiss();
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        mVolleyListenerGetDates.onFailure(jsonObject.getString("message"));
                     }
                 } catch (JSONException e) {
-                    dialog.dismiss();
-                    Toast.makeText(context, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    mVolleyListenerGetDates.onFailure(e.getMessage());
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                Toast.makeText(context, "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
+                mVolleyListenerGetDates.onFailure(error.toString());
             }
         }){
             @Override
@@ -198,16 +167,9 @@ public class DateController {
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
-    public void createDialog(String message){
-        dialog = new SpotsDialog.Builder()
-                .setContext(context)
-                .setMessage(message)
-                .build();
-        dialog.show();
-    }
-
     public interface VolleyListener {
-        void requestFinished(int code);
+        void onSuccess(int code);
+        void onFailure(String message);
     }
 
     public void setVolleyListener(VolleyListener volleyListener){
@@ -215,7 +177,8 @@ public class DateController {
     }
 
     public interface VolleyListenerGetDates{
-        void requestFinished(ArrayList<Date> dates, int code);
+        void onSuccess(ArrayList<DateLF> dates, int code);
+        void onFailure(String message);
     }
 
     public void setVolleyListenerGetDates(VolleyListenerGetDates volleyListener){
