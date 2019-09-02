@@ -9,7 +9,7 @@
 
     <include layout="@layout/actionbar_toolbar"/>
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
+    <!--<com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/searchBarPlaces"
         android:layout_marginTop="@dimen/marginForms"
         style="@style/MaterialSearchBarLight"
@@ -21,7 +21,14 @@
         app:mt_navIconEnabled="false"
         app:mt_placeholder="Busca tu dirección"
         android:elevation="5dp"
-        android:outlineProvider="bounds"/>
+        android:outlineProvider="bounds"/>-->
+
+    <fragment
+        android:id="@+id/autocompletePlaces"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        />
 
     <Button
         android:id="@+id/btnSave"

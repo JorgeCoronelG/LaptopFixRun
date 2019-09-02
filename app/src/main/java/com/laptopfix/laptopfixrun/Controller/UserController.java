@@ -27,14 +27,13 @@ public class UserController {
 
     private StringRequest request;
     private Context context;
-    private VolleyListener volleyListener;
+    private VolleyListener mVolleyListener;
 
     public UserController(Context context) {
         this.context = context;
     }
 
     public void login(final String email, final String password){
-        final com.laptopfix.laptopfixrun.Interface.VolleyListener volleyListener = (com.laptopfix.laptopfixrun.Interface.VolleyListener) context;
         String url = Common.URL + CommunicationPath.LOGIN;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -47,7 +46,7 @@ public class UserController {
 
                         if(dataUser.getInt("typeUser") == Common.TYPE_USER_LAPTOP_FIX){
 
-                            volleyListener.onSuccess(CommunicationCode.CODE_LOGIN_LAPTOP_FIX);
+                            mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_LAPTOP_FIX);
 
                         }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_CUSTOMER){
 
@@ -57,7 +56,7 @@ public class UserController {
                             customer.setNumber(dataUser.getString("number"));
                             customer.setEmail(dataUser.getString("email"));
                             new CustomerController(context).setCustomer(customer);
-                            volleyListener.onSuccess(CommunicationCode.CODE_LOGIN_CUSTOMER);
+                            mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_CUSTOMER);
 
                         }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_TECHNICAL){
 
@@ -67,20 +66,20 @@ public class UserController {
                             technical.setPhone(dataUser.getString("number"));
                             technical.setEmail(dataUser.getString("email"));
                             new TechnicalController(context).setTechnical(technical);
-                            volleyListener.onSuccess(CommunicationCode.CODE_LOGIN_TECHNICAL);
+                            mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_TECHNICAL);
 
                         }
                     }else if(jsonObject.getInt("code") == 404){
-                        volleyListener.onFailure(jsonObject.getString("message"));
+                        mVolleyListener.onFailure(jsonObject.getString("message"));
                     }
                 }catch (Exception e){
-                    volleyListener.onFailure(e.getMessage());
+                    mVolleyListener.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                volleyListener.onFailure(error.toString());
+                mVolleyListener.onFailure(error.toString());
             }
         }){
             @Override
@@ -104,18 +103,18 @@ public class UserController {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
-                        volleyListener.onSuccess(CommunicationCode.CODE_CHANGE_PASSWORD);
+                        mVolleyListener.onSuccess(CommunicationCode.CODE_CHANGE_PASSWORD);
                     }else if(jsonObject.getInt("code") == 404){
-                        volleyListener.onFailure(jsonObject.getString("message"));
+                        mVolleyListener.onFailure(jsonObject.getString("message"));
                     }
                 } catch (JSONException e) {
-                    volleyListener.onFailure(e.getMessage());
+                    mVolleyListener.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                volleyListener.onFailure(error.toString());
+                mVolleyListener.onFailure(error.toString());
             }
         }){
             @Override
@@ -130,15 +129,6 @@ public class UserController {
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
-    public interface VolleyListener{
-        void onSuccess(int code);
-        void onFailure(String error);
-    }
-
-    public void setVolleyListener(VolleyListener volleyListener){
-        this.volleyListener = volleyListener;
-    }
-
     public int checkUser(){
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         int typeUser = preferences.getInt("typeUser",0);
@@ -151,5 +141,9 @@ public class UserController {
 
         editor.putInt("typeUser", 0);
         editor.commit();
+    }
+
+    public void setmVolleyListener(VolleyListener mVolleyListener) {
+        this.mVolleyListener = mVolleyListener;
     }
 }

@@ -57,6 +57,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         btnSave = findViewById(R.id.btnSave);
 
         customerController = new CustomerController(this);
+        customerController.setmVolleyListener(this);
 
         btnSave.setOnClickListener(this);
 

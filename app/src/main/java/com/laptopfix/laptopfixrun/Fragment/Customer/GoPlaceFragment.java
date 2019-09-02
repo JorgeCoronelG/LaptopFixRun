@@ -23,6 +23,7 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
 import com.laptopfix.laptopfixrun.Activities.Customer.HomeCustomerActivity;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
@@ -32,7 +33,7 @@ import java.util.Calendar;
 import dmax.dialog.SpotsDialog;
 
 
-public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener, DateController.VolleyListener {
+public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener, VolleyListener {
 
     private View view;
     private EditText etDate;
@@ -71,7 +72,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
         view = inflater.inflate(R.layout.fragment_go_place, container, false);
 
         dateController = new DateController(getContext());
-        dateController.setVolleyListener(this);
+        dateController.setmVolleyListener(this);
 
         etDate = view.findViewById(R.id.etDate);
         etHour = view.findViewById(R.id.etHour);

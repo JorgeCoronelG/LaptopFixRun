@@ -25,14 +25,13 @@ public class CustomerController {
 
     private StringRequest request;
     private Context context;
+    private VolleyListener mVolleyListener;
 
     public CustomerController(Context context) {
         this.context = context;
     }
 
     public void insert(final Customer customer, final String password){
-
-        final VolleyListener volleyListener = (VolleyListener)context;
 
         String url = Common.URL + CommunicationPath.CUSTOMER_INSERT;
 
@@ -45,19 +44,19 @@ public class CustomerController {
 
                         setCustomer(customer);
 
-                        volleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_INSERT);
+                        mVolleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_INSERT);
 
                     }else if(jsonObject.getInt("code") == 404){
-                        volleyListener.onFailure(jsonObject.getString("message"));
+                        mVolleyListener.onFailure(jsonObject.getString("message"));
                     }
                 }catch (Exception e){
-                    volleyListener.onFailure(e.getMessage());
+                    mVolleyListener.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                volleyListener.onFailure(error.toString());
+                mVolleyListener.onFailure(error.toString());
             }
         }){
             @Override
@@ -77,8 +76,6 @@ public class CustomerController {
 
     public void update(final Customer customer){
 
-        final VolleyListener volleyListener = (VolleyListener)context;
-
         String url = Common.URL + CommunicationPath.CUSTOMER_UPDATE;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -93,18 +90,18 @@ public class CustomerController {
 
                         setCustomer(customer);
 
-                        volleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_UPDATE);
+                        mVolleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_UPDATE);
                     }else if(jsonObject.getInt("code") == 404){
-                        volleyListener.onFailure(jsonObject.getString("message"));
+                        mVolleyListener.onFailure(jsonObject.getString("message"));
                     }
                 }catch (Exception e){
-                    volleyListener.onFailure(e.getMessage());
+                    mVolleyListener.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                volleyListener.onFailure(error.toString());
+                mVolleyListener.onFailure(error.toString());
             }
         }){
             @Override
@@ -143,5 +140,9 @@ public class CustomerController {
         customer.setEmail(preferences.getString("email", null));
 
         return customer;
+    }
+
+    public void setmVolleyListener(VolleyListener mVolleyListener) {
+        this.mVolleyListener = mVolleyListener;
     }
 }

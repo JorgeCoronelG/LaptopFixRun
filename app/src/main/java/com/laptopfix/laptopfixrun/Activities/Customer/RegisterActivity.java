@@ -54,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         reference = database.getReference(Common.CUSTOMER_TABLE);
 
         customerController = new CustomerController(this);
+        customerController.setmVolleyListener(this);
 
         etName = findViewById(R.id.etName);
         etNumber = findViewById(R.id.etNumber);

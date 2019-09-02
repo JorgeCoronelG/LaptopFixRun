@@ -123,7 +123,16 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     public void onResume() {
         super.onResume();
 
-        getDirection(Common.mLastLocation.getLatitude(), Common.mLastLocation.getLongitude());
+        if(Common.newAddress == null){
+            txtAddress.setText(getDirection(
+                    Common.mLastLocation.getLatitude(),
+                    Common.mLastLocation.getLongitude())
+            );
+        }else{
+            txtAddress.setText(getDirection(
+                    Common.newAddress.latitude,
+                    Common.newAddress.longitude));
+        }
     }
 
     @Override
@@ -136,7 +145,8 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
                 obtenerHora();
                 break;
             case R.id.txtChangeAddress:
-                Intent intent = new Intent(getActivity(), ChangeAddressActivity.class);
+                ChangeAddressActivity changeAddressActivity = new ChangeAddressActivity();
+                Intent intent = new Intent(getActivity(), changeAddressActivity.getClass());
                 startActivity(intent);
                 break;
         }
@@ -225,13 +235,13 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         }
     }
 
-    private void getDirection(double latitude, double longitude){
+    private String getDirection(double latitude, double longitude){
         try {
             geocoder = new Geocoder(getContext(), Locale.getDefault());
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            txtAddress.setText(addresses.get(0).getAddressLine(0));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return addresses.get(0).getAddressLine(0);
     }
 }

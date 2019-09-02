@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.laptopfix.laptopfixrun.Adapter.DatesLFAdapter;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.DateController;
+import com.laptopfix.laptopfixrun.Interface.VolleyListenerGetDates;
 import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 import dmax.dialog.SpotsDialog;
 
-public class AppointmentFragment extends Fragment implements DateController.VolleyListenerGetDates, DatesLFAdapter.OnDateListener {
+public class AppointmentFragment extends Fragment implements VolleyListenerGetDates, DatesLFAdapter.OnDateListener {
 
     private View view;
     private DateController dateController;
@@ -38,7 +39,7 @@ public class AppointmentFragment extends Fragment implements DateController.Voll
         view = inflater.inflate(R.layout.fragment_appointment_lf, container, false);
 
         dateController = new DateController(getContext());
-        dateController.setVolleyListenerGetDates(this);
+        dateController.setmVolleyListenerGetDates(this);
 
         dateRecycler = view.findViewById(R.id.recyclerDates);
 

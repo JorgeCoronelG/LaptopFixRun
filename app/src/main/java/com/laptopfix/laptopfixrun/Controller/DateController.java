@@ -10,7 +10,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Communication.Communication;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
+import com.laptopfix.laptopfixrun.Interface.VolleyListenerGetDates;
 import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
@@ -35,7 +38,7 @@ public class DateController {
     }
 
     public void insert(final DateLF date){
-        String url = Common.URL + CommunicationPath.DATE_INSERT;
+        String url = Common.URL + CommunicationPath.DATE_INSERT_LAPTOP_FIX;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -70,6 +73,27 @@ public class DateController {
             }
         };
 
+        Communication.getmInstance(context).addToRequestQueue(request);
+    }
+
+    public void insert(final DateHome date){
+        String url = Common.URL + CommunicationPath.DATE_INSERT_HOME;
+
+        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
@@ -167,21 +191,11 @@ public class DateController {
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
-    public interface VolleyListener {
-        void onSuccess(int code);
-        void onFailure(String message);
+    public void setmVolleyListener(VolleyListener mVolleyListener) {
+        this.mVolleyListener = mVolleyListener;
     }
 
-    public void setVolleyListener(VolleyListener volleyListener){
-        this.mVolleyListener = volleyListener;
-    }
-
-    public interface VolleyListenerGetDates{
-        void onSuccess(ArrayList<DateLF> dates, int code);
-        void onFailure(String message);
-    }
-
-    public void setVolleyListenerGetDates(VolleyListenerGetDates volleyListener){
-        this.mVolleyListenerGetDates = volleyListener;
+    public void setmVolleyListenerGetDates(VolleyListenerGetDates mVolleyListenerGetDates) {
+        this.mVolleyListenerGetDates = mVolleyListenerGetDates;
     }
 }

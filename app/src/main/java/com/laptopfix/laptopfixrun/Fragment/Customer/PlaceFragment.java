@@ -383,11 +383,11 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         for (LatLng latLngPoint : lstLatLngRoute)
             boundsBuilder.include(latLngPoint);
 
-        int routePadding = 250;
+        int routePadding = 50;
         LatLngBounds latLngBounds = boundsBuilder.build();
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, routePadding));
-        mMap.setPadding(10,100, 10,300);
+        mMap.setPadding(10,100, 10,100);
     }
 
     private List<LatLng> decodePoly(String encoded) {

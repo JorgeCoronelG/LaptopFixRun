@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         database = FirebaseDatabase.getInstance();
 
         userController = new UserController(this);
+        userController.setmVolleyListener(this);
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);

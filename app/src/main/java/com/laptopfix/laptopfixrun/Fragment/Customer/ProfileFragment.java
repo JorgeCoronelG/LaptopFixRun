@@ -26,12 +26,13 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Activities.Customer.EditProfileActivity;
 import com.laptopfix.laptopfixrun.Controller.UserController;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
 
 import dmax.dialog.SpotsDialog;
 
-public class ProfileFragment extends Fragment implements View.OnClickListener, UserController.VolleyListener {
+public class ProfileFragment extends Fragment implements View.OnClickListener, VolleyListener {
 
     private TextView txtName, txtNumber, txtEmail;
     private EditText etNewPassword;
@@ -53,7 +54,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, U
         btnChangePass.setOnClickListener(this);
         customerController = new CustomerController(getContext());
         userController = new UserController(getContext());
-        userController.setVolleyListener(this);
+        userController.setmVolleyListener(this);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 

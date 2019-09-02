@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -85,9 +86,7 @@
             android:id="@+id/btnSchedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTopFormRegister"
-            android:layout_marginRight="@dimen/marginSideBtn"
-            android:layout_marginLeft="@dimen/marginSideBtn"
+            android:layout_margin="@dimen/marginSideBtn"
             android:text="@string/schedule"
             android:textColor="@android:color/white"
             android:background="@drawable/rounded_button_blue"/>
