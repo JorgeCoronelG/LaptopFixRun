@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.laptopfix.laptopfixrun.Adapter.LaptopFixAdapter;
 import com.laptopfix.laptopfixrun.Adapter.MessageAdapter;
 import com.laptopfix.laptopfixrun.Activities.MessageActivity;
 import com.laptopfix.laptopfixrun.Model.Chat;
@@ -56,6 +57,9 @@ public class ChatCusFragment extends Fragment {
 
     private Intent intent;
 
+    private LaptopFixAdapter laptopFixAdapter;
+    private List<LaptopFix> mLaptop;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,11 +75,12 @@ public class ChatCusFragment extends Fragment {
         btn_send = view.findViewById(R.id.Cbtn_send);
         text_send = view.findViewById(R.id.Ctext_send);
 
-        reference = FirebaseDatabase.getInstance().getReference(Common.LAPTOP_FIX_TABLE).child("userid");
+        reference = FirebaseDatabase.getInstance().getReference("W7dtV7oJa0NuwTljHfcYDQvHGpi2").child("userid");
 
         intent = getActivity().getIntent();
         final String userid = intent.getStringExtra("userid");
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+        readLaptop();
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +101,9 @@ public class ChatCusFragment extends Fragment {
                 LaptopFix laptopFix = dataSnapshot.getValue(LaptopFix.class);
 
 
-                readMessage(fuser.getUid(), userid);
+                readMessage(fuser.getUid(), "W7dtV7oJa0NuwTljHfcYDQvHGpi2");
+
+
             }
 
             @Override
@@ -136,6 +143,7 @@ public class ChatCusFragment extends Fragment {
                 mChat.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class);
+
                     if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) ||
                             chat.getReceiver().equals(userid) && chat.getSender().equals(myid)){
                         mChat.add(chat);
@@ -143,6 +151,35 @@ public class ChatCusFragment extends Fragment {
                     messageAdapter = new MessageAdapter(getContext(), mChat);
                     recyclerView.setAdapter(messageAdapter);
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void readLaptop() {
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("W7dtV7oJa0NuwTljHfcYDQvHGpi2");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                mLaptop.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    LaptopFix laptopFix = snapshot.getValue(LaptopFix.class);
+
+                    assert laptopFix != null;
+                    assert firebaseUser != null;
+                    if(!laptopFix.getId().equals(firebaseUser.getUid())){
+                        mLaptop.add(laptopFix);
+                    }
+                }
+                laptopFixAdapter = new LaptopFixAdapter(getContext(), mLaptop);
+                recyclerView.setAdapter(laptopFixAdapter);
             }
 
             @Override
