@@ -7,8 +7,8 @@
         android:icon="@drawable/ic_calendar"
         android:title="@string/nav_cita" />
 
-    <item
+    <!--<item
         android:id="@+id/nav_chatL"
         android:icon="@drawable/ic_chat"
-        android:title="@string/nav_chat" />
+        android:title="@string/nav_chat" /> -->
 </menu>

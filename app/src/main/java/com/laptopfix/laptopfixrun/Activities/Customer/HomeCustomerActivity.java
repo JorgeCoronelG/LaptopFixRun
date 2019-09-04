@@ -111,9 +111,11 @@ public class HomeCustomerActivity extends AppCompatActivity
             case R.id.nav_cPendiente:
                 fragment = new AppointmentFragment();
                 break;
-            case R.id.nav_chat:
-                fragment = new ChatSoporteFragment();
-                break;
+            /*case R.id.nav_chat:
+                //fragment = new ChatSoporteFragment();
+                //fragment = new ChatCusFragment();
+                break;*/
+
             case R.id.nav_closeSession:
                 customerController.setCustomer(new Customer());
                 new UserController(this).logout();

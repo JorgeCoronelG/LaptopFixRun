@@ -10,10 +10,10 @@
             android:title="@string/menu_establecimiento" />
 
 
-        <item
+        <!--<item
             android:id="@+id/nav_chat"
             android:icon="@drawable/ic_chat"
-            android:title="@string/menu_chat" />
+            android:title="@string/menu_chat" /> -->
 
     </group>
 

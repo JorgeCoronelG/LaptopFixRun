@@ -97,7 +97,8 @@ public class MessageSoporteActivity extends AppCompatActivity {
 
 
 
-        reference = FirebaseDatabase.getInstance().getReference(Common.LAPTOP_FIX_TABLE).child(userid);
+        //reference = FirebaseDatabase.getInstance().getReference(Common.LAPTOP_FIX_TABLE).child(userid);
+        reference = FirebaseDatabase.getInstance().getReference("W7dtV7oJa0NuwTljHfcYDQvHGpi2");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -105,7 +106,7 @@ public class MessageSoporteActivity extends AppCompatActivity {
                 LaptopFix laptopFix = dataSnapshot.getValue(LaptopFix.class);
                 username.setText("Soporte técnico");
 
-                readMessage(fuser.getUid(), userid);
+                readMessage(fuser.getUid(), "W7dtV7oJa0NuwTljHfcYDQvHGpi2");
             }
 
             @Override
