@@ -1,6 +1,7 @@
 package com.laptopfix.laptopfixrun.Controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -12,6 +13,7 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Interface.VolleyListenerGetDates;
+import com.laptopfix.laptopfixrun.Interface.VolleyListenerInsertDateHome;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.Model.DateLF;
@@ -32,6 +34,7 @@ public class DateController {
     private Context context;
     private VolleyListener mVolleyListener;
     private VolleyListenerGetDates mVolleyListenerGetDates;
+    private VolleyListenerInsertDateHome mVolleyListenerInsertDateHome;
 
     public DateController(Context context) {
         this.context = context;
@@ -47,7 +50,7 @@ public class DateController {
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getInt("code") == 200){
                         if(mVolleyListener != null){
-                            mVolleyListener.onSuccess(CommunicationCode.CODE_DATE_INSERT);
+                            mVolleyListener.onSuccess(CommunicationCode.CODE_DATE_LAPTOP_FIX_INSERT);
                         }
                     }else{
                         mVolleyListener.onFailure(jsonObject.getString("message"));
@@ -84,16 +87,37 @@ public class DateController {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject.getInt("code") == 200){
+                        JSONObject jsonDate = jsonObject.getJSONObject("date");
+                        date.setId(jsonDate.getString("id"));
+
+                        mVolleyListenerInsertDateHome.onSuccess(date, CommunicationCode.CODE_DATE_HOME_INSERT);
+                    }else{
+                        mVolleyListenerInsertDateHome.onFailure(jsonObject.getString("message"));
+                    }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    mVolleyListenerInsertDateHome.onFailure(e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                mVolleyListenerInsertDateHome.onFailure(error.toString());
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("idCus", date.getCustomer().getId());
+                map.put("date", date.getDate());
+                map.put("hour", date.getHour());
+                map.put("residence", date.getAddress());
+                map.put("problem", date.getProblem());
+                map.put("service", String.valueOf(date.getService()));
+                return map;
+            }
+        };
+
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
@@ -197,5 +221,9 @@ public class DateController {
 
     public void setmVolleyListenerGetDates(VolleyListenerGetDates mVolleyListenerGetDates) {
         this.mVolleyListenerGetDates = mVolleyListenerGetDates;
+    }
+
+    public void setmVolleyListenerInsertDateHome(VolleyListenerInsertDateHome mVolleyListenerInsertDateHome) {
+        this.mVolleyListenerInsertDateHome = mVolleyListenerInsertDateHome;
     }
 }

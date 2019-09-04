@@ -1,8 +1,10 @@
 package com.laptopfix.laptopfixrun.Fragment.Customer;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Html;
@@ -20,8 +23,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,6 +35,8 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
@@ -40,7 +48,16 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Activities.Customer.ChangeAddressActivity;
+import com.laptopfix.laptopfixrun.Communication.Communication;
+import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Controller.DateController;
+import com.laptopfix.laptopfixrun.Interface.VolleyListenerInsertDateHome;
+import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -53,14 +70,17 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class HomeServiceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener {
+import dmax.dialog.SpotsDialog;
+
+public class HomeServiceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener,
+        VolleyListenerInsertDateHome {
 
     private View view;
-    private EditText etDate;
-    private EditText etHour;
-    private EditText etProblem;
-    private TextView txtAddress;
-    private TextView txtChangeAddress;
+    private EditText etDate, etHour, etProblem;
+    private TextView txtAddress, txtChangeAddress;
+    private TextInputLayout tilDate, tilHour;
+    private Switch swUrgent;
+    private Button btnSave;
     private static final String CERO = "0";
     private static final String BARRA = "/";
     private static final String DOS_PUNTOS = ":";
@@ -68,6 +88,11 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     private String hour;
     private Geocoder geocoder;
     private List<Address> addresses;
+    private AlertDialog dialog;
+    private DateController dateController;
+
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
 
     //Calendario para obtener fecha & hora
     public final Calendar c = Calendar.getInstance();
@@ -95,9 +120,16 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         etDate = view.findViewById(R.id.etDate);
         etHour = view.findViewById(R.id.etHour);
         etProblem = view.findViewById(R.id.etProblem);
+        swUrgent = view.findViewById(R.id.swUrgent);
+        tilDate = view.findViewById(R.id.tilDate);
+        tilHour  = view.findViewById(R.id.tilHour);
+        btnSave = view.findViewById(R.id.btnSchedule);
         txtAddress = view.findViewById(R.id.txtAddress);
         txtChangeAddress = view.findViewById(R.id.txtChangeAddress);
         txtChangeAddress.setText(Html.fromHtml(getResources().getString(R.string.changeAddress)));
+
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference(Common.DATES_TABLE);
 
         etDate.setOnFocusChangeListener(this);
         etHour.setOnFocusChangeListener(this);
@@ -105,9 +137,14 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         etDate.setInputType(InputType.TYPE_NULL);
         etHour.setInputType(InputType.TYPE_NULL);
 
+        dateController = new DateController(getContext());
+        dateController.setmVolleyListenerInsertDateHome(this);
+
         etDate.setOnClickListener(this);
         etHour.setOnClickListener(this);
         txtChangeAddress.setOnClickListener(this);
+        swUrgent.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
 
         return view;
     }
@@ -149,7 +186,39 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
                 Intent intent = new Intent(getActivity(), changeAddressActivity.getClass());
                 startActivity(intent);
                 break;
+            case R.id.swUrgent:
+                if(swUrgent.isChecked()){
+                    tilDate.setVisibility(View.GONE);
+                    tilHour.setVisibility(View.GONE);
+                }else{
+                    tilDate.setVisibility(View.VISIBLE);
+                    tilHour.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.btnSchedule:
+                if(checkFields()){
+                    createDialog(getString(R.string.waitAMoment));
+                    dateController.insert(getDateHome());
+                }
+                break;
         }
+    }
+
+    public DateHome getDateHome(){
+        DateHome dateHome = new DateHome();
+        if(swUrgent.isChecked()) {
+            dateHome.setService(1);
+            dateHome.setHour("");
+            dateHome.setDate("");
+        }else{
+            dateHome.setHour(hour);
+            dateHome.setDate(etDate.getText().toString());
+            dateHome.setService(0);
+        }
+        dateHome.setAddress(txtAddress.getText().toString());
+        dateHome.setProblem(etProblem.getText().toString());
+        dateHome.setCustomer(new CustomerController(getContext()).getCustomer());
+        return dateHome;
     }
 
     @Override
@@ -243,5 +312,68 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
             e.printStackTrace();
         }
         return addresses.get(0).getAddressLine(0);
+    }
+
+    @Override
+    public void onSuccess(DateHome dateHome, int code) {
+        if(code == CommunicationCode.CODE_DATE_HOME_INSERT){
+            reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(dateHome)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            dialog.dismiss();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle(getString(R.string.schedule_appointment));
+                            builder.setMessage(getString(R.string.contact_with_technical_support));
+                            builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    /*Intent intent = new Intent(getActivity(), HomeCustomerActivity.class);
+                                    intent.putExtra("section", R.id.nav_cPendiente);
+                                    startActivity(intent);
+                                    getActivity().finish();*/
+                                }
+                            });
+                            builder.setCancelable(false);
+                            builder.show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            dialog.dismiss();
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    @Override
+    public void onFailure(String error) {
+        dialog.dismiss();
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean checkFields(){
+        if(etProblem.getText().toString().isEmpty()){
+            etProblem.setError(getString(R.string.problem_is_empty));
+            return false;
+        }else if(etDate.getText().toString().isEmpty() && !swUrgent.isChecked()){
+            etDate.setError(getString(R.string.date_is_empty));
+            return false;
+        }else if(etHour.getText().toString().isEmpty() && !swUrgent.isChecked()){
+            etHour.setError(getString(R.string.hour_is_empty));
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void createDialog(String message){
+        dialog = new SpotsDialog.Builder()
+                .setContext(getContext())
+                .setMessage(message)
+                .build();
+        dialog.show();
     }
 }

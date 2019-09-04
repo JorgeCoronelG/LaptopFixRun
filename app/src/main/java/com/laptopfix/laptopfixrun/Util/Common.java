@@ -6,11 +6,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.laptopfix.laptopfixrun.Remote.IGoogleAPI;
 import com.laptopfix.laptopfixrun.Remote.RetrofitClient;
 
-import java.util.Locale;
-
 public class Common {
 
-    public static final String URL = "http://192.168.0.8/LaptopFixRun/";
+    public static final String URL = "http://192.168.1.83/LaptopFixRun/";
 
     public static Location mLastLocation;
     public static final double LATITUDE_LAPTOP_FIX = 20.583994;
@@ -29,6 +27,9 @@ public class Common {
 
     public static final String CUSTOMER_TABLE = "Customers";
     public static final String LAPTOP_FIX_TABLE = "Laptopfix";
+    public static final String CHATS_TABLE = "Chats";
+    public static final String DATES_TABLE = "Dates";
+
     public static LatLng newAddress = null;
 
     public static final String baseURL = "https://maps.googleapis.com";

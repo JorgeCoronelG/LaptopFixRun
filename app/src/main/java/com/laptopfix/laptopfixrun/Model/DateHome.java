@@ -8,12 +8,12 @@ public class DateHome {
     private String problem;
     private String date;
     private String hour;
-    private String customer;
+    private Customer customer;
 
     public DateHome() {
     }
 
-    public DateHome(String id, int service, String address, String problem, String date, String hour, String customer) {
+    public DateHome(String id, int service, String address, String problem, String date, String hour, Customer customer) {
         this.id = id;
         this.service = service;
         this.address = address;
@@ -71,11 +71,11 @@ public class DateHome {
         this.hour = hour;
     }
 
-    public String getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(String customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 }

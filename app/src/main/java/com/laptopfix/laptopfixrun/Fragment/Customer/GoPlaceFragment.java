@@ -233,7 +233,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     @Override
     public void onSuccess(int code) {
         dialog.dismiss();
-        if(code == CommunicationCode.CODE_DATE_INSERT) {
+        if(code == CommunicationCode.CODE_DATE_HOME_INSERT) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle(getString(R.string.schedule_appointment));
             builder.setMessage(getString(R.string.contact_with_technical_support));

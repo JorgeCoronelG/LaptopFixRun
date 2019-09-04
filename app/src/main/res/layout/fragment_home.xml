@@ -90,8 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/describe_problem"
-                android:inputType="text"
-                android:singleLine="true"/>
+                android:inputType="text|textMultiLine"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -130,7 +129,6 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:layout_marginBottom="20dp"
             android:id="@+id/btnSchedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
