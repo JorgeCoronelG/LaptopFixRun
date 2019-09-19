@@ -9,11 +9,12 @@ public class DateHome {
     private String date;
     private String hour;
     private Customer customer;
+    private int status;//0 - Sin aceptar, 1 - Aceptado y en camino, 2 - En reparación, 3 - Reparado
 
     public DateHome() {
     }
 
-    public DateHome(String id, int service, String address, String problem, String date, String hour, Customer customer) {
+    public DateHome(String id, int service, String address, String problem, String date, String hour, Customer customer, int status) {
         this.id = id;
         this.service = service;
         this.address = address;
@@ -21,6 +22,7 @@ public class DateHome {
         this.date = date;
         this.hour = hour;
         this.customer = customer;
+        this.status = status;
     }
 
     public String getId() {
@@ -77,5 +79,13 @@ public class DateHome {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

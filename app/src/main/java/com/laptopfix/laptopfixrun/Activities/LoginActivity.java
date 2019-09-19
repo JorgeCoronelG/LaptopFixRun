@@ -10,25 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.laptopfix.laptopfixrun.Activities.Customer.CompleteActivity;
-import com.laptopfix.laptopfixrun.Activities.Customer.HomeCustomerActivity;
 import com.laptopfix.laptopfixrun.Activities.Customer.RegisterActivity;
-import com.laptopfix.laptopfixrun.Activities.LaptopFix.HomeLFActivity;
-import com.laptopfix.laptopfixrun.Activities.Tecnhical.HomeTechnicalActivity;
+import com.laptopfix.laptopfixrun.Activities.LaptopFix.HomeActivity;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.LaptopFixController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
-import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.R;
 
@@ -113,16 +106,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             laptopFix.setEmail(etEmail.getText().toString());
             new LaptopFixController(this).setLaptopFix(laptopFix);
 
-            Intent intent = new Intent(LoginActivity.this, HomeLFActivity.class);
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
         }else if(code == CommunicationCode.CODE_LOGIN_CUSTOMER){
-            Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
+            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity.class);
             intent.putExtra("section", R.id.nav_establecimiento);
             startActivity(intent);
             finish();
         }else if(code == CommunicationCode.CODE_LOGIN_TECHNICAL){
-            Intent intent = new Intent(LoginActivity.this, HomeTechnicalActivity.class);
+            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Tecnhical.HomeActivity.class);
             startActivity(intent);
             finish();
         }

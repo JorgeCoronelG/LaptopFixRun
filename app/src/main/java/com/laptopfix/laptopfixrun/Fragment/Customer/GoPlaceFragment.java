@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
-import com.laptopfix.laptopfixrun.Activities.Customer.HomeCustomerActivity;
+import com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
@@ -240,7 +240,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
             builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(getActivity(), HomeCustomerActivity.class);
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
                     intent.putExtra("section", R.id.nav_cPendiente);
                     startActivity(intent);
                     getActivity().finish();

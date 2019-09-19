@@ -109,5 +109,6 @@
     <string name="nav_perfilTec">Mi perfil</string>
     <string name="changeAddress"><![CDATA[<u>Cambiar dirección</u>]]></string>
     <string name="serviceExpress">Servicio urgente</string>
+    <string name="now_service">Servicio(s) actual(es)</string>
 
 </resources>

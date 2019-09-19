@@ -1,4 +1,4 @@
-package com.laptopfix.laptopfixrun.Fragment.Customer;
+package com.laptopfix.laptopfixrun.Fragment.Technical;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,21 +23,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
-import com.laptopfix.laptopfixrun.Controller.CustomerController;
-import com.laptopfix.laptopfixrun.Activities.Customer.EditProfileActivity;
+import com.laptopfix.laptopfixrun.Controller.TechnicalController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
-import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Model.Technical;
 import com.laptopfix.laptopfixrun.R;
 
 import dmax.dialog.SpotsDialog;
 
+
 public class ProfileFragment extends Fragment implements View.OnClickListener, VolleyListener {
 
+    private View view;
     private TextView txtName, txtNumber, txtEmail;
     private EditText etNewPassword;
     private Button btnChangePass;
-    private CustomerController customerController;
+    private TechnicalController technicalController;
     private UserController userController;
     private AlertDialog dialog;
     private FirebaseUser user;
@@ -45,32 +46,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_profile, container, false);
-
+        view = inflater.inflate(R.layout.fragment_profile_tech, container, false);
         txtName = view.findViewById(R.id.txtName);
         txtNumber = view.findViewById(R.id.txtNumber);
         txtEmail = view.findViewById(R.id.txtEmail);
         btnChangePass = view.findViewById(R.id.btnChangePassword);
         btnChangePass.setOnClickListener(this);
-        customerController = new CustomerController(getContext());
+        technicalController = new TechnicalController(getContext());
         userController = new UserController(getContext());
         userController.setmVolleyListener(this);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        setDataCustomer();
+        setDataTechnical();
 
-        setHasOptionsMenu(true);
-
-        return  view;
-    }
-
-    private void setDataCustomer(){
-        Customer customer = customerController.getCustomer();
-
-        txtName.setText(customer.getName());
-        txtNumber.setText(customer.getNumber());
-        txtEmail.setText(customer.getEmail());
+        return view;
     }
 
     @Override
@@ -116,8 +106,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Customer customer = customerController.getCustomer();
-                            userController.changePassword(customer.getEmail(), newPassword);
+                            Technical technical = technicalController.getTechnical();
+                            userController.changePassword(technical.getEmail(), newPassword);
                         }else{
                             dialog.dismiss();
                             Toast.makeText(getContext(), task.toString(), Toast.LENGTH_SHORT).show();
@@ -138,28 +128,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_edit, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.item_edit:
-                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-                intent.putExtra("name", txtName.getText().toString());
-                intent.putExtra("number", txtNumber.getText().toString());
-                intent.putExtra("email", txtEmail.getText().toString());
-
-                startActivity(intent);
-                getActivity().finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onSuccess(int code) {
         dialog.dismiss();
         if(code == CommunicationCode.CODE_CHANGE_PASSWORD){
@@ -177,6 +145,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
+    private void setDataTechnical(){
+        Technical technical = technicalController.getTechnical();
+
+        txtName.setText(technical.getName());
+        txtNumber.setText(technical.getPhone());
+        txtEmail.setText(technical.getEmail());
+    }
+
     public void createDialog(String message){
         dialog = new SpotsDialog.Builder()
                 .setContext(getContext())
@@ -184,4 +160,5 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
                 .build();
         dialog.show();
     }
+
 }

@@ -138,7 +138,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(EditProfileActivity.this, HomeCustomerActivity.class);
+        Intent intent = new Intent(EditProfileActivity.this, HomeActivity.class);
         intent.putExtra("section", R.id.nav_perfil);
         startActivity(intent);
         finish();

@@ -6,11 +6,11 @@
         android:icon="@drawable/ic_list1"
         android:title="@string/nav_serviciosTec" />
     <item
-        android:id="@+id/nav_chat"
+        android:id="@+id/nav_dates_now"
         android:icon="@drawable/ic_customer_support"
         android:title="@string/nav_actualTec" />
     <item
-        android:id="@+id/nav_comentario"
+        android:id="@+id/nav_perfil"
         android:icon="@drawable/ic_user1"
         android:title="@string/nav_perfilTec" />
 </menu>

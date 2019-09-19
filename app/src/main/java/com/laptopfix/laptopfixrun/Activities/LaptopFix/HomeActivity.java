@@ -14,13 +14,11 @@ import android.widget.FrameLayout;
 import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.LaptopFixController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
-import com.laptopfix.laptopfixrun.Fragment.ChatFragment;
 import com.laptopfix.laptopfixrun.Fragment.LaptopFix.AppointmentFragment;
-import com.laptopfix.laptopfixrun.Fragment.LaptopFix.CommentFragment;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.R;
 
-public class HomeLFActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
@@ -58,7 +56,7 @@ public class HomeLFActivity extends AppCompatActivity implements BottomNavigatio
         if (id == R.id.logout) {
             new LaptopFixController(this).setLaptopFix(new LaptopFix());
             userController.logout();
-            Intent intent = new Intent(HomeLFActivity.this, LoginActivity.class);
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }
@@ -80,9 +78,9 @@ public class HomeLFActivity extends AppCompatActivity implements BottomNavigatio
                 fragment = new AppointmentFragment();
                 break;
 
-            case R.id.nav_chatL:
+            /*case R.id.nav_chatL:
                 fragment = new ChatFragment();
-                break;
+                break;*/
         }
         if(fragment != null){
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, fragment).commit();

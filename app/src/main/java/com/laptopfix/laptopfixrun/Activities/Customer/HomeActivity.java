@@ -18,9 +18,6 @@ import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Fragment.Customer.AppointmentFragment;
-import com.laptopfix.laptopfixrun.Fragment.Customer.ChatCusFragment;
-import com.laptopfix.laptopfixrun.Fragment.Customer.ChatSoporteFragment;
-import com.laptopfix.laptopfixrun.Fragment.Customer.CommentFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.PlaceFragment;
@@ -28,7 +25,7 @@ import com.laptopfix.laptopfixrun.Fragment.Customer.ProfileFragment;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
 
-public class HomeCustomerActivity extends AppCompatActivity
+public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
@@ -120,7 +117,7 @@ public class HomeCustomerActivity extends AppCompatActivity
                 customerController.setCustomer(new Customer());
                 new UserController(this).logout();
 
-                Intent intent = new Intent(HomeCustomerActivity.this, LoginActivity.class);
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 break;

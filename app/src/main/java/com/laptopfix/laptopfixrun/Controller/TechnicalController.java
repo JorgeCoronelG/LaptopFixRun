@@ -21,8 +21,8 @@ public class TechnicalController {
         SharedPreferences.Editor editor = preferences.edit();
 
         editor.putString("id", technical.getId());
-        editor.putString("name", technical.getEmail());
-        editor.putString("phone", technical.getEmail());
+        editor.putString("name", technical.getName());
+        editor.putString("phone", technical.getPhone());
         editor.putString("email", technical.getEmail());
         editor.putInt("typeUser", Common.TYPE_USER_TECHNICAL);
 

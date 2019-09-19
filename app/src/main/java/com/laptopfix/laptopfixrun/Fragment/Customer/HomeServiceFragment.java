@@ -218,6 +218,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         dateHome.setAddress(txtAddress.getText().toString());
         dateHome.setProblem(etProblem.getText().toString());
         dateHome.setCustomer(new CustomerController(getContext()).getCustomer());
+        dateHome.setStatus(0);
         return dateHome;
     }
 
@@ -315,27 +316,13 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     }
 
     @Override
-    public void onSuccess(DateHome dateHome, int code) {
+    public void onSuccess(final DateHome dateHome, int code) {
         if(code == CommunicationCode.CODE_DATE_HOME_INSERT){
-            reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(dateHome)
+            reference.child(dateHome.getId()).setValue(dateHome)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            dialog.dismiss();
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle(getString(R.string.schedule_appointment));
-                            builder.setMessage(getString(R.string.contact_with_technical_support));
-                            builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    /*Intent intent = new Intent(getActivity(), HomeCustomerActivity.class);
-                                    intent.putExtra("section", R.id.nav_cPendiente);
-                                    startActivity(intent);
-                                    getActivity().finish();*/
-                                }
-                            });
-                            builder.setCancelable(false);
-                            builder.show();
+                            addDateHomeAtCustomer(dateHome);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -352,6 +339,38 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     public void onFailure(String error) {
         dialog.dismiss();
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    public void addDateHomeAtCustomer(DateHome dateHome){
+        DatabaseReference reference = database.getReference(Common.CUSTOMER_TABLE);
+        reference.child(Common.DATES_CUSTOMER_TABLE).child(dateHome.getId()).setValue(dateHome)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        dialog.dismiss();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle(getString(R.string.schedule_appointment));
+                        builder.setMessage(getString(R.string.contact_with_technical_support));
+                        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                /*Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                intent.putExtra("section", R.id.nav_cPendiente);
+                                startActivity(intent);
+                                getActivity().finish();*/
+                            }
+                        });
+                        builder.setCancelable(false);
+                        builder.show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public boolean checkFields(){
