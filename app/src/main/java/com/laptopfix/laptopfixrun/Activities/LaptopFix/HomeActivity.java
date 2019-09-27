@@ -40,7 +40,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         mMainNav.setOnNavigationItemSelectedListener(this);
 
-        displaySelectedScreen(R.id.nav_cita);
+        Intent intent = getIntent();
+        if(intent != null){
+            displaySelectedScreen(intent.getIntExtra("section", 0));
+        }
+
     }
 
     @Override
@@ -77,10 +81,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.nav_citaL:
                 fragment = new AppointmentFragment();
                 break;
-
-            /*case R.id.nav_chatL:
-                fragment = new ChatFragment();
-                break;*/
+            case R.id.nav_dates_now:
+                //Por programar
+                break;
         }
         if(fragment != null){
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, fragment).commit();

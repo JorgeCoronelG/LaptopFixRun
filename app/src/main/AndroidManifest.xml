@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.Customer.ChangeAddressActivity"></activity>
+        <activity android:name=".Activities.Customer.ChangeAddressActivity" />
         <activity android:name=".Activities.Customer.MessageSoporteActivity" />
         <activity android:name=".Activities.MessageActivity" />
 
@@ -41,7 +41,10 @@
             android:label="@string/title_activity_edit_profile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.Tecnhical.HomeActivity"
+            android:name=".Activities.Technical.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.Technical.AppointmentDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SplashActivity"

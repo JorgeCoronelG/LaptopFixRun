@@ -1,13 +1,13 @@
 package com.laptopfix.laptopfixrun.Fragment.Technical;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.laptopfix.laptopfixrun.Activities.Technical.AppointmentDetailActivity;
 import com.laptopfix.laptopfixrun.Adapter.DatesTechnicalAdapter;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.R;
@@ -91,6 +92,8 @@ public class ServiceFragment extends Fragment implements ValueEventListener, Dat
 
     @Override
     public void onDateClick(int position) {
-        Log.d("JCG", "ID: "+dates.get(position).getId());
+        Intent intent = new Intent(getActivity(), AppointmentDetailActivity.class);
+        intent.putExtra("id", String.valueOf(dates.get(position).getId()));
+        startActivity(intent);
     }
 }

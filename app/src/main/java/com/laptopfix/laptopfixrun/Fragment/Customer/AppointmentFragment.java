@@ -42,9 +42,9 @@ public class AppointmentFragment extends Fragment implements VolleyListenerGetDa
 
         dateRecycler = view.findViewById(R.id.recyclerDates);
 
-        createDialog(getString(R.string.waitAMoment));
+        //createDialog(getString(R.string.waitAMoment));
 
-        dateController.getDatesCustomer(new CustomerController(getContext()).getCustomer());
+        //dateController.getDatesCustomer(new CustomerController(getContext()).getCustomer());
 
         return view;
     }

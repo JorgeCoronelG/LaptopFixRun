@@ -41,8 +41,8 @@ public class DatesTechnicalAdapter extends RecyclerView.Adapter<DatesTechnicalAd
         holder.txtName.setText(date.getCustomer().getName());
         if(date.getService() == 0){
             holder.llUrgent.setVisibility(View.GONE);
-            holder.txtDate.setText("Fecha: "+ date.getDate());
-            holder.txtHour.setText("Hora: "+ date.getHour());
+            holder.txtDate.setText(activity.getString(R.string.date_appointment) + date.getDate());
+            holder.txtHour.setText(activity.getString(R.string.hour_appointment) + date.getHour() + " hrs.");
         }else{
             holder.llDateHour.setVisibility(View.GONE);
         }

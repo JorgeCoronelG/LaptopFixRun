@@ -1,246 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Activities.AppointmentDetailActivity">
-
-
-    <include layout="@layout/actionbar_toolbar"/>
-
+    tools:context=".Activities.Technical.AppointmentDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp"
-        android:weightSum="10">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+        <include layout="@layout/actionbar_toolbar"/>
 
-        <TextView
-            android:layout_width="1dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="@string/name"
-            android:textColor="@color/colorTextHint"/>
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginTop="@dimen/marginForms">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textColor="@color/colorTextHint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginTop="@dimen/marginForms">
+
+            <TextView
+                android:id="@+id/txtNameCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jorge Coronel González"
+                android:textColor="@color/quantum_black_100"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/marginForms"
+            android:orientation="horizontal"
+            android:background="@color/colorButtonGray"/>
+
+        <LinearLayout
+            android:id="@+id/llDateHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/marginForms"
+                android:layout_marginTop="@dimen/marginForms"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="@string/dat"
+                    android:textColor="@color/colorTextHint"/>
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="@string/hour"
+                    android:textColor="@color/colorTextHint"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/marginForms"
+                android:layout_marginTop="@dimen/marginForms"
+                android:weightSum="10">
+
+                <TextView
+                    android:id="@+id/txtDate"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="10/01/19"
+                    android:textColor="@color/quantum_black_100"/>
+
+                <TextView
+                    android:id="@+id/txtHour"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="10:10"
+                    android:textColor="@color/quantum_black_100"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/marginForms"
+                android:orientation="horizontal"
+                android:background="@color/colorButtonGray"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llUrgent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/marginForms"
+                android:layout_marginTop="@dimen/marginForms">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/urgent"
+                    android:textColor="@color/colorTextHint"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/marginForms"
+                android:layout_marginTop="@dimen/marginForms">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Llegar lo antes posible"
+                    android:textColor="@color/quantum_black_100"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/marginForms"
+                android:orientation="horizontal"
+                android:background="@color/colorButtonGray"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginTop="@dimen/marginForms">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textColor="@color/colorTextHint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginTop="@dimen/marginForms">
+
+            <TextView
+                android:id="@+id/txtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Monte Parnaso 451, La Loma, Querétaro, Qro. C.P. 76116"
+                android:textColor="@color/quantum_black_100"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/marginForms"
+            android:orientation="horizontal"
+            android:background="@color/colorButtonGray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginTop="@dimen/marginForms">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Onlyproblem"
+                android:textColor="@color/colorTextHint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginTop="@dimen/marginForms">
+
+            <TextView
+                android:id="@+id/txtProblem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="La computadora no carga el sistema operativo y se apaga después de 30 minutos de uso."
+                android:textColor="@color/quantum_black_100"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/marginForms"
+            android:orientation="horizontal"
+            android:background="@color/colorButtonGray"/>
+
+        <Button
+            android:id="@+id/btnAcceptDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginSideBtn"
+            android:text="@string/accept"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_button_blue"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="Jorge Coronel González"
-            android:textColor="@color/quantum_black_100"/>
-
-    </LinearLayout>
-
-    <view
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="25dp"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="@string/dat"
-            android:textColor="@color/colorTextHint"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="10/01/19"
-            android:textColor="@color/quantum_black_100"/>
-
-    </LinearLayout>
-
-    <view
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="25dp"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="@string/hour"
-            android:textColor="@color/colorTextHint"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="10:10"
-            android:textColor="@color/quantum_black_100"/>
-
-    </LinearLayout>
-
-    <view
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="25dp"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="@string/address"
-            android:textColor="@color/colorTextHint"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="Monte Parnaso 451, La Loma, Querétaro, Qro. C.P. 76116"
-            android:textColor="@color/quantum_black_100"/>
-
-    </LinearLayout>
-
-    <view
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="25dp"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="@string/Onlyproblem"
-            android:textColor="@color/colorTextHint"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:text="La computadora no carga el sistema operativo y se apaga después de 30 minutos de uso."
-            android:textColor="@color/quantum_black_100"/>
-
-    </LinearLayout>
-    <view
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
-
-
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

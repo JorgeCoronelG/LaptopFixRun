@@ -80,8 +80,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
         finish();
     }
 

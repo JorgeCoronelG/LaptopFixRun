@@ -52,12 +52,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Activities.Customer.ChangeAddressActivity;
+import com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity;
 import com.laptopfix.laptopfixrun.Communication.Communication;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListenerInsertDateHome;
 import com.laptopfix.laptopfixrun.Model.DateHome;
+import com.laptopfix.laptopfixrun.Model.MatchDate;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Common;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -129,7 +131,6 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         txtChangeAddress.setText(Html.fromHtml(getResources().getString(R.string.changeAddress)));
 
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference(Common.DATES_TABLE);
 
         etDate.setOnFocusChangeListener(this);
         etHour.setOnFocusChangeListener(this);
@@ -159,7 +160,6 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     @Override
     public void onResume() {
         super.onResume();
-
         if(Common.newAddress == null){
             txtAddress.setText(getDirection(
                     Common.mLastLocation.getLatitude(),
@@ -208,8 +208,8 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         DateHome dateHome = new DateHome();
         if(swUrgent.isChecked()) {
             dateHome.setService(1);
-            dateHome.setHour("");
-            dateHome.setDate("");
+            dateHome.setHour("NA");
+            dateHome.setDate("NA");
         }else{
             dateHome.setHour(hour);
             dateHome.setDate(etDate.getText().toString());
@@ -247,9 +247,8 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
 
                 dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
-                if(checkDate(dayOfWeek)){
-                    etDate.setText(year + BARRA + (month + 1) + BARRA +  dayOfMonth);
-                }
+                etDate.setText(year + BARRA + (month + 1) + BARRA +  dayOfMonth);
+
             }
 
         },anio, mes, dia);
@@ -267,11 +266,11 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
                 String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
                 String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
-                if(checkHour(dayOfWeek, Integer.parseInt(horaFormateada))){
-                    //Muestro la hora con el formato deseado
-                    etHour.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " hrs.");
-                    hour = horaFormateada + DOS_PUNTOS + minutoFormateado;
-                }
+
+                //Muestro la hora con el formato deseado
+                etHour.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " hrs.");
+                hour = horaFormateada + DOS_PUNTOS + minutoFormateado;
+
             }
             //Estos valores deben ir en ese orden
             //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
@@ -279,30 +278,6 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         }, hora, minuto,false);
 
         recogerHora.show();
-    }
-
-    private boolean checkDate(int date){
-        if(date == Common.SUNDAY){
-            Toast.makeText(getContext(), "No se labora los domingos", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
-    }
-
-    private boolean checkHour(int date, int hour){
-        if(date == Common.SATURDAY){
-            if(hour >= Common.WORKING_SATURDAY_START_LF && hour < Common.WORKING_SATURDAY_FINISH_LF){
-                return true;
-            }else{
-                Toast.makeText(getContext(), "El horario del sábado es de 10 a 14 hrs.", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        }else if(hour >= Common.WORKING_ALL_WEEK_START_LF && hour < Common.WORKING_ALL_WEEK_FINISH_LF){
-            return true;
-        }else{
-            Toast.makeText(getContext(), "El horario entre semana es de 9 a 19 hrs.", Toast.LENGTH_LONG).show();
-            return false;
-        }
     }
 
     private String getDirection(double latitude, double longitude){
@@ -318,6 +293,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     @Override
     public void onSuccess(final DateHome dateHome, int code) {
         if(code == CommunicationCode.CODE_DATE_HOME_INSERT){
+            reference = database.getReference(Common.DATES_TABLE);
             reference.child(dateHome.getId()).setValue(dateHome)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -342,8 +318,9 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     }
 
     public void addDateHomeAtCustomer(DateHome dateHome){
-        DatabaseReference reference = database.getReference(Common.CUSTOMER_TABLE);
-        reference.child(Common.DATES_CUSTOMER_TABLE).child(dateHome.getId()).setValue(dateHome)
+        MatchDate matchDate = new MatchDate(dateHome, null);
+        reference = database.getReference(Common.MATCH_DATES);
+        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(matchDate)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -354,10 +331,10 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
                         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                /*Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                Intent intent = new Intent(getActivity(), HomeActivity.class);
                                 intent.putExtra("section", R.id.nav_cPendiente);
                                 startActivity(intent);
-                                getActivity().finish();*/
+                                getActivity().finish();
                             }
                         });
                         builder.setCancelable(false);

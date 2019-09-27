@@ -115,7 +115,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
             finish();
         }else if(code == CommunicationCode.CODE_LOGIN_TECHNICAL){
-            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Tecnhical.HomeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Technical.HomeActivity.class);
+            intent.putExtra("section", R.id.nav_citaL);
             startActivity(intent);
             finish();
         }

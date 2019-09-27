@@ -44,7 +44,8 @@ public class SplashActivity extends Activity {
                     startActivity(intent);
                     finish();
                 }else if (typeUser == Common.TYPE_USER_TECHNICAL){
-                    Intent intent = new Intent(SplashActivity.this, com.laptopfix.laptopfixrun.Activities.Tecnhical.HomeActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, com.laptopfix.laptopfixrun.Activities.Technical.HomeActivity.class);
+                    intent.putExtra("section", R.id.nav_citaL);
                     startActivity(intent);
                     finish();
                 }
