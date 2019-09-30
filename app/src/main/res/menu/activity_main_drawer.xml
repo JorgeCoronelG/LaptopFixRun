@@ -26,10 +26,10 @@
                     android:icon="@drawable/ic_pc_mechanic"
                     android:title="@string/menu_rEquipo" />
 
-                <item
+                <!--<item
                     android:id="@+id/nav_iEstablecimiento"
                     android:icon="@drawable/ic_walking"
-                    android:title="@string/menu_iEstablecimiento" />
+                    android:title="@string/menu_iEstablecimiento" />-->
 
                 <item
                     android:id="@+id/nav_cPendiente"
@@ -39,7 +39,7 @@
         </menu>
     </item>
 
-    <item android:title="Mi perfil">
+    <item android:title="Perfil">
         <menu>
             <group android:checkableBehavior="single">
                 <item

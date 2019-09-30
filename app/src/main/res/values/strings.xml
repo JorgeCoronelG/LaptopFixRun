@@ -105,17 +105,19 @@
     <string name="problem">Problema:</string>
     <string name="appoinment">Citas pendientes</string>
     <string name="nav_serviciosTec">Servicios</string>
-    <string name="nav_actualTec">Actual(es)</string>
+    <string name="nav_actualTec">Actuales</string>
     <string name="nav_perfilTec">Mi perfil</string>
     <string name="changeAddress"><![CDATA[<u>Cambiar dirección</u>]]></string>
     <string name="serviceExpress">Servicio urgente</string>
-    <string name="now_service">Servicio(s) actual(es)</string>
+    <string name="now_service">Servicios actuales</string>
     <string name="urgent">Urgente</string>
     <string name="detailDate">Detalle cita</string>
     <string name="accept_service">Servicio aceptado</string>
     <string name="txt_accept_service">Llega lo más pronto posible a tu destino</string>
     <string name="technical_name">Nombre del técnico</string>
     <string name="technical_phone">Teléfono del técnico</string>
+    <string name="customer_name">Nombre del cliente</string>
+    <string name="customer_phone">Teléfono del cliente</string>
     <string name="cancel_date">Cancelar cita</string>
-
+nombre
 </resources>

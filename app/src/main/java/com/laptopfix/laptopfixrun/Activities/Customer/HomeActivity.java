@@ -98,10 +98,9 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_perfil:
                 fragment = new ProfileFragment();
                 break;
-
-            case R.id.nav_iEstablecimiento:
+            /*case R.id.nav_iEstablecimiento:
                 fragment = new GoPlaceFragment();
-                break;
+                break;*/
             case R.id.nav_rEquipo:
                 fragment = new HomeServiceFragment();
                 break;
@@ -112,7 +111,6 @@ public class HomeActivity extends AppCompatActivity
                 //fragment = new ChatSoporteFragment();
                 //fragment = new ChatCusFragment();
                 break;*/
-
             case R.id.nav_closeSession:
                 customerController.setCustomer(new Customer());
                 new UserController(this).logout();

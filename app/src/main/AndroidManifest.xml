@@ -48,6 +48,9 @@
             android:name=".Activities.Technical.AppointmentDetailActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Activities.Technical.CurrentServiceDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
