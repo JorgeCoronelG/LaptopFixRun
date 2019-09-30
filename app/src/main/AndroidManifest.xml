@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activities.Customer.AppointmentDetailActivity"></activity>
         <activity android:name=".Activities.Customer.ChangeAddressActivity" />
         <activity android:name=".Activities.Customer.MessageSoporteActivity" />
         <activity android:name=".Activities.MessageActivity" />

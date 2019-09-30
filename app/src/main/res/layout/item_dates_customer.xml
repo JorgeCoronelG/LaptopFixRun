@@ -17,18 +17,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="12"
             android:orientation="horizontal"
+            android:layout_margin="@dimen/marginTxtItemComment"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/txtId"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Cita #10"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/txtItemComment"/>
+
+            <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:text="Estatus: Pendiente"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/txtItemComment"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDateHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10"
             android:layout_marginLeft="@dimen/marginTxtItemComment"
-            android:layout_marginTop="@dimen/marginTxtItemComment"
             android:layout_marginRight="@dimen/marginTxtItemComment">
 
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="Fecha: 01/05/2019"
+                android:layout_weight="5"
+                android:text="Fecha:"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/txtItemComment"/>
 
@@ -37,27 +64,24 @@
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:text="Hora 12:00 pm"
+                android:text="Hora:"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/txtItemComment"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llUrgent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal"
             android:layout_marginLeft="@dimen/marginTxtItemComment"
-            android:layout_marginTop="@dimen/marginTxtItemComment"
             android:layout_marginRight="@dimen/marginTxtItemComment">
 
             <TextView
-                android:id="@+id/txtRevision"
-                android:layout_width="1dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Revisión: En LaptopFix"
+                android:text="Servicio urgente"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/txtItemComment"/>
 
@@ -66,16 +90,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal"
             android:layout_margin="@dimen/marginTxtItemComment">
 
             <TextView
                 android:id="@+id/txtProblem"
-                android:layout_width="1dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Mi laptop no sirve de la pantalla"
+                android:text="Problema:"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/txtItemComment"/>
 

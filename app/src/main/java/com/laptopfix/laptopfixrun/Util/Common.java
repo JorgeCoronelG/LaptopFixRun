@@ -30,7 +30,7 @@ public class Common {
     public static final String CHATS_TABLE = "Chats";
     public static final String DATES_TABLE = "Dates";
     public static final String DATES_TECHNICAL_TABLE = "Dates-Technical";
-    public static final String MATCH_DATES = "Match-Dates";
+    public static final String MATCH_DATES_TABLE = "Match-Dates";
 
     public static LatLng newAddress = null;
 

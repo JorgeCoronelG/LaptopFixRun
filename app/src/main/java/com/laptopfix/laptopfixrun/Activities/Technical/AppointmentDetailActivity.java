@@ -84,7 +84,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements View
 
     private void addMatchDate() {
         MatchDate matchDate = new MatchDate(dateHome, new TechnicalController(this).getTechnical());
-        reference = database.getReference(Common.MATCH_DATES);
+        reference = database.getReference(Common.MATCH_DATES_TABLE);
         reference.child(dateHome.getCustomer().getId()).child(dateHome.getId()).setValue(matchDate)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

@@ -319,7 +319,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
 
     public void addDateHomeAtCustomer(DateHome dateHome){
         MatchDate matchDate = new MatchDate(dateHome, null);
-        reference = database.getReference(Common.MATCH_DATES);
+        reference = database.getReference(Common.MATCH_DATES_TABLE);
         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(matchDate)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

@@ -114,5 +114,8 @@
     <string name="detailDate">Detalle cita</string>
     <string name="accept_service">Servicio aceptado</string>
     <string name="txt_accept_service">Llega lo más pronto posible a tu destino</string>
+    <string name="technical_name">Nombre del técnico</string>
+    <string name="technical_phone">Teléfono del técnico</string>
+    <string name="cancel_date">Cancelar cita</string>
 
 </resources>
