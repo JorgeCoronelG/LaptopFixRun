@@ -119,5 +119,7 @@
     <string name="customer_name">Nombre del cliente</string>
     <string name="customer_phone">Teléfono del cliente</string>
     <string name="cancel_date">Cancelar cita</string>
-nombre
+    <string name="update_date">Actualizar cita</string>
+    <string name="update">Actualizar</string>
+
 </resources>

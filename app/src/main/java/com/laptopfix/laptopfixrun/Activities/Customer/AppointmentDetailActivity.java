@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -70,12 +73,43 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        reference.addValueEventListener(this);
+    }
+
+    @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.btnCancelDate:
                 //Por programar
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if( (matchDate.getDateHome().getStatus() == 0 ||
+                matchDate.getDateHome().getStatus() == 1) &&
+                matchDate.getDateHome().getService() == 0){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_edit, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_edit:
+                Intent intent = new Intent(this, UpdateDateActivity.class);
+                intent.putExtra("id", matchDate.getDateHome().getId());
+                intent.putExtra("date", matchDate.getDateHome().getDate());
+                intent.putExtra("hour", matchDate.getDateHome().getHour());
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -98,11 +132,13 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
                 txtStatus.setText("Aceptado");
                 break;
             case 2:
+                btnCancelDate.setVisibility(View.GONE);
                 txtNameTechnical.setText(matchDate.getTechnical().getName());
                 txtPhoneTechnical.setText(matchDate.getTechnical().getPhone());
                 txtStatus.setText("En reparación");
                 break;
             case 3:
+                btnCancelDate.setVisibility(View.GONE);
                 txtNameTechnical.setText(matchDate.getTechnical().getName());
                 txtPhoneTechnical.setText(matchDate.getTechnical().getPhone());
                 txtStatus.setText("Reparado");
