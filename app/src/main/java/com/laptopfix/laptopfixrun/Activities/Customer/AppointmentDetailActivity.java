@@ -1,6 +1,7 @@
 package com.laptopfix.laptopfixrun.Activities.Customer;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -82,9 +85,70 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.btnCancelDate:
-                //Por programar
+                createDialog(getString(R.string.waitAMoment));
+                deleteDateCustomer();
                 break;
         }
+    }
+
+    private void deleteDateCustomer() {
+        final MatchDate matchDate = this.matchDate;
+        reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                if(matchDate.getDateHome().getStatus() != 0){
+                    deleteDateTechnical(matchDate);
+                }else{
+                    dialog.dismiss();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AppointmentDetailActivity.this);
+                    builder.setMessage(getString(R.string.txt_delete_date));
+                    builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onBackPressed();
+                        }
+                    });
+                    builder.setCancelable(false);
+                    builder.show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                dialog.dismiss();
+                Toast.makeText(AppointmentDetailActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deleteDateTechnical(MatchDate matchDate) {
+        reference = database.getReference(Common.DATES_TECHNICAL_TABLE)
+                .child(matchDate.getTechnical().getId())
+                .child(matchDate.getDateHome().getId());
+        reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                dialog.dismiss();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AppointmentDetailActivity.this);
+                builder.setMessage(getString(R.string.txt_delete_date));
+                builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onBackPressed();
+                    }
+                });
+                builder.setCancelable(false);
+                builder.show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                dialog.dismiss();
+                Toast.makeText(AppointmentDetailActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -124,9 +188,11 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
         txtAddress.setText(matchDate.getDateHome().getAddress());
         switch(matchDate.getDateHome().getStatus()){
             case 0:
+                btnCancelDate.setVisibility(View.VISIBLE);
                 llTechnical.setVisibility(View.GONE);
                 break;
             case 1:
+                btnCancelDate.setVisibility(View.VISIBLE);
                 txtNameTechnical.setText(matchDate.getTechnical().getName());
                 txtPhoneTechnical.setText(matchDate.getTechnical().getPhone());
                 txtStatus.setText("Aceptado");

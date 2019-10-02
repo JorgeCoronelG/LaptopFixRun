@@ -121,5 +121,6 @@
     <string name="cancel_date">Cancelar cita</string>
     <string name="update_date">Actualizar cita</string>
     <string name="update">Actualizar</string>
+    <string name="txt_delete_date">!Cita eliminada correctamente¡</string>
 
 </resources>

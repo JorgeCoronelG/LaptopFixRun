@@ -73,6 +73,12 @@ public class AppointmentFragment extends Fragment implements VolleyListenerGetDa
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        reference.addValueEventListener(this);
+    }
+
+    @Override
     public void onSuccess(ArrayList<DateLF> dates, int code) {
         /*dialog.dismiss();
         if(code == CommunicationCode.CODE_GET_DATES_CUSTOMER){
@@ -105,12 +111,17 @@ public class AppointmentFragment extends Fragment implements VolleyListenerGetDa
             MatchDate matchDate = data.getValue(MatchDate.class);
             dates.add(matchDate);
         }
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        dateRecycler.setLayoutManager(linearLayoutManager);
-        datesCustomerAdapter = new DatesCustomerAdapter(dates, R.layout.item_dates_customer, getActivity(), this);
-        dateRecycler.setAdapter(datesCustomerAdapter);
-        dialog.dismiss();
+        if(!dates.isEmpty()){
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            dateRecycler.setLayoutManager(linearLayoutManager);
+            datesCustomerAdapter = new DatesCustomerAdapter(dates, R.layout.item_dates_customer, getActivity(), this);
+            dateRecycler.setAdapter(datesCustomerAdapter);
+            dialog.dismiss();
+        }else{
+            dialog.dismiss();
+            Toast.makeText(getContext(), "No tienes citas pendientes", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
