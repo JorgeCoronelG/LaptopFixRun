@@ -122,5 +122,7 @@
     <string name="update_date">Actualizar cita</string>
     <string name="update">Actualizar</string>
     <string name="txt_delete_date">!Cita eliminada correctamente¡</string>
+    <string name="txt_success_process">¡Proceso exitoso!</string>
+    <string name="txt_cancel_date">Has cancelado la cita</string>
 
 </resources>

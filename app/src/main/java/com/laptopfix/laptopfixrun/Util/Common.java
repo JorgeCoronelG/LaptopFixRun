@@ -21,6 +21,11 @@ public class Common {
     public static final int WORKING_ALL_WEEK_START_LF = 9;
     public static final int WORKING_ALL_WEEK_FINISH_LF = 19;
 
+    public static final int STATUS_WAIT = 0;
+    public static final int STATUS_ACCEPT = 1;
+    public static final int STATUS_IN_REPAIR = 2;
+    public static final int STATUS_REPAIRED = 3;
+
     public static final int TYPE_USER_LAPTOP_FIX = 1;
     public static final int TYPE_USER_CUSTOMER = 2;
     public static final int TYPE_USER_TECHNICAL = 3;
