@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
@@ -68,7 +69,7 @@ public class HomeActivity extends AppCompatActivity
         Customer customer = customerController.getCustomer();
 
         txtName.setText(customer.getName());
-        txtPhone.setText(customer.getNumber());
+        txtPhone.setText(customer.getPhone());
     }
 
     @Override
@@ -114,6 +115,7 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_closeSession:
                 customerController.setCustomer(new Customer());
                 new UserController(this).logout();
+                FirebaseAuth.getInstance().signOut();
 
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivity(intent);

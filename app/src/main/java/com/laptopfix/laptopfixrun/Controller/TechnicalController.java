@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Model.Technical;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 public class TechnicalController {
 
@@ -24,7 +24,7 @@ public class TechnicalController {
         editor.putString("name", technical.getName());
         editor.putString("phone", technical.getPhone());
         editor.putString("email", technical.getEmail());
-        editor.putInt("typeUser", Common.TYPE_USER_TECHNICAL);
+        editor.putInt("typeUser", Constants.TYPE_USER_TECHNICAL);
 
         editor.commit();
     }

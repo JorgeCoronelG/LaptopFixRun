@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.laptopfix.laptopfixrun.Remote.IGoogleAPI;
 import com.laptopfix.laptopfixrun.Remote.RetrofitClient;
 
-public class Common {
+public class Constants {
 
     public static final String URL = "http://192.168.1.71/LaptopFixRun/";
 

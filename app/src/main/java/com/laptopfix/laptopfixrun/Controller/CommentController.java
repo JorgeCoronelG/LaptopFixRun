@@ -15,7 +15,7 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Model.Comment;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +41,7 @@ public class CommentController {
     public void insert(final Comment comment){
         createDialog(context.getString(R.string.waitAMoment));
 
-        String url = Common.URL + CommunicationPath.COMMENT_INSERT;
+        String url = Constants.URL + CommunicationPath.COMMENT_INSERT;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -85,7 +85,7 @@ public class CommentController {
     public void getComments(final int code){
         createDialog(context.getString(R.string.loading_comments));
 
-        String url = Common.URL + CommunicationPath.GET_COMMENTS;
+        String url = Constants.URL + CommunicationPath.GET_COMMENTS;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

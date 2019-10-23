@@ -19,13 +19,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import dmax.dialog.SpotsDialog;
 
@@ -51,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference(Common.CUSTOMER_TABLE);
+        reference = database.getReference(Constants.CUSTOMER_TABLE);
 
         customerController = new CustomerController(this);
         customerController.setmVolleyListener(this);
@@ -136,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Customer getCustomer() {
         Customer customer = new Customer();
         customer.setName(etName.getText().toString());
-        customer.setNumber(etNumber.getText().toString());
+        customer.setPhone(etNumber.getText().toString());
         customer.setEmail(etEmail.getText().toString());
 
         return customer;

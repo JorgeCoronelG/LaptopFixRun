@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.TechnicalController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
@@ -78,6 +79,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         if (id == R.id.logout) {
             new TechnicalController(this).setTechnical(new Technical());
             userController.logout();
+            FirebaseAuth.getInstance().signOut();
+
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

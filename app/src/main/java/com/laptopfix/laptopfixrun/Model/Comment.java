@@ -7,16 +7,18 @@ public class Comment {
     private int score;
     private String dateComment;
     private Customer customer;
+    private Technical technical;
 
     public Comment() {
     }
 
-    public Comment(int idComment, String comment, int score, String dateComment, Customer customer) {
+    public Comment(int idComment, String comment, int score, String dateComment, Customer customer, Technical technical) {
         this.idComment = idComment;
         this.comment = comment;
         this.score = score;
         this.dateComment = dateComment;
         this.customer = customer;
+        this.technical = technical;
     }
 
     public int getIdComment() {
@@ -57,6 +59,14 @@ public class Comment {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Technical getTechnical() {
+        return technical;
+    }
+
+    public void setTechnical(Technical technical) {
+        this.technical = technical;
     }
 
 }

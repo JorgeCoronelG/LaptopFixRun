@@ -13,9 +13,12 @@ public class CommunicationCode {
 
     public static final int CODE_DATE_LAPTOP_FIX_INSERT = 7;
     public static final int CODE_DATE_HOME_INSERT = 8;
+
     public static final int CODE_GET_DATES_LAPTOP_FIX = 9;
     public static final int CODE_GET_DATES_CUSTOMER = 10;
 
     public static final int CODE_COMMENT_INSERT = 11;
     public static final int CODE_GET_COMMENTS = 12;
+
+    public static final int CODE_ERROR = 404;
 }

@@ -21,12 +21,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.laptopfix.laptopfixrun.Activities.Customer.EditProfileActivity;
 import com.laptopfix.laptopfixrun.Controller.TechnicalController;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.Model.MatchDate;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import dmax.dialog.SpotsDialog;
 
@@ -58,7 +57,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements View
 
         Intent intent = getIntent();
         if(intent != null){
-            reference = database.getReference(Common.DATES_TABLE).child(intent.getStringExtra("id"));
+            reference = database.getReference(Constants.DATES_TABLE).child(intent.getStringExtra("id"));
         }
         reference.addValueEventListener(this);
         btnAccept.setOnClickListener(this);
@@ -84,7 +83,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements View
 
     private void addMatchDate() {
         MatchDate matchDate = new MatchDate(dateHome, new TechnicalController(this).getTechnical());
-        reference = database.getReference(Common.MATCH_DATES_TABLE);
+        reference = database.getReference(Constants.MATCH_DATES_TABLE);
         reference.child(dateHome.getCustomer().getId()).child(dateHome.getId()).setValue(matchDate)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -102,7 +101,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements View
     }
 
     private void addDateTechnical() {
-        reference = database.getReference(Common.DATES_TECHNICAL_TABLE);
+        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE);
         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(dateHome)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -132,7 +131,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements View
     }
 
     private void deleteDate() {
-        reference = database.getReference(Common.DATES_TABLE).child(dateHome.getId());
+        reference = database.getReference(Constants.DATES_TABLE).child(dateHome.getId());
         reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

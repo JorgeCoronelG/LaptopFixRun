@@ -21,14 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Activities.Customer.AppointmentDetailActivity;
 import com.laptopfix.laptopfixrun.Adapter.DatesCustomerAdapter;
-import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
-import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListenerGetDates;
 import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.Model.MatchDate;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.util.ArrayList;
 
@@ -58,7 +56,7 @@ public class AppointmentFragment extends Fragment implements VolleyListenerGetDa
         createDialog(getString(R.string.waitAMoment));
 
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference(Common.MATCH_DATES_TABLE).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        reference = database.getReference(Constants.MATCH_DATES_TABLE).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         reference.addValueEventListener(this);
 
         //dateController.getDatesCustomer(new CustomerController(getContext()).getCustomer());

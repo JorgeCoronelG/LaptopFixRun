@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Adapter.CustomerAdapter;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +81,7 @@ public class ChatFragment extends Fragment {
 
     private void searchCustomer(String toString) {
         final FirebaseUser fuser= FirebaseAuth.getInstance().getCurrentUser();
-        Query query = FirebaseDatabase.getInstance().getReference(Common.CUSTOMER_TABLE).orderByChild("name")
+        Query query = FirebaseDatabase.getInstance().getReference(Constants.CUSTOMER_TABLE).orderByChild("name")
                 .startAt(toString)
                 .endAt(toString+"\uf8ff");
 
@@ -121,7 +121,7 @@ public class ChatFragment extends Fragment {
     private void readCustomer() {
         createDialog("Cargando chats");
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Common.CUSTOMER_TABLE);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constants.CUSTOMER_TABLE);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

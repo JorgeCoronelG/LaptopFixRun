@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Model.MatchDate;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.util.Calendar;
 
@@ -80,7 +79,7 @@ public class UpdateDateActivity extends AppCompatActivity implements View.OnClic
             etDate.setText(intent.getStringExtra("date"));
             etHour.setText(intent.getStringExtra("hour")+" hrs.");
             hour = intent.getStringExtra("hour");
-            reference = database.getReference(Common.MATCH_DATES_TABLE)
+            reference = database.getReference(Constants.MATCH_DATES_TABLE)
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(intent.getStringExtra("id"));
         }
@@ -147,7 +146,7 @@ public class UpdateDateActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updateDateTechnical() {
-        reference = database.getReference(Common.DATES_TECHNICAL_TABLE)
+        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
                 .child(matchDate.getTechnical().getId())
                 .child(matchDate.getDateHome().getId());
         reference.setValue(matchDate.getDateHome())

@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
         Customer customer = customerController.getCustomer();
 
         txtName.setText(customer.getName());
-        txtNumber.setText(customer.getNumber());
+        txtNumber.setText(customer.getPhone());
         txtEmail.setText(customer.getEmail());
     }
 

@@ -4,35 +4,20 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.TypeFilter;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
-import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ChangeAddressActivity extends AppCompatActivity implements View.OnClickListener, PlaceSelectionListener {
 
@@ -48,7 +33,7 @@ public class ChangeAddressActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_change_address);
         showToolbar(getString(R.string.address), true);
 
-        Common.newAddress = null;
+        Constants.newAddress = null;
 
         btnSave = findViewById(R.id.btnSave);
         if(!Places.isInitialized()){
@@ -73,7 +58,7 @@ public class ChangeAddressActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnSave:
-                if(Common.newAddress != null){
+                if(Constants.newAddress != null){
                     onBackPressed();
                 }else{
                     Toast.makeText(this, "Elija una dirección", Toast.LENGTH_SHORT).show();
@@ -96,7 +81,7 @@ public class ChangeAddressActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onPlaceSelected(@NonNull Place place) {
-        Common.newAddress = place.getLatLng();
+        Constants.newAddress = place.getLatLng();
     }
 
     @Override

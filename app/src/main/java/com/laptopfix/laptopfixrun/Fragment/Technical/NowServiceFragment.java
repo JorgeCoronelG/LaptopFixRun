@@ -23,7 +23,7 @@ import com.laptopfix.laptopfixrun.Activities.Technical.CurrentServiceDetailActiv
 import com.laptopfix.laptopfixrun.Adapter.DatesTechnicalAdapter;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class NowServiceFragment extends Fragment implements ValueEventListener, 
 
         dateRecycler = view.findViewById(R.id.recyclerNowDates);
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference(Common.DATES_TECHNICAL_TABLE).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         reference.addValueEventListener(this);
 
         createDialog(getString(R.string.waitAMoment));

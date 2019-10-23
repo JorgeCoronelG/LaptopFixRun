@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.android.volley.toolbox.StringRequest;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 public class LaptopFixController {
 
@@ -22,7 +22,7 @@ public class LaptopFixController {
 
         editor.putString("id", laptopFix.getId());
         editor.putString("email", laptopFix.getEmail());
-        editor.putInt("typeUser", Common.TYPE_USER_LAPTOP_FIX);
+        editor.putInt("typeUser", Constants.TYPE_USER_LAPTOP_FIX);
 
         editor.commit();
     }

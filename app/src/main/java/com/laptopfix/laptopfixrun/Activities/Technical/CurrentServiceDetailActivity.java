@@ -24,11 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.laptopfix.laptopfixrun.Activities.Customer.AppointmentDetailActivity;
-import com.laptopfix.laptopfixrun.Activities.Customer.UpdateDateActivity;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import dmax.dialog.SpotsDialog;
 
@@ -70,7 +68,7 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
 
         Intent intent = getIntent();
         if(intent != null){
-            reference = database.getReference(Common.DATES_TECHNICAL_TABLE)
+            reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(intent.getStringExtra("id"));
         }
@@ -81,7 +79,7 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(dateHome.getStatus() == Common.STATUS_ACCEPT){
+        if(dateHome.getStatus() == Constants.STATUS_ACCEPT){
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_cancel, menu);
         }
@@ -102,14 +100,14 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
     private void cancelDate() {
         final DateHome dateHome = this.dateHome;
         //Borrar la cita por parte del técnico
-        reference = database.getReference(Common.DATES_TECHNICAL_TABLE)
+        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(dateHome.getId());
         reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 //Borrar la cita por parte del cliente
-                reference = database.getReference(Common.MATCH_DATES_TABLE)
+                reference = database.getReference(Constants.MATCH_DATES_TABLE)
                         .child(dateHome.getCustomer().getId())
                         .child(dateHome.getId());
                 reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -136,7 +134,7 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
     }
 
     private void addDate(DateHome dateHome) {
-        reference = database.getReference(Common.DATES_TABLE).child(dateHome.getId());
+        reference = database.getReference(Constants.DATES_TABLE).child(dateHome.getId());
         reference.setValue(dateHome).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -167,18 +165,18 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
         switch (v.getId()){
             case R.id.btnRepair:
                 createDialog(getString(R.string.waitAMoment));
-                changeStatus(Common.STATUS_IN_REPAIR);
+                changeStatus(Constants.STATUS_IN_REPAIR);
                 break;
             case R.id.btnDeliver:
                 createDialog(getString(R.string.waitAMoment));
-                changeStatus(Common.STATUS_REPAIRED);
+                changeStatus(Constants.STATUS_REPAIRED);
                 break;
         }
     }
 
     private void changeStatus(final int status) {
         dateHome.setStatus(status);
-        reference = database.getReference(Common.DATES_TECHNICAL_TABLE)
+        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(dateHome.getId());
         reference.setValue(dateHome).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -196,7 +194,7 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
     }
 
     private void changeStatusCustomer(int status) {
-        reference = database.getReference(Common.MATCH_DATES_TABLE)
+        reference = database.getReference(Constants.MATCH_DATES_TABLE)
                 .child(dateHome.getCustomer().getId())
                 .child(dateHome.getId())
                 .child("dateHome");
@@ -238,21 +236,21 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
         switch(dateHome.getStatus()){
             case 1:
                 txtNameCustomer.setText(dateHome.getCustomer().getName());
-                txtPhoneCustomer.setText(dateHome.getCustomer().getNumber());
+                txtPhoneCustomer.setText(dateHome.getCustomer().getPhone());
                 txtStatus.setText("Aceptado");
                 btnRepair.setVisibility(View.VISIBLE);
                 btnDeliver.setVisibility(View.GONE);
                 break;
             case 2:
                 txtNameCustomer.setText(dateHome.getCustomer().getName());
-                txtPhoneCustomer.setText(dateHome.getCustomer().getNumber());
+                txtPhoneCustomer.setText(dateHome.getCustomer().getPhone());
                 txtStatus.setText("En reparación");
                 btnRepair.setVisibility(View.GONE);
                 btnDeliver.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 txtNameCustomer.setText(dateHome.getCustomer().getName());
-                txtPhoneCustomer.setText(dateHome.getCustomer().getNumber());
+                txtPhoneCustomer.setText(dateHome.getCustomer().getPhone());
                 txtStatus.setText("Reparado");
                 btnDeliver.setVisibility(View.GONE);
                 btnRepair.setVisibility(View.GONE);

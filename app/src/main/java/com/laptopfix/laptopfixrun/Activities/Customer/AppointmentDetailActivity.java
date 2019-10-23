@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Model.MatchDate;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import dmax.dialog.SpotsDialog;
 
@@ -67,7 +67,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
 
         Intent intent = getIntent();
         if(intent != null){
-            reference = database.getReference(Common.MATCH_DATES_TABLE)
+            reference = database.getReference(Constants.MATCH_DATES_TABLE)
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(intent.getStringExtra("id"));
         }
@@ -123,7 +123,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
     }
 
     private void deleteDateTechnical(MatchDate matchDate) {
-        reference = database.getReference(Common.DATES_TECHNICAL_TABLE)
+        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
                 .child(matchDate.getTechnical().getId())
                 .child(matchDate.getDateHome().getId());
         reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {

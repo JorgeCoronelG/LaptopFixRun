@@ -1,8 +1,6 @@
 package com.laptopfix.laptopfixrun.Fragment.Customer;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,12 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Adapter.LaptopFixAdapter;
 import com.laptopfix.laptopfixrun.Adapter.MessageAdapter;
-import com.laptopfix.laptopfixrun.Activities.MessageActivity;
 import com.laptopfix.laptopfixrun.Model.Chat;
-import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -20,13 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.laptopfix.laptopfixrun.Activities.MessageActivity;
 import com.laptopfix.laptopfixrun.Adapter.MessageAdapter;
 import com.laptopfix.laptopfixrun.Model.Chat;
-import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,7 +94,7 @@ public class MessageSoporteActivity extends AppCompatActivity {
 
 
 
-        //reference = FirebaseDatabase.getInstance().getReference(Common.LAPTOP_FIX_TABLE).child(userid);
+        //reference = FirebaseDatabase.getInstance().getReference(Constants.LAPTOP_FIX_TABLE).child(userid);
         reference = FirebaseDatabase.getInstance().getReference("W7dtV7oJa0NuwTljHfcYDQvHGpi2");
 
         reference.addValueEventListener(new ValueEventListener() {

@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
@@ -47,11 +46,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Remote.IGoogleAPI;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,7 +116,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
-                        Common.mLastLocation = location;
+                        Constants.mLastLocation = location;
                         if (mFusedLocationClient != null) {
                             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                         }
@@ -128,7 +126,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         };
 
         polyLineList = new ArrayList<>();
-        mService = Common.getGoogleAPI();
+        mService = Constants.getGoogleAPI();
         isClicked = false;
 
         setUpLocation();
@@ -222,13 +220,13 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     @Override
     public void onComplete(@NonNull Task<Location> task) {
         if (task.isSuccessful()) {
-            Common.mLastLocation = task.getResult();
-            if (Common.mLastLocation != null) {
+            Constants.mLastLocation = task.getResult();
+            if (Constants.mLastLocation != null) {
                 mMap.clear();
                 addMarkerLF();
                 if(isClicked){
-                    final double latitude = Common.mLastLocation.getLatitude();
-                    final double longitude = Common.mLastLocation.getLongitude();
+                    final double latitude = Constants.mLastLocation.getLatitude();
+                    final double longitude = Constants.mLastLocation.getLongitude();
 
                     if (mCurrent != null) {
                         mCurrent.remove();
@@ -246,7 +244,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
     }
 
     private void getDirection() {
-        currentPosition = new LatLng(Common.mLastLocation.getLatitude(), Common.mLastLocation.getLongitude());
+        currentPosition = new LatLng(Constants.mLastLocation.getLatitude(), Constants.mLastLocation.getLongitude());
 
         String requestApi = null;
         try {
@@ -254,7 +252,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
                     "mode=driving&" +
                     "transit_routing_preference=less_driving&" +
                     "origin=" + currentPosition.latitude + "," + currentPosition.longitude + "&" +
-                    "destination=" + Common.LATITUDE_LAPTOP_FIX + "," + Common.LONGITUDE_LAPTOP_FIX + "&" +
+                    "destination=" + Constants.LATITUDE_LAPTOP_FIX + "," + Constants.LONGITUDE_LAPTOP_FIX + "&" +
                     "key=" + getResources().getString(R.string.google_direction_api);
             Log.d("REQUEST API", requestApi);
             mService.getPath(requestApi)
@@ -278,7 +276,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
 
                                 polylineOptions = new PolylineOptions();
                                 polylineOptions.color(Color.WHITE);
-                                polylineOptions.width(Common.WIDTH_ROUTE);
+                                polylineOptions.width(Constants.WIDTH_ROUTE);
                                 polylineOptions.startCap(new SquareCap());
                                 polylineOptions.endCap(new SquareCap());
                                 polylineOptions.jointType(JointType.ROUND);
@@ -287,7 +285,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
 
                                 bluePolylineOptions = new PolylineOptions();
                                 bluePolylineOptions.color(getResources().getColor(R.color.colorRoute));
-                                bluePolylineOptions.width(Common.WIDTH_ROUTE);
+                                bluePolylineOptions.width(Constants.WIDTH_ROUTE);
                                 bluePolylineOptions.startCap(new SquareCap());
                                 bluePolylineOptions.endCap(new SquareCap());
                                 bluePolylineOptions.jointType(JointType.ROUND);
@@ -336,7 +334,7 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
 
     @Override
     public void onLocationChanged(Location location) {
-        Common.mLastLocation = location;
+        Constants.mLastLocation = location;
         Toast.makeText(getContext(), "Cambió tu locación", Toast.LENGTH_SHORT).show();
         if(isClicked){
             displayLocation();
@@ -348,12 +346,12 @@ public class PlaceFragment extends Fragment implements OnMapReadyCallback, Locat
         mMap = googleMap;
         addMarkerLF();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Common.LATITUDE_LAPTOP_FIX, Common.LONGITUDE_LAPTOP_FIX), 15.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Constants.LATITUDE_LAPTOP_FIX, Constants.LONGITUDE_LAPTOP_FIX), 15.0f));
     }
 
     private void addMarkerLF(){
         mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(Common.LATITUDE_LAPTOP_FIX, Common.LONGITUDE_LAPTOP_FIX))
+                .position(new LatLng(Constants.LATITUDE_LAPTOP_FIX, Constants.LONGITUDE_LAPTOP_FIX))
                 .flat(true)
                 .title(getString(R.string.txtLaptopFix))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue)));

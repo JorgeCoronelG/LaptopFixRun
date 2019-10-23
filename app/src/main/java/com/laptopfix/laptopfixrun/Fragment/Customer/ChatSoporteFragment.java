@@ -20,9 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Adapter.LaptopFixAdapter;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
-
-import org.w3c.dom.Comment;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +49,7 @@ public class ChatSoporteFragment extends Fragment {
 
     private void readLaptop() {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Common.LAPTOP_FIX_TABLE);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constants.LAPTOP_FIX_TABLE);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

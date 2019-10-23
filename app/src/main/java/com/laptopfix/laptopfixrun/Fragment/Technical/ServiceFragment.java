@@ -22,7 +22,7 @@ import com.laptopfix.laptopfixrun.Activities.Technical.AppointmentDetailActivity
 import com.laptopfix.laptopfixrun.Adapter.DatesTechnicalAdapter;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.util.ArrayList;
 
@@ -46,7 +46,7 @@ public class ServiceFragment extends Fragment implements ValueEventListener, Dat
 
         dateRecycler = view.findViewById(R.id.recyclerDates);
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference(Common.DATES_TABLE);
+        reference = database.getReference(Constants.DATES_TABLE);
         reference.addValueEventListener(this);
 
         createDialog(getString(R.string.waitAMoment));

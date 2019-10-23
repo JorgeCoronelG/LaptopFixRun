@@ -26,7 +26,7 @@ import com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.util.Calendar;
 
@@ -207,7 +207,7 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     }
 
     private boolean checkDate(int date){
-        if(date == Common.SUNDAY){
+        if(date == Constants.SUNDAY){
             Toast.makeText(getContext(), "No se labora los domingos", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -215,14 +215,14 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     }
 
     private boolean checkHour(int date, int hour){
-        if(date == Common.SATURDAY){
-            if(hour >= Common.WORKING_SATURDAY_START_LF && hour < Common.WORKING_SATURDAY_FINISH_LF){
+        if(date == Constants.SATURDAY){
+            if(hour >= Constants.WORKING_SATURDAY_START_LF && hour < Constants.WORKING_SATURDAY_FINISH_LF){
                 return true;
             }else{
                 Toast.makeText(getContext(), "El horario del sábado es de 10 a 14 hrs.", Toast.LENGTH_LONG).show();
                 return false;
             }
-        }else if(hour >= Common.WORKING_ALL_WEEK_START_LF && hour < Common.WORKING_ALL_WEEK_FINISH_LF){
+        }else if(hour >= Constants.WORKING_ALL_WEEK_START_LF && hour < Constants.WORKING_ALL_WEEK_FINISH_LF){
             return true;
         }else{
             Toast.makeText(getContext(), "El horario entre semana es de 9 a 19 hrs.", Toast.LENGTH_LONG).show();

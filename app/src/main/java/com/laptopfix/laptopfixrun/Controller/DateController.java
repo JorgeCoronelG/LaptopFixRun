@@ -1,7 +1,6 @@
 package com.laptopfix.laptopfixrun.Controller;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,7 +17,7 @@ import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.Model.DateLF;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,20 +27,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DateController {
+public class DateController implements Response.Listener<String>, Response.ErrorListener {
 
     private StringRequest request;
     private Context context;
     private VolleyListener mVolleyListener;
     private VolleyListenerGetDates mVolleyListenerGetDates;
     private VolleyListenerInsertDateHome mVolleyListenerInsertDateHome;
+    private DateHome dateHome;
 
     public DateController(Context context) {
         this.context = context;
     }
 
     public void insert(final DateLF date){
-        String url = Common.URL + CommunicationPath.DATE_INSERT_LAPTOP_FIX;
+        String url = Constants.URL + CommunicationPath.DATE_INSERT_LAPTOP_FIX;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -80,49 +80,26 @@ public class DateController {
     }
 
     public void insert(final DateHome date){
-        String url = Common.URL + CommunicationPath.DATE_INSERT_HOME;
-
-        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject.getInt("code") == 200){
-                        JSONObject jsonDate = jsonObject.getJSONObject("date");
-                        date.setId(jsonDate.getString("id"));
-
-                        mVolleyListenerInsertDateHome.onSuccess(date, CommunicationCode.CODE_DATE_HOME_INSERT);
-                    }else{
-                        mVolleyListenerInsertDateHome.onFailure(jsonObject.getString("message"));
-                    }
-                } catch (JSONException e) {
-                    mVolleyListenerInsertDateHome.onFailure(e.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mVolleyListenerInsertDateHome.onFailure(error.toString());
-            }
-        }){
+        this.dateHome = date;
+        String url = Constants.URL + CommunicationPath.DATE_INSERT_HOME;
+        request = new StringRequest(Request.Method.POST, url, this, this){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("idCus", date.getCustomer().getId());
+                map.put("customer", date.getCustomer().getId());
                 map.put("date", date.getDate());
                 map.put("hour", date.getHour());
-                map.put("residence", date.getAddress());
+                map.put("address", date.getAddress());
                 map.put("problem", date.getProblem());
                 map.put("service", String.valueOf(date.getService()));
                 return map;
             }
         };
-
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
     public void getDatesLaptopFix(){
-        String url = Common.URL + CommunicationPath.GET_DATES_LAPTOP_FIX;
+        String url = Constants.URL + CommunicationPath.GET_DATES_LAPTOP_FIX;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -167,7 +144,7 @@ public class DateController {
     }
 
     public void getDatesCustomer(final Customer customer){
-        String url = Common.URL + CommunicationPath.GET_DATES_CUSTOMER;
+        String url = Constants.URL + CommunicationPath.GET_DATES_CUSTOMER;
 
         request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -213,6 +190,30 @@ public class DateController {
         };
 
         Communication.getmInstance(context).addToRequestQueue(request);
+    }
+
+    @Override
+    public void onResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch(jsonObject.getInt("code")){
+                case CommunicationCode.CODE_DATE_HOME_INSERT:
+                    dateHome.setId(jsonObject.getString("id"));
+                    mVolleyListenerInsertDateHome.onSuccess(dateHome, CommunicationCode.CODE_DATE_HOME_INSERT);
+                    break;
+
+                case CommunicationCode.CODE_ERROR:
+                    mVolleyListenerInsertDateHome.onFailure(jsonObject.getString("message"));
+                    break;
+            }
+        } catch (JSONException e) {
+            mVolleyListenerInsertDateHome.onFailure(e.getMessage());
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        mVolleyListenerGetDates.onFailure(error.toString());
     }
 
     public void setmVolleyListener(VolleyListener mVolleyListener) {

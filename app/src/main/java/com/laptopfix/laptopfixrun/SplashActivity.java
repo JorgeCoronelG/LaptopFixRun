@@ -7,10 +7,9 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.laptopfix.laptopfixrun.Activities.LaptopFix.HomeActivity;
 import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.UserController;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 public class SplashActivity extends Activity {
 
@@ -34,16 +33,16 @@ public class SplashActivity extends Activity {
                     Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
-                }else if (typeUser == Common.TYPE_USER_LAPTOP_FIX){
+                }/*else if (typeUser == Constants.TYPE_USER_LAPTOP_FIX){
                     Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
-                }else if (typeUser == Common.TYPE_USER_CUSTOMER){
+                }*/else if (typeUser == Constants.TYPE_USER_CUSTOMER){
                     Intent intent = new Intent(SplashActivity.this, com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity.class);
                     intent.putExtra("section", R.id.nav_establecimiento);
                     startActivity(intent);
                     finish();
-                }else if (typeUser == Common.TYPE_USER_TECHNICAL){
+                }else if (typeUser == Constants.TYPE_USER_TECHNICAL){
                     Intent intent = new Intent(SplashActivity.this, com.laptopfix.laptopfixrun.Activities.Technical.HomeActivity.class);
                     intent.putExtra("section", R.id.nav_citaL);
                     startActivity(intent);

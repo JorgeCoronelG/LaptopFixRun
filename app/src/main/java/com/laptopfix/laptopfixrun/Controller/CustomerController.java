@@ -2,7 +2,6 @@ package com.laptopfix.laptopfixrun.Controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -14,51 +13,29 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomerController {
+public class CustomerController implements Response.Listener<String>, Response.ErrorListener {
 
     private StringRequest request;
     private Context context;
     private VolleyListener mVolleyListener;
+    private Customer customer;
 
     public CustomerController(Context context) {
         this.context = context;
     }
 
     public void insert(final Customer customer, final String password){
-
-        String url = Common.URL + CommunicationPath.CUSTOMER_INSERT;
-
-        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject.getInt("code") == 200){
-
-                        setCustomer(customer);
-
-                        mVolleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_INSERT);
-
-                    }else if(jsonObject.getInt("code") == 404){
-                        mVolleyListener.onFailure(jsonObject.getString("message"));
-                    }
-                }catch (Exception e){
-                    mVolleyListener.onFailure(e.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mVolleyListener.onFailure(error.toString());
-            }
-        }){
+        this.customer = customer;
+        String url = Constants.URL + CommunicationPath.CUSTOMER_INSERT;
+        request = new StringRequest(Request.Method.POST, url, this, this){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
@@ -66,50 +43,23 @@ public class CustomerController {
                 map.put("email", customer.getEmail());
                 map.put("password", password);
                 map.put("name", customer.getName());
-                map.put("number", customer.getNumber());
+                map.put("phone", customer.getPhone());
                 return map;
             }
         };
-
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
     public void update(final Customer customer){
-
-        String url = Common.URL + CommunicationPath.CUSTOMER_UPDATE;
-
-        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject.getInt("code") == 200){
-                        JSONObject dataCustomer = jsonObject.getJSONObject("customer");
-                        customer.setName(dataCustomer.getString("name"));
-                        customer.setNumber(dataCustomer.getString("number"));
-
-                        setCustomer(customer);
-
-                        mVolleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_UPDATE);
-                    }else if(jsonObject.getInt("code") == 404){
-                        mVolleyListener.onFailure(jsonObject.getString("message"));
-                    }
-                }catch (Exception e){
-                    mVolleyListener.onFailure(e.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mVolleyListener.onFailure(error.toString());
-            }
-        }){
+        this.customer = customer;
+        String url = Constants.URL + CommunicationPath.CUSTOMER_UPDATE;
+        request = new StringRequest(Request.Method.POST, url, this, this){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
                 map.put("id", customer.getId());
                 map.put("name", customer.getName());
-                map.put("number", customer.getNumber());
+                map.put("phone", customer.getPhone());
                 return map;
             }
         };
@@ -123,9 +73,9 @@ public class CustomerController {
 
         editor.putString("id", customer.getId());
         editor.putString("name", customer.getName());
-        editor.putString("number", customer.getNumber());
+        editor.putString("number", customer.getPhone());
         editor.putString("email", customer.getEmail());
-        editor.putInt("typeUser", Common.TYPE_USER_CUSTOMER);
+        editor.putInt("typeUser", Constants.TYPE_USER_CUSTOMER);
 
         editor.commit();
     }
@@ -136,7 +86,7 @@ public class CustomerController {
         Customer customer = new Customer();
         customer.setId(preferences.getString("id", null));
         customer.setName(preferences.getString("name", null));
-        customer.setNumber(preferences.getString("number", null));
+        customer.setPhone(preferences.getString("number", null));
         customer.setEmail(preferences.getString("email", null));
 
         return customer;
@@ -144,5 +94,34 @@ public class CustomerController {
 
     public void setmVolleyListener(VolleyListener mVolleyListener) {
         this.mVolleyListener = mVolleyListener;
+    }
+
+    @Override
+    public void onResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.getInt("code")){
+                case CommunicationCode.CODE_CUSTOMER_INSERT:
+                    setCustomer(customer);
+                    mVolleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_INSERT);
+                    break;
+
+                case CommunicationCode.CODE_CUSTOMER_UPDATE:
+                    setCustomer(customer);
+                    mVolleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_UPDATE);
+                    break;
+
+                case CommunicationCode.CODE_ERROR:
+                    mVolleyListener.onFailure(jsonObject.getString("message"));
+                    break;
+            }
+        } catch (JSONException e) {
+            mVolleyListener.onFailure(e.getMessage());
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        mVolleyListener.onFailure(error.toString());
     }
 }

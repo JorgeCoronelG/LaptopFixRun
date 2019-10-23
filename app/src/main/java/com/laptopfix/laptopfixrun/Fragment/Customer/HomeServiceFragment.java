@@ -3,57 +3,35 @@ package com.laptopfix.laptopfixrun.Fragment.Customer;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.TypeFilter;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Activities.Customer.ChangeAddressActivity;
 import com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity;
-import com.laptopfix.laptopfixrun.Communication.Communication;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
@@ -61,13 +39,9 @@ import com.laptopfix.laptopfixrun.Interface.VolleyListenerInsertDateHome;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.Model.MatchDate;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
-import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -160,15 +134,15 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     @Override
     public void onResume() {
         super.onResume();
-        if(Common.newAddress == null){
+        if(Constants.newAddress == null){
             txtAddress.setText(getDirection(
-                    Common.mLastLocation.getLatitude(),
-                    Common.mLastLocation.getLongitude())
+                    Constants.mLastLocation.getLatitude(),
+                    Constants.mLastLocation.getLongitude())
             );
         }else{
             txtAddress.setText(getDirection(
-                    Common.newAddress.latitude,
-                    Common.newAddress.longitude));
+                    Constants.newAddress.latitude,
+                    Constants.newAddress.longitude));
         }
     }
 
@@ -293,7 +267,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     @Override
     public void onSuccess(final DateHome dateHome, int code) {
         if(code == CommunicationCode.CODE_DATE_HOME_INSERT){
-            reference = database.getReference(Common.DATES_TABLE);
+            reference = database.getReference(Constants.DATES_TABLE);
             reference.child(dateHome.getId()).setValue(dateHome)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -319,7 +293,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
 
     public void addDateHomeAtCustomer(DateHome dateHome){
         MatchDate matchDate = new MatchDate(dateHome, null);
-        reference = database.getReference(Common.MATCH_DATES_TABLE);
+        reference = database.getReference(Constants.MATCH_DATES_TABLE);
         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(matchDate)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

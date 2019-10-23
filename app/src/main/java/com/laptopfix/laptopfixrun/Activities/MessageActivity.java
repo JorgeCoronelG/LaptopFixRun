@@ -24,7 +24,7 @@ import com.laptopfix.laptopfixrun.Adapter.MessageAdapter;
 import com.laptopfix.laptopfixrun.Model.Chat;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,7 +96,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
-        reference = FirebaseDatabase.getInstance().getReference(Common.CUSTOMER_TABLE).child(userid);
+        reference = FirebaseDatabase.getInstance().getReference(Constants.CUSTOMER_TABLE).child(userid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

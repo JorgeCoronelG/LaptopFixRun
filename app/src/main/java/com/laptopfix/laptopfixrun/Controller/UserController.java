@@ -2,7 +2,6 @@ package com.laptopfix.laptopfixrun.Controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -14,9 +13,8 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
-import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.Model.Technical;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +22,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserController {
+public class UserController implements Response.Listener<String>, Response.ErrorListener {
 
     private StringRequest request;
     private Context context;
@@ -35,54 +33,8 @@ public class UserController {
     }
 
     public void login(final String email, final String password){
-        String url = Common.URL + CommunicationPath.LOGIN;
-
-        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject.getInt("code") == 200){
-                        JSONObject dataUser = jsonObject.getJSONObject("user");
-
-                        if(dataUser.getInt("typeUser") == Common.TYPE_USER_LAPTOP_FIX){
-
-                            mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_LAPTOP_FIX);
-
-                        }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_CUSTOMER){
-
-                            Customer customer = new Customer();
-                            customer.setId(dataUser.getString("id"));
-                            customer.setName(dataUser.getString("name"));
-                            customer.setNumber(dataUser.getString("number"));
-                            customer.setEmail(dataUser.getString("email"));
-                            new CustomerController(context).setCustomer(customer);
-                            mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_CUSTOMER);
-
-                        }else if(dataUser.getInt("typeUser") == Common.TYPE_USER_TECHNICAL){
-
-                            Technical technical = new Technical();
-                            technical.setId(dataUser.getString("id"));
-                            technical.setName(dataUser.getString("name"));
-                            technical.setPhone(dataUser.getString("number"));
-                            technical.setEmail(dataUser.getString("email"));
-                            new TechnicalController(context).setTechnical(technical);
-                            mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_TECHNICAL);
-
-                        }
-                    }else if(jsonObject.getInt("code") == 404){
-                        mVolleyListener.onFailure(jsonObject.getString("message"));
-                    }
-                }catch (Exception e){
-                    mVolleyListener.onFailure(e.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mVolleyListener.onFailure(error.toString());
-            }
-        }){
+        String url = Constants.URL + CommunicationPath.LOGIN;
+        request = new StringRequest(Request.Method.POST, url, this, this){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
@@ -91,33 +43,12 @@ public class UserController {
                 return map;
             }
         };
-
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
     public void changePassword(final String email, final String password){
-        String url = Common.URL + CommunicationPath.CHANGE_PASSWORD;
-
-        request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject.getInt("code") == 200){
-                        mVolleyListener.onSuccess(CommunicationCode.CODE_CHANGE_PASSWORD);
-                    }else if(jsonObject.getInt("code") == 404){
-                        mVolleyListener.onFailure(jsonObject.getString("message"));
-                    }
-                } catch (JSONException e) {
-                    mVolleyListener.onFailure(e.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mVolleyListener.onFailure(error.toString());
-            }
-        }){
+        String url = Constants.URL + CommunicationPath.CHANGE_PASSWORD;
+        request = new StringRequest(Request.Method.POST, url, this, this){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
@@ -126,7 +57,6 @@ public class UserController {
                 return map;
             }
         };
-
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
@@ -146,5 +76,54 @@ public class UserController {
 
     public void setmVolleyListener(VolleyListener mVolleyListener) {
         this.mVolleyListener = mVolleyListener;
+    }
+
+    @Override
+    public void onResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch(jsonObject.getInt("code")){
+                case CommunicationCode.CODE_LOGIN_LAPTOP_FIX:
+                    mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_LAPTOP_FIX);
+                    break;
+
+                case CommunicationCode.CODE_LOGIN_CUSTOMER:
+                    JSONObject dataCustomer = jsonObject.getJSONObject("user");
+                    Customer customer = new Customer();
+                    customer.setId(dataCustomer.getString("id"));
+                    customer.setName(dataCustomer.getString("name"));
+                    customer.setPhone(dataCustomer.getString("phone"));
+                    customer.setEmail(dataCustomer.getString("email"));
+                    new CustomerController(context).setCustomer(customer);
+                    mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_CUSTOMER);
+                    break;
+
+                case CommunicationCode.CODE_LOGIN_TECHNICAL:
+                    JSONObject dataTechnical = jsonObject.getJSONObject("user");
+                    Technical technical = new Technical();
+                    technical.setId(dataTechnical.getString("id"));
+                    technical.setName(dataTechnical.getString("name"));
+                    technical.setPhone(dataTechnical.getString("number"));
+                    technical.setEmail(dataTechnical.getString("email"));
+                    new TechnicalController(context).setTechnical(technical);
+                    mVolleyListener.onSuccess(CommunicationCode.CODE_LOGIN_TECHNICAL);
+                    break;
+
+                case CommunicationCode.CODE_CHANGE_PASSWORD:
+                    mVolleyListener.onSuccess(CommunicationCode.CODE_CHANGE_PASSWORD);
+                    break;
+
+                case CommunicationCode.CODE_ERROR:
+                    mVolleyListener.onFailure(jsonObject.getString("message"));
+                    break;
+            }
+        } catch (JSONException e) {
+            mVolleyListener.onFailure(e.getMessage());
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        mVolleyListener.onFailure(error.toString());
     }
 }

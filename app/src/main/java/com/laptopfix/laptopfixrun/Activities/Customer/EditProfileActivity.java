@@ -23,7 +23,7 @@ import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.R;
-import com.laptopfix.laptopfixrun.Util.Common;
+import com.laptopfix.laptopfixrun.Util.Constants;
 
 import dmax.dialog.SpotsDialog;
 
@@ -49,7 +49,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         //Init Firebase
         FirebaseApp.initializeApp(this);
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference(Common.CUSTOMER_TABLE);
+        reference = database.getReference(Constants.CUSTOMER_TABLE);
 
         etName = findViewById(R.id.etName);
         etNumber = findViewById(R.id.etNumber);
@@ -109,7 +109,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private Customer getCustomer(){
         Customer customer = customerController.getCustomer();
         customer.setName(etName.getText().toString());
-        customer.setNumber(etNumber.getText().toString());
+        customer.setPhone(etNumber.getText().toString());
         return customer;
     }
 
