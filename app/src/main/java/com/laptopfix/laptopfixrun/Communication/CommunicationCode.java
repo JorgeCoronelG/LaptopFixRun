@@ -7,6 +7,7 @@ public class CommunicationCode {
     public static final int CODE_LOGIN_TECHNICAL = 3;
 
     public static final int CODE_CHANGE_PASSWORD = 4;
+    public static final int CODE_CHANGE_EMAIL = 13;
 
     public static final int CODE_CUSTOMER_INSERT = 5;
     public static final int CODE_CUSTOMER_UPDATE = 6;

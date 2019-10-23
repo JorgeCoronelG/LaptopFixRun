@@ -7,6 +7,7 @@ public class CommunicationPath {
 
     public static final String LOGIN = "cUser/login";
     public static final String CHANGE_PASSWORD = "cUser/changePassword";
+    public static final String CHANGE_EMAIL = "cUser/changeEmail";
 
     public static final String DATE_INSERT_LAPTOP_FIX = "Date/insertLF.php";
     public static final String DATE_INSERT_HOME = "cDateH/insert";

@@ -127,9 +127,16 @@
                 android:id="@+id/txtEmail"
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="8"
+                android:layout_weight="6"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/txtMyProfileData"/>
+
+            <ImageView
+                android:id="@+id/editEmail"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_black"
+                android:layout_weight="2"/>
 
         </LinearLayout>
 
@@ -147,7 +154,7 @@
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="8"
+                android:layout_weight="6"
                 android:text="Correo electrónico"
                 android:textColor="@color/colorTextHint"/>
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -168,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onSuccess(int code) {
         if(code == CommunicationCode.CODE_CUSTOMER_INSERT){
             dialog.dismiss();
-            
+
             Intent intent = new Intent(RegisterActivity.this, CompleteActivity.class);
             startActivity(intent);
             finish();
@@ -178,7 +179,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onFailure(String error) {
         dialog.dismiss();
-
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

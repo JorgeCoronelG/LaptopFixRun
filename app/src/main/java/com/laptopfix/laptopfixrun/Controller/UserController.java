@@ -2,12 +2,19 @@ package com.laptopfix.laptopfixrun.Controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Communication.Communication;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
@@ -60,6 +67,20 @@ public class UserController implements Response.Listener<String>, Response.Error
         Communication.getmInstance(context).addToRequestQueue(request);
     }
 
+    public void changeEmail(final String emailV, final String emailN){
+        String url = Constants.URL + CommunicationPath.CHANGE_EMAIL;
+        request = new StringRequest(Request.Method.POST, url, this, this){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("emailV", emailV);
+                map.put("emailN", emailN);
+                return map;
+            }
+        };
+        Communication.getmInstance(context).addToRequestQueue(request);
+    }
+
     public int checkUser(){
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         int typeUser = preferences.getInt("typeUser",0);
@@ -72,10 +93,6 @@ public class UserController implements Response.Listener<String>, Response.Error
 
         editor.putInt("typeUser", 0);
         editor.commit();
-    }
-
-    public void setmVolleyListener(VolleyListener mVolleyListener) {
-        this.mVolleyListener = mVolleyListener;
     }
 
     @Override
@@ -113,6 +130,13 @@ public class UserController implements Response.Listener<String>, Response.Error
                     mVolleyListener.onSuccess(CommunicationCode.CODE_CHANGE_PASSWORD);
                     break;
 
+                case CommunicationCode.CODE_CHANGE_EMAIL:
+                    Technical tech = new TechnicalController(context).getTechnical();
+                    tech.setEmail(jsonObject.getString("email"));
+                    new TechnicalController(context).setTechnical(tech);
+                    mVolleyListener.onSuccess(CommunicationCode.CODE_CHANGE_EMAIL);
+                    break;
+
                 case CommunicationCode.CODE_ERROR:
                     mVolleyListener.onFailure(jsonObject.getString("message"));
                     break;
@@ -125,5 +149,9 @@ public class UserController implements Response.Listener<String>, Response.Error
     @Override
     public void onErrorResponse(VolleyError error) {
         mVolleyListener.onFailure(error.toString());
+    }
+
+    public void setmVolleyListener(VolleyListener mVolleyListener) {
+        this.mVolleyListener = mVolleyListener;
     }
 }

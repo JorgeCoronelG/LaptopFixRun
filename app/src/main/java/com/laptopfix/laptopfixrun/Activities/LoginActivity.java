@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     createDialog(getString(R.string.waitAMoment));
                     final String email = etEmail.getText().toString();
                     final String password = etPassword.getText().toString();
-                    loginFirebase(email, password);
+                    userController.login(email, password);
                 }
                 break;
             case R.id.btnRegister:
@@ -80,12 +80,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void loginFirebase(final String email, final String password) {
+    private void loginFirebase(final String email, final String password, final int code) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        userController.login(email, password);
+                        dialog.dismiss();
+
+                        if(code == CommunicationCode.CODE_LOGIN_CUSTOMER){
+                            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity.class);
+                            intent.putExtra("section", R.id.nav_establecimiento);
+                            startActivity(intent);
+                            finish();
+                        }else if(code == CommunicationCode.CODE_LOGIN_TECHNICAL) {
+                            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Technical.HomeActivity.class);
+                            intent.putExtra("section", R.id.nav_citaL);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -99,8 +111,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onSuccess(int code) {
-        dialog.dismiss();
-        if(code == CommunicationCode.CODE_LOGIN_LAPTOP_FIX){
+        final String email = etEmail.getText().toString();
+        final String password = etPassword.getText().toString();
+        /*if(code == CommunicationCode.CODE_LOGIN_LAPTOP_FIX){
             LaptopFix laptopFix = new LaptopFix();
             laptopFix.setId(auth.getUid());
             laptopFix.setEmail(etEmail.getText().toString());
@@ -109,16 +122,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
-        }else if(code == CommunicationCode.CODE_LOGIN_CUSTOMER){
-            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity.class);
-            intent.putExtra("section", R.id.nav_establecimiento);
-            startActivity(intent);
-            finish();
+        }else*/ if(code == CommunicationCode.CODE_LOGIN_CUSTOMER){
+            loginFirebase(email, password, CommunicationCode.CODE_LOGIN_CUSTOMER);
         }else if(code == CommunicationCode.CODE_LOGIN_TECHNICAL){
-            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Technical.HomeActivity.class);
-            intent.putExtra("section", R.id.nav_citaL);
-            startActivity(intent);
-            finish();
+            loginFirebase(email, password, CommunicationCode.CODE_LOGIN_TECHNICAL);
         }
     }
 

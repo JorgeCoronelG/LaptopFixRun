@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +37,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
 
     private View view;
     private TextView txtName, txtNumber, txtEmail;
-    private EditText etNewPassword;
+    private EditText etNewPassword, etNewEmail;
     private Button btnChangePass;
+    private ImageView editEmail;
     private TechnicalController technicalController;
     private UserController userController;
     private AlertDialog dialog;
@@ -51,7 +53,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
         txtNumber = view.findViewById(R.id.txtNumber);
         txtEmail = view.findViewById(R.id.txtEmail);
         btnChangePass = view.findViewById(R.id.btnChangePassword);
+        editEmail = view.findViewById(R.id.editEmail);
         btnChangePass.setOnClickListener(this);
+        editEmail.setOnClickListener(this);
         technicalController = new TechnicalController(getContext());
         userController = new UserController(getContext());
         userController.setmVolleyListener(this);
@@ -76,7 +80,46 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
             case R.id.btnChangePassword:
                 viewChangePassword();
                 break;
+            case R.id.editEmail:
+                viewChangeEmail();
+                break;
         }
+    }
+
+    private void viewChangeEmail(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getLayoutInflater().inflate(R.layout.change_email, null);
+
+        etNewEmail = view.findViewById(R.id.etChangeEmail);
+
+        builder.setView(view)
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(checkEmail()){
+                            createDialog(getString(R.string.waitAMoment));
+                            changeEmail();
+                        }
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel),null);
+        builder.show();
+    }
+
+    private void changeEmail(){
+        final String newEmail = etNewEmail.getText().toString();
+        user.updateEmail(newEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Technical technical = technicalController.getTechnical();
+                    userController.changeEmail(technical.getEmail(), newEmail);
+                }else{
+                    dialog.dismiss();
+                    Toast.makeText(getContext(), task.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void viewChangePassword(){
@@ -127,15 +170,37 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
         return true;
     }
 
+    private boolean checkEmail() {
+        if(etNewEmail.getText().toString().isEmpty()){
+            Toast.makeText(getContext(), getString(R.string.required_email), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onSuccess(int code) {
         dialog.dismiss();
-        if(code == CommunicationCode.CODE_CHANGE_PASSWORD){
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage(getString(R.string.txtPasswordSave));
-            builder.setPositiveButton(getString(R.string.ok), null);
-            builder.setCancelable(false);
-            builder.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        switch (code){
+            case CommunicationCode.CODE_CHANGE_PASSWORD:
+                builder.setMessage(getString(R.string.txtPasswordSave));
+                builder.setPositiveButton(getString(R.string.ok), null);
+                builder.setCancelable(false);
+                builder.show();
+                break;
+
+            case CommunicationCode.CODE_CHANGE_EMAIL:
+                builder.setMessage(getString(R.string.txtEmailSave));
+                builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setDataTechnical();
+                    }
+                });
+                builder.setCancelable(false);
+                builder.show();
+                break;
         }
     }
 

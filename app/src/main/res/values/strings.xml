@@ -124,5 +124,8 @@
     <string name="txt_delete_date">!Cita eliminada correctamente¡</string>
     <string name="txt_success_process">¡Proceso exitoso!</string>
     <string name="txt_cancel_date">Has cancelado la cita</string>
+    <string name="writeEmail">Escribe el nuevo correo</string>
+    <string name="changeEmail">Cambiar correo</string>
+    <string name="txtEmailSave">Se ha cambiado tu correo electrónico</string>
 
 </resources>

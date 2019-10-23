@@ -8,7 +8,7 @@ import com.laptopfix.laptopfixrun.Remote.RetrofitClient;
 
 public class Constants {
 
-    public static final String URL = "http://192.168.1.71/LaptopFixRun/";
+    public static final String URL = "http://192.168.1.67/LaptopFixRun/";
 
     public static Location mLastLocation;
     public static final double LATITUDE_LAPTOP_FIX = 20.583994;
