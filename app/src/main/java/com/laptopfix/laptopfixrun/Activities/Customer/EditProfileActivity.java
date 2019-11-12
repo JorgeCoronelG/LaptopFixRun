@@ -163,6 +163,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    public void onSuccess(int code, Object object) {
+
+    }
+
+    @Override
     public void onFailure(String error) {
         dialog.dismiss();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();

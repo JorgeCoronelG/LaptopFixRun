@@ -252,6 +252,11 @@ public class GoPlaceFragment extends Fragment implements  View.OnFocusChangeList
     }
 
     @Override
+    public void onSuccess(int code, Object object) {
+
+    }
+
+    @Override
     public void onFailure(String message) {
         dialog.dismiss();
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();

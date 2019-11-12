@@ -205,6 +205,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, V
     }
 
     @Override
+    public void onSuccess(int code, Object object) {
+
+    }
+
+    @Override
     public void onFailure(String error) {
         dialog.dismiss();
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();

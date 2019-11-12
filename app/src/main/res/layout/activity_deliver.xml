@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Technical.DeliverActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/actionbar_toolbar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginForms"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"
+            android:text="@string/solution"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txtMyProfileData"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginForms"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms">
+
+            <EditText
+                android:id="@+id/etDescribe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/describe"
+                android:inputType="text|textMultiLine"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginForms"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"
+            android:text="@string/cost"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txtMyProfileData"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginForms"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms">
+
+            <EditText
+                android:id="@+id/etCost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/example_cost"
+                android:inputType="numberDecimal"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txtNoteDeliver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginForms"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"
+            android:text="@string/noteDeliver"
+            android:textSize="@dimen/txtItemComment"/>
+
+        <Button
+            android:id="@+id/btnDeliver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginSideBtn"
+            android:text="@string/deliver"
+            android:textColor="@android:color/white"
+            android:background="@drawable/rounded_button_blue"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

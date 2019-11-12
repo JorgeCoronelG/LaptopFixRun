@@ -30,7 +30,7 @@
     <string name="hour">Hora</string>
     <string name="address">Dirección</string>
     <string name="Onlyproblem">Problema</string>
-    <string name="cost">Costo Extra: $15.75</string>
+    <string name="cost">Costo del servicio</string>
     <string name="AddComment">Agregar comentario</string>
     <string name="writeComment">Escribe tu comentario</string>
     <string name="rating">Calificación</string>
@@ -38,7 +38,7 @@
     <string name="status">Estatus</string>
     <string name="cancelS">Cancelar servicio</string>
     <string name="repair">En reparación</string>
-    <string name="deliver">Entregar equipo</string>
+    <string name="deliver">Entregar</string>
     <string name="costTe">Costo</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -127,5 +127,12 @@
     <string name="writeEmail">Escribe el nuevo correo</string>
     <string name="changeEmail">Cambiar correo</string>
     <string name="txtEmailSave">Se ha cambiado tu correo electrónico</string>
+    <string name="solution">Solución del equipo</string>
+    <string name="describe">Describir</string>
+    <string name="example_cost">Ej. 350</string>
+    <string name="noteDeliver">Nota: El costo del servicio se sumará al costo del servicio base que es de:</string>
+    <string name="deliverEquipment">Información de entrega</string>
+    <string name="describe_required">Descripción obligatoria</string>
+    <string name="cost_required">Costo obligatorio</string>
 
 </resources>

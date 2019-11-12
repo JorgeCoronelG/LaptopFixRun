@@ -12,7 +12,6 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Interface.VolleyListenerGetDates;
-import com.laptopfix.laptopfixrun.Interface.VolleyListenerInsertDateHome;
 import com.laptopfix.laptopfixrun.Model.Customer;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.Model.DateLF;
@@ -33,7 +32,6 @@ public class DateController implements Response.Listener<String>, Response.Error
     private Context context;
     private VolleyListener mVolleyListener;
     private VolleyListenerGetDates mVolleyListenerGetDates;
-    private VolleyListenerInsertDateHome mVolleyListenerInsertDateHome;
     private DateHome dateHome;
 
     public DateController(Context context) {
@@ -199,15 +197,15 @@ public class DateController implements Response.Listener<String>, Response.Error
             switch(jsonObject.getInt("code")){
                 case CommunicationCode.CODE_DATE_HOME_INSERT:
                     dateHome.setId(jsonObject.getString("id"));
-                    mVolleyListenerInsertDateHome.onSuccess(dateHome, CommunicationCode.CODE_DATE_HOME_INSERT);
+                    mVolleyListener.onSuccess(CommunicationCode.CODE_DATE_HOME_INSERT, dateHome);
                     break;
 
                 case CommunicationCode.CODE_ERROR:
-                    mVolleyListenerInsertDateHome.onFailure(jsonObject.getString("message"));
+                    mVolleyListener.onFailure(jsonObject.getString("message"));
                     break;
             }
         } catch (JSONException e) {
-            mVolleyListenerInsertDateHome.onFailure(e.getMessage());
+            mVolleyListener.onFailure(e.getMessage());
         }
     }
 
@@ -222,9 +220,5 @@ public class DateController implements Response.Listener<String>, Response.Error
 
     public void setmVolleyListenerGetDates(VolleyListenerGetDates mVolleyListenerGetDates) {
         this.mVolleyListenerGetDates = mVolleyListenerGetDates;
-    }
-
-    public void setmVolleyListenerInsertDateHome(VolleyListenerInsertDateHome mVolleyListenerInsertDateHome) {
-        this.mVolleyListenerInsertDateHome = mVolleyListenerInsertDateHome;
     }
 }

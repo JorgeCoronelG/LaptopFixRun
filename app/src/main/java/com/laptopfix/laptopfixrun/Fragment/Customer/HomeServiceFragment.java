@@ -35,7 +35,7 @@ import com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
-import com.laptopfix.laptopfixrun.Interface.VolleyListenerInsertDateHome;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.Model.MatchDate;
 import com.laptopfix.laptopfixrun.R;
@@ -49,7 +49,7 @@ import java.util.Locale;
 import dmax.dialog.SpotsDialog;
 
 public class HomeServiceFragment extends Fragment implements  View.OnFocusChangeListener, View.OnClickListener,
-        VolleyListenerInsertDateHome {
+        VolleyListener {
 
     private View view;
     private EditText etDate, etHour, etProblem;
@@ -113,7 +113,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         etHour.setInputType(InputType.TYPE_NULL);
 
         dateController = new DateController(getContext());
-        dateController.setmVolleyListenerInsertDateHome(this);
+        dateController.setmVolleyListener(this);
 
         etDate.setOnClickListener(this);
         etHour.setOnClickListener(this);
@@ -265,8 +265,14 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     }
 
     @Override
-    public void onSuccess(final DateHome dateHome, int code) {
+    public void onSuccess(int code) {
+
+    }
+
+    @Override
+    public void onSuccess(int code, Object object) {
         if(code == CommunicationCode.CODE_DATE_HOME_INSERT){
+            final DateHome dateHome = (DateHome) object;
             reference = database.getReference(Constants.DATES_TABLE);
             reference.child(dateHome.getId()).setValue(dateHome)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

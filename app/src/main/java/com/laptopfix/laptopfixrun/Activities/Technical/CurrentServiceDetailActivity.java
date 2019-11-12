@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Model.DateHome;
+import com.laptopfix.laptopfixrun.Model.Deliver;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Constants;
 
@@ -168,8 +169,10 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
                 changeStatus(Constants.STATUS_IN_REPAIR);
                 break;
             case R.id.btnDeliver:
-                createDialog(getString(R.string.waitAMoment));
-                changeStatus(Constants.STATUS_REPAIRED);
+                Intent intent = new Intent(this, DeliverActivity.class);
+                intent.putExtra("id", dateHome.getId());
+                startActivity(intent);
+                finish();
                 break;
         }
     }

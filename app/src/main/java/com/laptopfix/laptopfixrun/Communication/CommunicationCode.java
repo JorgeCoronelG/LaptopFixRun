@@ -21,5 +21,9 @@ public class CommunicationCode {
     public static final int CODE_COMMENT_INSERT = 11;
     public static final int CODE_GET_COMMENTS = 12;
 
+    public static final int CODE_DELIVER_INSERT = 13;
+
+    public static final int CODE_GET_BASE_SERVICE = 14;
+
     public static final int CODE_ERROR = 404;
 }

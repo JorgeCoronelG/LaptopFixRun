@@ -14,16 +14,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.Customer.UpdateDateActivity"></activity>
-        <activity android:name=".Activities.Customer.AppointmentDetailActivity" />
-        <activity android:name=".Activities.Customer.ChangeAddressActivity" />
-        <activity android:name=".Activities.Customer.MessageSoporteActivity" />
-        <activity android:name=".Activities.MessageActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".Activities.Customer.UpdateDateActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".Activities.Customer.AppointmentDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".Activities.Customer.ChangeAddressActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".Activities.Customer.MessageSoporteActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".Activities.MessageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".Activities.Technical.DeliverActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".Activities.Customer.HomeActivity"
             android:label="@string/title_activity_main"
