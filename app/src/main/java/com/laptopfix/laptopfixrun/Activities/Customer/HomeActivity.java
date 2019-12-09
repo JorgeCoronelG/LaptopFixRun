@@ -19,6 +19,7 @@ import com.laptopfix.laptopfixrun.Activities.LoginActivity;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Fragment.Customer.AppointmentFragment;
+import com.laptopfix.laptopfixrun.Fragment.Customer.FiscalDataFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.PlaceFragment;
@@ -107,6 +108,9 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.nav_cPendiente:
                 fragment = new AppointmentFragment();
+                break;
+            case R.id.nav_fiscal_data:
+                fragment = new FiscalDataFragment();
                 break;
             /*case R.id.nav_chat:
                 //fragment = new ChatSoporteFragment();

@@ -97,6 +97,8 @@
     <string name="required_name">Nombre completo obligatorio</string>
     <string name="required_number">Número telefónico obligatorio</string>
     <string name="required_number_size">Número telefónico incorrecto</string>
+    <string name="required_address">Domicilio obligatorio</string>
+    <string name="required_rfc">RFC obligatorio</string>
     <string name="na">NA</string>
     <string name="date_appointment">Fecha:</string>
     <string name="hour_appointment">Hora:</string>
@@ -134,5 +136,9 @@
     <string name="deliverEquipment">Información de entrega</string>
     <string name="describe_required">Descripción obligatoria</string>
     <string name="cost_required">Costo obligatorio</string>
+    <string name="fiscal_data">Datos fiscales</string>
+    <string name="name_fical">Nombre fiscal</string>
+    <string name="cdfi">CDFI</string>
+    <string name="rfc">RFC</string>
 
 </resources>
