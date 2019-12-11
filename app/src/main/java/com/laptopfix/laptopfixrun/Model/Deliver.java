@@ -2,19 +2,31 @@ package com.laptopfix.laptopfixrun.Model;
 
 public class Deliver {
 
+    private int idDeliver;
     private DateHome dateHome;
     private String dateDel;
     private String descDel;
     private String costDel;
+    private Technical technical;
 
     public Deliver() {
     }
 
-    public Deliver(DateHome dateHome, String dateDel, String descDel, String costDel) {
+    public Deliver(int idDeliver, DateHome dateHome, String dateDel, String descDel, String costDel, Technical technical) {
+        this.idDeliver = idDeliver;
         this.dateHome = dateHome;
         this.dateDel = dateDel;
         this.descDel = descDel;
         this.costDel = costDel;
+        this.technical = technical;
+    }
+
+    public int getIdDeliver() {
+        return idDeliver;
+    }
+
+    public void setIdDeliver(int idDeliver) {
+        this.idDeliver = idDeliver;
     }
 
     public DateHome getDateHome() {
@@ -48,4 +60,13 @@ public class Deliver {
     public void setCostDel(String costDel) {
         this.costDel = costDel;
     }
+
+    public Technical getTechnical() {
+        return technical;
+    }
+
+    public void setTechnical(Technical technical) {
+        this.technical = technical;
+    }
+
 }

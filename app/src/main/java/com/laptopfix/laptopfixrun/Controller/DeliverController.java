@@ -31,7 +31,7 @@ public class DeliverController implements Response.Listener<String>, Response.Er
         this.context = context;
     }
 
-    public void insert(final Deliver deliver, final String idTech, final String baseService){
+    public void insert(final Deliver deliver, final String baseService){
         String url = Constants.URL + CommunicationPath.DELIVER_INSERT;
         request = new StringRequest(Request.Method.POST, url, this, this){
             @Override
@@ -40,7 +40,7 @@ public class DeliverController implements Response.Listener<String>, Response.Er
                 map.put("dateH", deliver.getDateHome().getId());
                 map.put("desc", deliver.getDescDel());
                 map.put("cost", deliver.getCostDel());
-                map.put("idTech", idTech);
+                map.put("idTech", deliver.getTechnical().getId());
                 map.put("baseService", baseService);
                 return map;
             }

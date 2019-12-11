@@ -11,108 +11,107 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilName"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
+            android:text="@string/name_fical"
+            android:textColor="@color/colorTextHint"
+            android:layout_margin="@dimen/marginForms"
+            />
 
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/name_fical"
-                android:inputType="textMultiLine"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilAddress"
+        <TextView
+            android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
-
-            <EditText
-                android:id="@+id/etAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/address"
-                android:inputType="textMultiLine"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
-
-            <EditText
-                android:id="@+id/etPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/phone"
-                android:inputType="number"
-                android:maxLength="10"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilRFC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
-
-            <EditText
-                android:id="@+id/etRFC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/rfc"
-                android:inputType="text"/>
-
-        </android.support.design.widget.TextInputLayout>
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txtMyProfileData"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/marginForms"
-            android:layout_marginRight="@dimen/marginForms"
-            android:layout_marginTop="@dimen/marginForms"
-            android:text="@string/cdfi"
+            android:text="@string/address"
+            android:textColor="@color/colorTextHint"
+            android:layout_margin="@dimen/marginForms"
+            />
+
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/txtMyProfileData"/>
+            android:textSize="@dimen/txtMyProfileData"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"/>
 
-        <Spinner
-            android:id="@+id/spnCDFI"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms" />
+            android:text="@string/phone"
+            android:textColor="@color/colorTextHint"
+            android:layout_margin="@dimen/marginForms"
+            />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilEmail"
+        <TextView
+            android:id="@+id/txtPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginForms">
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txtMyProfileData"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"/>
 
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/btnSave"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTopEditProfile"
-            android:layout_marginRight="@dimen/marginSideBtn"
-            android:layout_marginLeft="@dimen/marginSideBtn"
-            android:text="@string/save"
-            android:textColor="@android:color/white"
-            android:background="@drawable/rounded_button_blue"/>
+            android:text="@string/rfc"
+            android:textColor="@color/colorTextHint"
+            android:layout_margin="@dimen/marginForms"
+            />
+
+        <TextView
+            android:id="@+id/txtRFC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txtMyProfileData"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cfdi"
+            android:textColor="@color/colorTextHint"
+            android:layout_margin="@dimen/marginForms"
+            />
+
+        <TextView
+            android:id="@+id/txtCFDI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txtMyProfileData"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:textColor="@color/colorTextHint"
+            android:layout_margin="@dimen/marginForms"
+            />
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txtMyProfileData"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"/>
 
     </LinearLayout>
 

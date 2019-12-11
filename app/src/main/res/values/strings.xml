@@ -138,7 +138,8 @@
     <string name="cost_required">Costo obligatorio</string>
     <string name="fiscal_data">Datos fiscales</string>
     <string name="name_fical">Nombre fiscal</string>
-    <string name="cdfi">CDFI</string>
+    <string name="cfdi">CFDI</string>
     <string name="rfc">RFC</string>
+    <string name="edit_fiscal_data">Editar datos fiscales</string>
 
 </resources>

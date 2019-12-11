@@ -5,41 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashActivity"
-    android:background="@color/colorPrimary">
+    android:background="@android:color/white">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
-
-        <TextView
-            android:id="@+id/txtLaptopFix"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txtLaptopFix"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/txtSplashActivity"/>
-
-        <TextView
-            android:layout_marginTop="@dimen/marginSplashActivity"
-            android:id="@+id/txtRun"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txtRun"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/txtSplashActivity"/>
-
-        <View
-            android:layout_marginTop="@dimen/marginSplashActivity"
-            android:layout_marginRight="@dimen/marginSideSplashActivity"
-            android:layout_marginLeft="@dimen/marginSideSplashActivity"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/white" />
-
-    </LinearLayout>
+        android:src="@drawable/laptop_fix"
+        android:layout_centerInParent="true"
+        />
 
 </RelativeLayout>

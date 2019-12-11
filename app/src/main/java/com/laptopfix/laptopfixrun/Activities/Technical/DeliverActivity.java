@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.DeliverController;
+import com.laptopfix.laptopfixrun.Controller.TechnicalController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.Model.Deliver;
@@ -204,8 +205,8 @@ public class DeliverActivity extends AppCompatActivity implements VolleyListener
                 deliver.setDateHome(dateHome);
                 deliver.setDescDel(etDescribe.getText().toString());
                 deliver.setCostDel(etCost.getText().toString());
-                String idTech = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                deliverController.insert(deliver, idTech, baseService);
+                deliver.setTechnical(new TechnicalController(DeliverActivity.this).getTechnical());
+                deliverController.insert(deliver, baseService);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
