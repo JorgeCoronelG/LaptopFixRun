@@ -19,9 +19,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.laptopfix.laptopfixrun.Activities.Customer.RegisterActivity;
 import com.laptopfix.laptopfixrun.Activities.LaptopFix.HomeActivity;
 import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Controller.FiscalDataController;
 import com.laptopfix.laptopfixrun.Controller.LaptopFixController;
 import com.laptopfix.laptopfixrun.Controller.UserController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
+import com.laptopfix.laptopfixrun.Model.FiscalData;
 import com.laptopfix.laptopfixrun.Model.LaptopFix;
 import com.laptopfix.laptopfixrun.R;
 
@@ -34,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnAccess, btnRegister;
     private UserController userController;
     private AlertDialog dialog;
+    private FiscalDataController fiscalDataController;
 
     //Firebase
     private FirebaseAuth auth;
@@ -51,6 +55,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         userController = new UserController(this);
         userController.setmVolleyListener(this);
+
+        fiscalDataController = new FiscalDataController(this);
+        fiscalDataController.setmVolleyListener(this);
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -88,10 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         dialog.dismiss();
 
                         if(code == CommunicationCode.CODE_LOGIN_CUSTOMER){
-                            Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity.class);
-                            intent.putExtra("section", R.id.nav_establecimiento);
-                            startActivity(intent);
-                            finish();
+                            fiscalDataController.get(new CustomerController(LoginActivity.this).getCustomer().getId());
                         }else if(code == CommunicationCode.CODE_LOGIN_TECHNICAL) {
                             Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Technical.HomeActivity.class);
                             intent.putExtra("section", R.id.nav_citaL);
@@ -131,7 +135,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onSuccess(int code, Object object) {
+        switch(code){
+            case CommunicationCode.CODE_GET_FISCAL_DATA:
+                new CustomerController(this).setFiscalData((FiscalData)object);
 
+                Intent intent = new Intent(LoginActivity.this, com.laptopfix.laptopfixrun.Activities.Customer.HomeActivity.class);
+                intent.putExtra("section", R.id.nav_establecimiento);
+                startActivity(intent);
+                finish();
+                break;
+        }
     }
 
     @Override

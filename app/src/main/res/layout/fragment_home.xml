@@ -37,6 +37,73 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_margin="@dimen/marginForms">
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/method_pay"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/spnPay"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="12"
+            android:layout_margin="@dimen/marginForms">
+
+            <TextView
+                android:id="@+id/txtBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="@string/bill"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+
+            <Switch
+                android:id="@+id/swBill"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="right"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="12"
+            android:layout_marginLeft="@dimen/marginForms"
+            android:layout_marginRight="@dimen/marginForms"
+            >
+
+            <TextView
+                android:id="@+id/txtNoteBill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="@string/note_bill"
+                android:textSize="16dp"/>
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

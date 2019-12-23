@@ -17,9 +17,11 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -37,7 +39,7 @@ import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Controller.DateController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.DateHome;
-import com.laptopfix.laptopfixrun.Model.MatchDate;
+import com.laptopfix.laptopfixrun.Model.FiscalData;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Constants;
 
@@ -53,9 +55,11 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
 
     private View view;
     private EditText etDate, etHour, etProblem;
-    private TextView txtAddress, txtChangeAddress;
+    private TextView txtAddress, txtChangeAddress, txtBill, txtNoteBill;
+    private Spinner spnPay;
+    private ArrayAdapter<String> adapter;
     private TextInputLayout tilDate, tilHour;
-    private Switch swUrgent;
+    private Switch swUrgent, swBill;
     private Button btnSave;
     private static final String CERO = "0";
     private static final String BARRA = "/";
@@ -96,13 +100,22 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         etDate = view.findViewById(R.id.etDate);
         etHour = view.findViewById(R.id.etHour);
         etProblem = view.findViewById(R.id.etProblem);
+        swBill = view.findViewById(R.id.swBill);
         swUrgent = view.findViewById(R.id.swUrgent);
+        spnPay = view.findViewById(R.id.spnPay);
+        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, Constants.METHOD_PAY);
+        spnPay.setAdapter(adapter);
+
         tilDate = view.findViewById(R.id.tilDate);
         tilHour  = view.findViewById(R.id.tilHour);
         btnSave = view.findViewById(R.id.btnSchedule);
         txtAddress = view.findViewById(R.id.txtAddress);
         txtChangeAddress = view.findViewById(R.id.txtChangeAddress);
         txtChangeAddress.setText(Html.fromHtml(getResources().getString(R.string.changeAddress)));
+        txtBill = view.findViewById(R.id.txtBill);
+        txtBill.setText(getString(R.string.bill)+": NO");
+        txtNoteBill = view.findViewById(R.id.txtNoteBill);
+        txtNoteBill.setVisibility(View.GONE);
 
         database = FirebaseDatabase.getInstance();
 
@@ -119,6 +132,7 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         etHour.setOnClickListener(this);
         txtChangeAddress.setOnClickListener(this);
         swUrgent.setOnClickListener(this);
+        swBill.setOnClickListener(this);
         btnSave.setOnClickListener(this);
 
         return view;
@@ -169,6 +183,21 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
                     tilHour.setVisibility(View.VISIBLE);
                 }
                 break;
+            case R.id.swBill:
+                if(swBill.isChecked()){
+                    FiscalData fiscalData = new CustomerController(getContext()).getFiscalData();
+                    if(fiscalData.getRfc() != null && fiscalData.getAddress() != null){
+                        txtBill.setText(getString(R.string.bill)+": SI");
+                        txtNoteBill.setVisibility(View.VISIBLE);
+                    }else{
+                        Toast.makeText(getContext(), "Debes tener tus datos fiscales completos", Toast.LENGTH_SHORT).show();
+                        swBill.setChecked(false);
+                    }
+                }else {
+                    txtBill.setText(getString(R.string.bill)+": NO");
+                    txtNoteBill.setVisibility(View.GONE);
+                }
+                break;
             case R.id.btnSchedule:
                 if(checkFields()){
                     createDialog(getString(R.string.waitAMoment));
@@ -193,6 +222,8 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
         dateHome.setProblem(etProblem.getText().toString());
         dateHome.setCustomer(new CustomerController(getContext()).getCustomer());
         dateHome.setStatus(0);
+        if(spnPay.getSelectedItem().equals("Efectivo")) dateHome.setPayment(1); else dateHome.setPayment(2);
+        if(swBill.isChecked()) dateHome.setBill(1); else dateHome.setBill(0);
         return dateHome;
     }
 
@@ -298,9 +329,8 @@ public class HomeServiceFragment extends Fragment implements  View.OnFocusChange
     }
 
     public void addDateHomeAtCustomer(DateHome dateHome){
-        MatchDate matchDate = new MatchDate(dateHome, null);
         reference = database.getReference(Constants.MATCH_DATES_TABLE);
-        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(matchDate)
+        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(dateHome)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

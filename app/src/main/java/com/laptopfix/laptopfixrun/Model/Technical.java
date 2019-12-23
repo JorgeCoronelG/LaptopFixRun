@@ -10,6 +10,10 @@ public class Technical {
     public Technical() {
     }
 
+    public Technical(String id) {
+        this.id = id;
+    }
+
     public Technical(String id, String name, String phone, String email) {
         this.id = id;
         this.name = name;

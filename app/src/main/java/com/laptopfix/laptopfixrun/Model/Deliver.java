@@ -7,18 +7,16 @@ public class Deliver {
     private String dateDel;
     private String descDel;
     private String costDel;
-    private Technical technical;
 
     public Deliver() {
     }
 
-    public Deliver(int idDeliver, DateHome dateHome, String dateDel, String descDel, String costDel, Technical technical) {
+    public Deliver(int idDeliver, DateHome dateHome, String dateDel, String descDel, String costDel) {
         this.idDeliver = idDeliver;
         this.dateHome = dateHome;
         this.dateDel = dateDel;
         this.descDel = descDel;
         this.costDel = costDel;
-        this.technical = technical;
     }
 
     public int getIdDeliver() {
@@ -59,14 +57,6 @@ public class Deliver {
 
     public void setCostDel(String costDel) {
         this.costDel = costDel;
-    }
-
-    public Technical getTechnical() {
-        return technical;
-    }
-
-    public void setTechnical(Technical technical) {
-        this.technical = technical;
     }
 
 }

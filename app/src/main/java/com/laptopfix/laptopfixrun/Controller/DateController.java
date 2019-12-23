@@ -90,6 +90,8 @@ public class DateController implements Response.Listener<String>, Response.Error
                 map.put("address", date.getAddress());
                 map.put("problem", date.getProblem());
                 map.put("service", String.valueOf(date.getService()));
+                map.put("payment", String.valueOf(date.getPayment()));
+                map.put("bill", String.valueOf(date.getBill()));
                 return map;
             }
         };

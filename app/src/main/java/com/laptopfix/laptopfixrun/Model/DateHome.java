@@ -9,12 +9,19 @@ public class DateHome {
     private String date;
     private String hour;
     private Customer customer;
-    private int status;//0 - Sin aceptar, 1 - Aceptado y en camino, 2 - En reparación, 3 - Reparado
+    private int payment; //1 - Efectivo, 2 - PayPal
+    private int bill; //0 - Sin factura, 1 - Con factura
+    private int status;//0 - Sin aceptar, 1 - Aceptado, 2 - En reparación, 3 - Reparado y esperando pago, 4 - Pagado y finalización
+    private Technical technical;
 
     public DateHome() {
     }
 
-    public DateHome(String id, int service, String address, String problem, String date, String hour, Customer customer, int status) {
+    public DateHome(String id) {
+        this.id = id;
+    }
+
+    public DateHome(String id, int service, String address, String problem, String date, String hour, Customer customer, int payment, int bill, int status, Technical technical) {
         this.id = id;
         this.service = service;
         this.address = address;
@@ -22,7 +29,10 @@ public class DateHome {
         this.date = date;
         this.hour = hour;
         this.customer = customer;
+        this.payment = payment;
+        this.bill = bill;
         this.status = status;
+        this.technical = technical;
     }
 
     public String getId() {
@@ -81,6 +91,22 @@ public class DateHome {
         this.customer = customer;
     }
 
+    public int getPayment() {
+        return payment;
+    }
+
+    public void setPayment(int payment) {
+        this.payment = payment;
+    }
+
+    public int getBill() {
+        return bill;
+    }
+
+    public void setBill(int bill) {
+        this.bill = bill;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -88,4 +114,13 @@ public class DateHome {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public Technical getTechnical() {
+        return technical;
+    }
+
+    public void setTechnical(Technical technical) {
+        this.technical = technical;
+    }
+
 }

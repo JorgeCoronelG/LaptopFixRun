@@ -24,6 +24,7 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Controller.CustomerController;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Model.FiscalData;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Constants;
 
@@ -107,12 +108,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         FirebaseUser firebaseUser = auth.getCurrentUser();
                         final Customer customer = getCustomer();
                         customer.setId(firebaseUser.getUid());
+                        final FiscalData fiscalData = new FiscalData(customer.getId(), customer.getName(), null,
+                                customer.getPhone(), null,"G03", customer.getEmail());
 
                         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(customer)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        customerController.insert(customer, password);
+                                        customerController.insert(customer, password, fiscalData);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

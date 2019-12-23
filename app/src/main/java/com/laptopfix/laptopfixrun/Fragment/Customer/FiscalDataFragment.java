@@ -34,11 +34,11 @@ import com.laptopfix.laptopfixrun.Util.Constants;
 
 import dmax.dialog.SpotsDialog;
 
-public class FiscalDataFragment extends Fragment implements VolleyListener {
+public class FiscalDataFragment extends Fragment {
 
     private TextView txtName, txtAddress, txtPhone, txtRFC, txtCFDI, txtEmail;
     private AlertDialog dialog;
-    private FiscalDataController fiscalDataController;
+    private CustomerController customerController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,12 +52,8 @@ public class FiscalDataFragment extends Fragment implements VolleyListener {
         txtCFDI = view.findViewById(R.id.txtCFDI);
         txtEmail = view.findViewById(R.id.txtEmail);
 
-        fiscalDataController = new FiscalDataController(getContext());
-        fiscalDataController.setmVolleyListener(this);
-        fiscalDataController.get(new CustomerController(getContext()).getCustomer().getId());
-
-        createDialog(getString(R.string.waitAMoment));
-
+        customerController = new CustomerController(getContext());
+        setFiscalData();
         setHasOptionsMenu(true);
 
         return view;
@@ -73,6 +69,16 @@ public class FiscalDataFragment extends Fragment implements VolleyListener {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_edit, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void setFiscalData(){
+        FiscalData fiscalData = customerController.getFiscalData();
+        txtName.setText(fiscalData.getName());
+        if(fiscalData.getAddress() == null) txtAddress.setText("***"); else txtAddress.setText(fiscalData.getAddress());
+        txtPhone.setText(fiscalData.getPhone());
+        if(fiscalData.getRfc() == null) txtRFC.setText("***"); else txtRFC.setText(fiscalData.getRfc());
+        txtCFDI.setText(fiscalData.getCfdi());
+        txtEmail.setText(fiscalData.getEmail());
     }
 
     @Override
@@ -107,32 +113,6 @@ public class FiscalDataFragment extends Fragment implements VolleyListener {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onSuccess(int code) {}
-
-    @Override
-    public void onSuccess(int code, Object object) {
-        dialog.dismiss();
-        switch (code){
-            case CommunicationCode.CODE_GET_FISCAL_DATA:
-                FiscalData fiscalData = (FiscalData)object;
-                txtName.setText(fiscalData.getName());
-                if(fiscalData.getAddress().isEmpty()) txtAddress.setText("***"); else txtAddress.setText(fiscalData.getAddress());
-                txtPhone.setText(fiscalData.getPhone());
-                if(fiscalData.getPhone().isEmpty()) txtPhone.setText("***"); else txtPhone.setText(fiscalData.getPhone());
-                if(fiscalData.getRfc().isEmpty()) txtRFC.setText("***"); else txtRFC.setText(fiscalData.getRfc());
-                txtCFDI.setText(fiscalData.getCfdi());
-                txtEmail.setText(fiscalData.getEmail());
-                break;
-        }
-    }
-
-    @Override
-    public void onFailure(String error) {
-        dialog.dismiss();
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     public void createDialog(String message){

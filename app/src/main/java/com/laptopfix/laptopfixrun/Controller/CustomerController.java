@@ -13,6 +13,7 @@ import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
 import com.laptopfix.laptopfixrun.Communication.CommunicationPath;
 import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Model.FiscalData;
 import com.laptopfix.laptopfixrun.Util.Constants;
 
 import org.json.JSONException;
@@ -27,13 +28,15 @@ public class CustomerController implements Response.Listener<String>, Response.E
     private Context context;
     private VolleyListener mVolleyListener;
     private Customer customer;
+    private FiscalData fiscalData;
 
     public CustomerController(Context context) {
         this.context = context;
     }
 
-    public void insert(final Customer customer, final String password){
+    public void insert(final Customer customer, final String password, final FiscalData fiscalData){
         this.customer = customer;
+        this.fiscalData = fiscalData;
         String url = Constants.URL + CommunicationPath.CUSTOMER_INSERT;
         request = new StringRequest(Request.Method.POST, url, this, this){
             @Override
@@ -92,6 +95,34 @@ public class CustomerController implements Response.Listener<String>, Response.E
         return customer;
     }
 
+    public void setFiscalData (FiscalData fiscalData){
+        SharedPreferences preferences = context.getSharedPreferences("fiscal_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putString("nameFiscal", fiscalData.getName());
+        editor.putString("address", fiscalData.getAddress());
+        editor.putString("phone", fiscalData.getPhone());
+        editor.putString("rfc", fiscalData.getRfc());
+        editor.putString("cfdi", fiscalData.getCfdi());
+        editor.putString("emailFiscal", fiscalData.getEmail());
+
+        editor.commit();
+    }
+
+    public FiscalData getFiscalData(){
+        SharedPreferences preferences = context.getSharedPreferences("fiscal_data", Context.MODE_PRIVATE);
+
+        FiscalData fiscalData = new FiscalData();
+        fiscalData.setName(preferences.getString("nameFiscal", null));
+        fiscalData.setAddress(preferences.getString("address", null));
+        fiscalData.setPhone(preferences.getString("phone", null));
+        fiscalData.setRfc(preferences.getString("rfc", null));
+        fiscalData.setCfdi(preferences.getString("cfdi", null));
+        fiscalData.setEmail(preferences.getString("emailFiscal", null));
+
+        return fiscalData;
+    }
+
     public void setmVolleyListener(VolleyListener mVolleyListener) {
         this.mVolleyListener = mVolleyListener;
     }
@@ -103,6 +134,7 @@ public class CustomerController implements Response.Listener<String>, Response.E
             switch (jsonObject.getInt("code")){
                 case CommunicationCode.CODE_CUSTOMER_INSERT:
                     setCustomer(customer);
+                    setFiscalData(fiscalData);
                     mVolleyListener.onSuccess(CommunicationCode.CODE_CUSTOMER_INSERT);
                     break;
 

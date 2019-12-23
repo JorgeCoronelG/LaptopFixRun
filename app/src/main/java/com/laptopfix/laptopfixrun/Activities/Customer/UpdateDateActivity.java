@@ -25,7 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.laptopfix.laptopfixrun.Model.MatchDate;
+import com.laptopfix.laptopfixrun.Model.DateHome;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Constants;
 
@@ -42,7 +42,7 @@ public class UpdateDateActivity extends AppCompatActivity implements View.OnClic
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private AlertDialog dialog;
-    private MatchDate matchDate;
+    private DateHome dateHome;
 
     private static final String CERO = "0";
     private static final String BARRA = "/";
@@ -105,10 +105,10 @@ public class UpdateDateActivity extends AppCompatActivity implements View.OnClic
                 obtenerHora();
                 break;
             case R.id.btnUpdate:
-                if(matchDate != null){
+                if(dateHome != null){
                     createDialog(getString(R.string.waitAMoment));
-                    matchDate.getDateHome().setDate(etDate.getText().toString());
-                    matchDate.getDateHome().setHour(hour);
+                    dateHome.setDate(etDate.getText().toString());
+                    dateHome.setHour(hour);
                     updateDateCustomer();
                 }
                 break;
@@ -116,10 +116,10 @@ public class UpdateDateActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updateDateCustomer() {
-        reference.setValue(matchDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+        reference.setValue(dateHome).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                if(matchDate.getDateHome().getStatus() != 0){
+                if(dateHome.getStatus() != 0){
                     updateDateTechnical();
                 }else{
                     dialog.dismiss();
@@ -146,10 +146,10 @@ public class UpdateDateActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updateDateTechnical() {
-        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
-                .child(matchDate.getTechnical().getId())
-                .child(matchDate.getDateHome().getId());
-        reference.setValue(matchDate.getDateHome())
+        reference = database.getReference(Constants.MATCH_DATES_TABLE)
+                .child(dateHome.getTechnical().getId())
+                .child(dateHome.getId());
+        reference.setValue(dateHome)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -177,7 +177,7 @@ public class UpdateDateActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        matchDate = dataSnapshot.getValue(MatchDate.class);
+        dateHome = dataSnapshot.getValue(DateHome.class);
     }
 
     @Override

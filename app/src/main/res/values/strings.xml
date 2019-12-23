@@ -141,5 +141,9 @@
     <string name="cfdi">CFDI</string>
     <string name="rfc">RFC</string>
     <string name="edit_fiscal_data">Editar datos fiscales</string>
+    <string name="method_pay">Método de pago</string>
+    <string name="bill">Facturar</string>
+    <string name="note_bill">Nota: Se aumentará el 16% del total del servicio</string>
+    <string name="pay">Pago</string>
 
 </resources>

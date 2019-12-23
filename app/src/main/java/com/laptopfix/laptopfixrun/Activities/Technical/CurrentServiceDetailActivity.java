@@ -69,7 +69,7 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
 
         Intent intent = getIntent();
         if(intent != null){
-            reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
+            reference = database.getReference(Constants.MATCH_DATES_TABLE)
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(intent.getStringExtra("id"));
         }
@@ -101,7 +101,7 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
     private void cancelDate() {
         final DateHome dateHome = this.dateHome;
         //Borrar la cita por parte del técnico
-        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
+        reference = database.getReference(Constants.MATCH_DATES_TABLE)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(dateHome.getId());
         reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -179,7 +179,7 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
 
     private void changeStatus(final int status) {
         dateHome.setStatus(status);
-        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
+        reference = database.getReference(Constants.MATCH_DATES_TABLE)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(dateHome.getId());
         reference.setValue(dateHome).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -199,8 +199,7 @@ public class CurrentServiceDetailActivity extends AppCompatActivity implements V
     private void changeStatusCustomer(int status) {
         reference = database.getReference(Constants.MATCH_DATES_TABLE)
                 .child(dateHome.getCustomer().getId())
-                .child(dateHome.getId())
-                .child("dateHome");
+                .child(dateHome.getId());
         reference.setValue(dateHome).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

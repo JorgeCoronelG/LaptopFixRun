@@ -24,7 +24,9 @@ import com.laptopfix.laptopfixrun.Fragment.Customer.GoPlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.HomeServiceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.PlaceFragment;
 import com.laptopfix.laptopfixrun.Fragment.Customer.ProfileFragment;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
 import com.laptopfix.laptopfixrun.Model.Customer;
+import com.laptopfix.laptopfixrun.Model.FiscalData;
 import com.laptopfix.laptopfixrun.R;
 
 public class HomeActivity extends AppCompatActivity
@@ -59,6 +61,8 @@ public class HomeActivity extends AppCompatActivity
             navigationView.setCheckedItem(intent.getIntExtra("section", 0));
             displaySelectedScreen(intent.getIntExtra("section", 0));
         }
+
+
     }
 
     private void setDataCustomer(NavigationView navigationView) {
@@ -118,6 +122,7 @@ public class HomeActivity extends AppCompatActivity
                 break;*/
             case R.id.nav_closeSession:
                 customerController.setCustomer(new Customer());
+                customerController.setFiscalData(new FiscalData());
                 new UserController(this).logout();
                 FirebaseAuth.getInstance().signOut();
 

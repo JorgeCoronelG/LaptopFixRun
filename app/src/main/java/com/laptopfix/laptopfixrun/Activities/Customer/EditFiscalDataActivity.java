@@ -30,7 +30,9 @@ public class EditFiscalDataActivity extends AppCompatActivity implements View.On
     private Spinner spnCFDI;
     private Button btnSave;
     private AlertDialog dialog;
+    private FiscalData fiscalData;
     private FiscalDataController fiscalDataController;
+    private CustomerController customerController;
     private ArrayAdapter<String> adapter;
     private Toolbar toolbar;
 
@@ -52,10 +54,11 @@ public class EditFiscalDataActivity extends AppCompatActivity implements View.On
 
         fiscalDataController = new FiscalDataController(this);
         fiscalDataController.setmVolleyListener(this);
+        customerController = new CustomerController(this);
 
         Intent intent = getIntent();
         if(intent != null){
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.CFDI);
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Constants.CFDI);
             setFiscalData(intent);
         }
     }
@@ -90,7 +93,7 @@ public class EditFiscalDataActivity extends AppCompatActivity implements View.On
     }
 
     public void update(){
-        FiscalData fiscalData = new FiscalData();
+        fiscalData = new FiscalData();
         fiscalData.setCustomer(new CustomerController(this).getCustomer().getId());
         fiscalData.setName(etName.getText().toString());
         fiscalData.setAddress(etAddress.getText().toString());
@@ -106,6 +109,7 @@ public class EditFiscalDataActivity extends AppCompatActivity implements View.On
         dialog.dismiss();
         switch (code){
             case CommunicationCode.CODE_UPDATE_FISCAL_DATA:
+                customerController.setFiscalData(fiscalData);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(getString(R.string.txtSave));
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

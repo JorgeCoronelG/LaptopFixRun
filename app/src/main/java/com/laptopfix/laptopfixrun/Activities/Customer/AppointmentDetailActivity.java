@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,28 +25,34 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.laptopfix.laptopfixrun.Model.MatchDate;
+import com.laptopfix.laptopfixrun.Communication.CommunicationCode;
+import com.laptopfix.laptopfixrun.Controller.CustomerController;
+import com.laptopfix.laptopfixrun.Controller.DeliverController;
+import com.laptopfix.laptopfixrun.Interface.VolleyListener;
+import com.laptopfix.laptopfixrun.Model.DateHome;
+import com.laptopfix.laptopfixrun.Model.Deliver;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Constants;
 
 import dmax.dialog.SpotsDialog;
 
-public class AppointmentDetailActivity extends AppCompatActivity implements ValueEventListener, View.OnClickListener {
+public class AppointmentDetailActivity extends AppCompatActivity implements ValueEventListener, View.OnClickListener,
+        VolleyListener {
 
-    private TextView txtNameTechnical;
-    private TextView txtPhoneTechnical;
-    private TextView txtDate;
-    private TextView txtHour;
-    private TextView txtAddress;
-    private TextView txtStatus;
+    private TextView txtNameTechnical, txtPhoneTechnical, txtDate, txtHour, txtAddress, txtStatus, txtPay, txtBill;
     private Button btnCancelDate;
     private LinearLayout llTechnical;
     private LinearLayout llDateHour;
     private LinearLayout llUrgent;
-    private MatchDate matchDate;
+    private DateHome dateHome;
     private FirebaseDatabase database;
     private DatabaseReference reference;
     private AlertDialog dialog;
+    private DeliverController deliverController;
+    private Deliver deliver;
+    private float baseService = 0;
+    private int control = 0;
+    private boolean bill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +66,16 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
         txtHour = findViewById(R.id.txtHour);
         txtAddress = findViewById(R.id.txtAddress);
         txtStatus = findViewById(R.id.txtStatus);
+        txtPay = findViewById(R.id.txtPayment);
+        txtBill = findViewById(R.id.txtBill);
         btnCancelDate = findViewById(R.id.btnCancelDate);
         llTechnical = findViewById(R.id.llTechnical);
         llDateHour = findViewById(R.id.llDateHour);
         llUrgent = findViewById(R.id.llUrgent);
         database = FirebaseDatabase.getInstance();
+
+        deliverController = new DeliverController(this);
+        deliverController.setmVolleyListener(this);
 
         Intent intent = getIntent();
         if(intent != null){
@@ -92,12 +104,12 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
     }
 
     private void deleteDateCustomer() {
-        final MatchDate matchDate = this.matchDate;
+        final DateHome dateHome = this.dateHome;
         reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                if(matchDate.getDateHome().getStatus() != 0){
-                    deleteDateTechnical(matchDate);
+                if(dateHome.getStatus() != 0){
+                    deleteDateTechnical(dateHome);
                 }else{
                     dialog.dismiss();
 
@@ -122,10 +134,10 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
         });
     }
 
-    private void deleteDateTechnical(MatchDate matchDate) {
-        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
-                .child(matchDate.getTechnical().getId())
-                .child(matchDate.getDateHome().getId());
+    private void deleteDateTechnical(DateHome dateHome) {
+        reference = database.getReference(Constants.MATCH_DATES_TABLE)
+                .child(dateHome.getTechnical().getId())
+                .child(dateHome.getId());
         reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -153,9 +165,9 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if( (matchDate.getDateHome().getStatus() == 0 ||
-                matchDate.getDateHome().getStatus() == 1) &&
-                matchDate.getDateHome().getService() == 0){
+        if( (dateHome.getStatus() == 0 ||
+                dateHome.getStatus() == 1) &&
+                dateHome.getService() == 0){
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_edit, menu);
         }
@@ -167,9 +179,9 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
         switch (item.getItemId()){
             case R.id.item_edit:
                 Intent intent = new Intent(this, UpdateDateActivity.class);
-                intent.putExtra("id", matchDate.getDateHome().getId());
-                intent.putExtra("date", matchDate.getDateHome().getDate());
-                intent.putExtra("hour", matchDate.getDateHome().getHour());
+                intent.putExtra("id", dateHome.getId());
+                intent.putExtra("date", dateHome.getDate());
+                intent.putExtra("hour", dateHome.getHour());
                 startActivity(intent);
                 break;
         }
@@ -178,44 +190,71 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
 
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        matchDate = dataSnapshot.getValue(MatchDate.class);
-        if(matchDate != null){
+        dateHome = dataSnapshot.getValue(DateHome.class);
+        if(dateHome != null){
             setData();
+        }else{
+            dialog.dismiss();
+            if(bill){
+                createDialog(getString(R.string.waitAMoment));
+                deliverController.insertBill(deliver, new CustomerController(this).getCustomer().getId());
+            }else{
+                onBackPressed();
+            }
         }
     }
 
     private void setData() {
-        txtAddress.setText(matchDate.getDateHome().getAddress());
-        switch(matchDate.getDateHome().getStatus()){
-            case 0:
-                btnCancelDate.setVisibility(View.VISIBLE);
-                llTechnical.setVisibility(View.GONE);
-                break;
-            case 1:
-                btnCancelDate.setVisibility(View.VISIBLE);
-                txtNameTechnical.setText(matchDate.getTechnical().getName());
-                txtPhoneTechnical.setText(matchDate.getTechnical().getPhone());
-                txtStatus.setText("Aceptado");
-                break;
-            case 2:
-                btnCancelDate.setVisibility(View.GONE);
-                txtNameTechnical.setText(matchDate.getTechnical().getName());
-                txtPhoneTechnical.setText(matchDate.getTechnical().getPhone());
-                txtStatus.setText("En reparación");
-                break;
-            case 3:
-                btnCancelDate.setVisibility(View.GONE);
-                txtNameTechnical.setText(matchDate.getTechnical().getName());
-                txtPhoneTechnical.setText(matchDate.getTechnical().getPhone());
-                txtStatus.setText("Reparado");
-                break;
-        }
-        if(matchDate.getDateHome().getService() == 0){
-            llUrgent.setVisibility(View.GONE);
-            txtDate.setText(matchDate.getDateHome().getDate());
-            txtHour.setText(matchDate.getDateHome().getHour());
-        }else{
-            llDateHour.setVisibility(View.GONE);
+        control++;
+        if(control == 2){
+            control = 0;
+            txtAddress.setText(dateHome.getAddress());
+            if(dateHome.getPayment() == 1) txtPay.setText("Efectivo"); else txtPay.setText("PayPal");
+            if(dateHome.getBill() == 1) txtBill.setText("Si"); else txtBill.setText("No");
+            switch(dateHome.getStatus()){
+                case Constants.STATUS_WAIT:
+                    btnCancelDate.setVisibility(View.VISIBLE);
+                    llTechnical.setVisibility(View.GONE);
+                    break;
+                case Constants.STATUS_ACCEPT:
+                    btnCancelDate.setVisibility(View.VISIBLE);
+                    llTechnical.setVisibility(View.VISIBLE);
+                    txtNameTechnical.setText(dateHome.getTechnical().getName());
+                    txtPhoneTechnical.setText(dateHome.getTechnical().getPhone());
+                    txtStatus.setText("Aceptado");
+                    break;
+                case Constants.STATUS_IN_REPAIR:
+                    btnCancelDate.setVisibility(View.GONE);
+                    llTechnical.setVisibility(View.VISIBLE);
+                    txtNameTechnical.setText(dateHome.getTechnical().getName());
+                    txtPhoneTechnical.setText(dateHome.getTechnical().getPhone());
+                    txtStatus.setText("En reparación");
+                    break;
+                case Constants.STATUS_REPAIRED:
+                    btnCancelDate.setVisibility(View.GONE);
+                    llTechnical.setVisibility(View.VISIBLE);
+                    txtNameTechnical.setText(dateHome.getTechnical().getName());
+                    txtPhoneTechnical.setText(dateHome.getTechnical().getPhone());
+                    txtStatus.setText("Reparado y esperando total del servicio");
+                    break;
+                case Constants.STATUS_PAYMENT:
+                    if(dateHome.getBill() == 1) bill = true; else bill = false;
+                    if(dateHome.getPayment() == 1){
+                        //Efectivo
+                        createDialog(getString(R.string.waitAMoment));
+                        deliverController.getBaseService();
+                    }else{
+                        //PayPal
+                    }
+                    break;
+            }
+            if(dateHome.getService() == 0){
+                llUrgent.setVisibility(View.GONE);
+                txtDate.setText(dateHome.getDate());
+                txtHour.setText(dateHome.getHour());
+            }else{
+                llDateHour.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -247,8 +286,56 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("section", R.id.nav_cPendiente);
+        startActivity(intent);
         finish();
     }
 
+    @Override
+    public void onSuccess(int code) {
+        dialog.dismiss();
+        switch(code){
+            case CommunicationCode.CODE_INSERT_BILL:
+                onBackPressed();
+                break;
+        }
+    }
+
+    @Override
+    public void onSuccess(int code, Object object) {
+        switch (code){
+            case CommunicationCode.CODE_DELIVER_GET:
+                dialog.dismiss();
+                this.deliver = (Deliver)object;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Pago");
+                if(dateHome.getBill() == 1){
+                    float total = Float.parseFloat(deliver.getCostDel());
+                    total += baseService;
+                    total *= 1.16;
+                    builder.setMessage("Debe de pagar al técnico: $"+total);
+                    deliver.setCostDel(String.valueOf(total));
+                }else{
+                    double total = Double.parseDouble(deliver.getCostDel());
+                    total += baseService;
+                    builder.setMessage("Debe de pagar al técnico: $"+total);
+                    deliver.setCostDel(String.valueOf(total));
+                }
+                builder.setCancelable(false);
+                dialog = builder.create();
+                dialog.show();
+                break;
+            case CommunicationCode.CODE_GET_BASE_SERVICE:
+                this.baseService += Float.valueOf((String)object);
+                deliverController.get(dateHome);
+                break;
+        }
+    }
+
+    @Override
+    public void onFailure(String error) {
+        dialog.dismiss();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
 }

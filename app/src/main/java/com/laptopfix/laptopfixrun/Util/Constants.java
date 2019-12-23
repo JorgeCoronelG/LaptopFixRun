@@ -8,7 +8,7 @@ import com.laptopfix.laptopfixrun.Remote.RetrofitClient;
 
 public class Constants {
 
-    public static final String URL = "http://192.168.1.90/LaptopFixRun/";
+    public static final String URL = "http://192.168.1.77/LaptopFixRun/";
 
     public static Location mLastLocation;
     public static final double LATITUDE_LAPTOP_FIX = 20.583994;
@@ -25,6 +25,7 @@ public class Constants {
     public static final int STATUS_ACCEPT = 1;
     public static final int STATUS_IN_REPAIR = 2;
     public static final int STATUS_REPAIRED = 3;
+    public static final int STATUS_PAYMENT = 4;
 
     public static final int TYPE_USER_LAPTOP_FIX = 1;
     public static final int TYPE_USER_CUSTOMER = 2;
@@ -34,11 +35,11 @@ public class Constants {
     public static final String LAPTOP_FIX_TABLE = "Laptopfix";
     public static final String CHATS_TABLE = "Chats";
     public static final String DATES_TABLE = "Dates";
-    public static final String DATES_TECHNICAL_TABLE = "Dates-Technical";
     public static final String MATCH_DATES_TABLE = "Match-Dates";
 
     public static final String[] CFDI = {"G01","G02","G03","I01","I02","I03","I04","I05","I06","I07","I08",
             "D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","P01"};
+    public static final String[] METHOD_PAY = {"Efectivo","PayPal"};
 
     public static LatLng newAddress = null;
 

@@ -19,9 +19,13 @@ public class CommunicationPath {
     public static final String GET_COMMENTS = "Comment/getComments.php";
 
     public static final String DELIVER_INSERT = "DeliverC/insert";
+    public static final String DELIVER_GET = "DeliverC/get";
+
     public static final String GET_BASE_SERVICE = "BaseServiceC/get";
 
     public static final String FISCAL_DATA_GET = "FiscalDataC/get";
     public static final String FISCAL_DATA_UPDATE = "FiscalDataC/update";
+
+    public static final String BILL_INSERT = "BillC/insert";
 
 }

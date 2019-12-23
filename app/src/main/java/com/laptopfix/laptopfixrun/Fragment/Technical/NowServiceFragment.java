@@ -47,7 +47,7 @@ public class NowServiceFragment extends Fragment implements ValueEventListener, 
 
         dateRecycler = view.findViewById(R.id.recyclerNowDates);
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        reference = database.getReference(Constants.MATCH_DATES_TABLE).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         reference.addValueEventListener(this);
 
         createDialog(getString(R.string.waitAMoment));

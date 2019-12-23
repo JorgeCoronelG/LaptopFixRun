@@ -67,7 +67,7 @@ public class DeliverActivity extends AppCompatActivity implements VolleyListener
         database = FirebaseDatabase.getInstance();
         Intent intent = getIntent();
         if(intent != null){
-            reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
+            reference = database.getReference(Constants.MATCH_DATES_TABLE)
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(intent.getStringExtra("id"));
         }
@@ -96,11 +96,15 @@ public class DeliverActivity extends AppCompatActivity implements VolleyListener
         switch (code){
             case CommunicationCode.CODE_DELIVER_INSERT:
                 dialog.dismiss();
-                double bs = Double.parseDouble(etCost.getText().toString());
+                changeStatus(Constants.STATUS_PAYMENT);
+
+                float costo = Float.parseFloat(etCost.getText().toString());
+                costo += Float.parseFloat(baseService);
+                if(dateHome.getBill() == 1) costo *= 1.16;
                 //Por programar
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Por último...");
-                builder.setMessage("El cliente debe de pagarte $"+(Double.parseDouble(baseService)+bs));
+                builder.setMessage("El cliente debe de pagarte $"+costo);
                 builder.setPositiveButton("Pagado", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -116,7 +120,7 @@ public class DeliverActivity extends AppCompatActivity implements VolleyListener
     private void deleteDate() {
         final DateHome dateHome = this.dateHome;
         //Borrar la cita por parte del técnico
-        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
+        reference = database.getReference(Constants.MATCH_DATES_TABLE)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(dateHome.getId());
         reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -176,7 +180,7 @@ public class DeliverActivity extends AppCompatActivity implements VolleyListener
 
     private void changeStatus(final int status) {
         dateHome.setStatus(status);
-        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE)
+        reference = database.getReference(Constants.MATCH_DATES_TABLE)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(dateHome.getId());
         reference.setValue(dateHome).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -196,17 +200,17 @@ public class DeliverActivity extends AppCompatActivity implements VolleyListener
     private void changeStatusCustomer() {
         reference = database.getReference(Constants.MATCH_DATES_TABLE)
                 .child(dateHome.getCustomer().getId())
-                .child(dateHome.getId())
-                .child("dateHome");
+                .child(dateHome.getId());
         reference.setValue(dateHome).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Deliver deliver = new Deliver();
-                deliver.setDateHome(dateHome);
-                deliver.setDescDel(etDescribe.getText().toString());
-                deliver.setCostDel(etCost.getText().toString());
-                deliver.setTechnical(new TechnicalController(DeliverActivity.this).getTechnical());
-                deliverController.insert(deliver, baseService);
+                if(dateHome.getStatus() != Constants.STATUS_PAYMENT){
+                    Deliver deliver = new Deliver();
+                    deliver.setDateHome(dateHome);
+                    deliver.setDescDel(etDescribe.getText().toString());
+                    deliver.setCostDel(etCost.getText().toString());
+                    deliverController.insert(deliver, baseService, dateHome.getTechnical().getId());
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

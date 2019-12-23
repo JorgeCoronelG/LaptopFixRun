@@ -28,5 +28,9 @@ public class CommunicationCode {
     public static final int CODE_GET_FISCAL_DATA = 15;
     public static final int CODE_UPDATE_FISCAL_DATA = 16;
 
+    public static final int CODE_DELIVER_GET = 17;
+
+    public static final int CODE_INSERT_BILL = 18;
+
     public static final int CODE_ERROR = 404;
 }

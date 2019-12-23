@@ -23,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.laptopfix.laptopfixrun.Controller.TechnicalController;
 import com.laptopfix.laptopfixrun.Model.DateHome;
-import com.laptopfix.laptopfixrun.Model.MatchDate;
 import com.laptopfix.laptopfixrun.R;
 import com.laptopfix.laptopfixrun.Util.Constants;
 
@@ -82,9 +81,9 @@ public class AppointmentDetailActivity extends AppCompatActivity implements View
     }
 
     private void addMatchDate() {
-        MatchDate matchDate = new MatchDate(dateHome, new TechnicalController(this).getTechnical());
+        dateHome.setTechnical(new TechnicalController(this).getTechnical());
         reference = database.getReference(Constants.MATCH_DATES_TABLE);
-        reference.child(dateHome.getCustomer().getId()).child(dateHome.getId()).setValue(matchDate)
+        reference.child(dateHome.getCustomer().getId()).child(dateHome.getId()).setValue(dateHome)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -101,7 +100,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements View
     }
 
     private void addDateTechnical() {
-        reference = database.getReference(Constants.DATES_TECHNICAL_TABLE);
+        reference = database.getReference(Constants.MATCH_DATES_TABLE);
         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateHome.getId()).setValue(dateHome)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
