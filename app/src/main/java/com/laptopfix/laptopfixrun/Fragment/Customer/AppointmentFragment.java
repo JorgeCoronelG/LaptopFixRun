@@ -139,9 +139,9 @@ public class AppointmentFragment extends Fragment implements VolleyListenerGetDa
 
     @Override
     public void onDateClick(int position) {
+        getActivity().finish();
         Intent intent = new Intent(getActivity(), AppointmentDetailActivity.class);
         intent.putExtra("id", dates.get(position).getId());
         startActivity(intent);
-        getActivity().finish();
     }
 }

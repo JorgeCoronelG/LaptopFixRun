@@ -194,12 +194,16 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
         if(dateHome != null){
             setData();
         }else{
-            dialog.dismiss();
-            if(bill){
-                createDialog(getString(R.string.waitAMoment));
-                deliverController.insertBill(deliver, new CustomerController(this).getCustomer().getId());
-            }else{
-                onBackPressed();
+            control++;
+            if(control == 2){
+                control = 0;
+                dialog.dismiss();
+                if(bill){
+                    createDialog(getString(R.string.waitAMoment));
+                    deliverController.insertBill(deliver, new CustomerController(this).getCustomer().getId());
+                }else{
+                    onBackPressed();
+                }
             }
         }
     }
@@ -286,10 +290,10 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Valu
 
     @Override
     public void onBackPressed() {
+        finish();
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("section", R.id.nav_cPendiente);
         startActivity(intent);
-        finish();
     }
 
     @Override
